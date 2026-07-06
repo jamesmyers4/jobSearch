@@ -1,0 +1,17 @@
+{
+  "name": "therapynotes-job-checker",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "check": "tsx check-jobs.ts"
+  },
+  "dependencies": {
+    "resend": "^4.0.0"
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0"
+  }
+}
