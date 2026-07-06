@@ -1,4 +1,4 @@
-![Check TherapyNotes Jobs](https://github.com/{your-username}/{your-repo}/actions/workflows/check-jobs.yml/badge.svg)
+![Check TherapyNotes Jobs](https://github.com/jamesmyers4/jobSearch/actions/workflows/check-jobs.yml/badge.svg)
 
 # TherapyNotes Job Checker
 
