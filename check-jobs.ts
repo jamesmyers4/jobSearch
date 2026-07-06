@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { Resend } from "resend";
 import { readFileSync, writeFileSync } from "fs";
 
@@ -12,6 +13,7 @@ const SEARCH_TITLES = [
   "SDET",
   "Senior SDET",
   "Lead SDET",
+  "Staff SDET",
   "QA Automation Engineer",
   "Senior QA Automation Engineer",
   "Lead QA Automation Engineer",
@@ -19,10 +21,8 @@ const SEARCH_TITLES = [
   "Software Development Engineer in Test",
   "Senior Software Development Engineer in Test",
   "Lead Software Development Engineer in Test",
+  "Staff Software Development Engineer in Test",
   "Quality Engineer",
-  "Automation Engineer",
-  "Senior Automation Engineer",
-  "Lead Automation Engieer",
   "QA Engineer",
   "Senior QA Engineer",
   "Lead QA Engineer",
@@ -30,12 +30,13 @@ const SEARCH_TITLES = [
   "Senior Software Test Engineer",
   "Test Engineer",
   "Senior Test Engineer",
+  "Automation Engineer",
+  "Senior Automation Engineer",
+  "Lead Automation Engineer",
   "QA Automation Lead",
   "Automation Test Engineer",
   "Test Automation Architect",
   "Automation Architect",
-  "Staff SDET",
-  "Staff Software Development Engineer in Test",
 ];
 const SEEN_JOBS_PATH = "seen-jobs.json";
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -191,10 +192,11 @@ async function sendAlertEmail(newJobs: JobPosting[]) {
         `<li><a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"} — ${job.location ?? "location unknown"}</li>`,
     )
     .join("");
+  const jobWord = newJobs.length === 1 ? "job posting" : "job postings";
   await resend.emails.send({
     from: process.env.FROM_EMAIL as string,
     to: process.env.TO_EMAIL as string,
-    subject: `${newJobs.length} new job posting(s) found`,
+    subject: `${newJobs.length} new ${jobWord} found`,
     html: `<ul>${listHtml}</ul>`,
   });
 }
