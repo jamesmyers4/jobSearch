@@ -47,11 +47,24 @@ interface JobPosting {
   url: string;
   company?: string;
   location?: string;
+  postedAt?: string | number;
 }
 
 function matchesAnyTitle(title: string): boolean {
   const lower = title.toLowerCase();
   return SEARCH_TITLES.some((term) => lower.includes(term.toLowerCase()));
+}
+
+function daysAgoLabel(postedAt?: string | number): string {
+  if (postedAt === undefined) return "posted date unknown";
+  const posted = new Date(postedAt);
+  if (isNaN(posted.getTime())) return "posted date unknown";
+  const days = Math.floor(
+    (Date.now() - posted.getTime()) / (1000 * 60 * 60 * 24),
+  );
+  if (days <= 0) return "posted today";
+  if (days === 1) return "posted 1 day ago";
+  return `posted ${days} days ago`;
 }
 
 async function fetchTherapyNotesJobs(): Promise<JobPosting[]> {
@@ -64,6 +77,7 @@ async function fetchTherapyNotesJobs(): Promise<JobPosting[]> {
     url: job.url,
     company: "TherapyNotes",
     location: job.location?.location_str,
+    postedAt: job.published_on ?? job.created_at,
   }));
 }
 
@@ -79,6 +93,7 @@ async function fetchTitleSearchJobs(title: string): Promise<JobPosting[]> {
     url: job.url ?? job.shortlink,
     company: job.company?.name ?? job.companyName,
     location: job.location?.location_str ?? job.location,
+    postedAt: job.updatedAt,
   }));
 }
 
@@ -103,6 +118,7 @@ async function fetchGreenhouseJobs(company: string): Promise<JobPosting[]> {
       url: job.absolute_url,
       company,
       location: job.location?.name,
+      postedAt: job.updated_at,
     }));
 }
 
@@ -127,6 +143,7 @@ async function fetchLeverJobs(company: string): Promise<JobPosting[]> {
       url: job.hostedUrl,
       company,
       location: job.categories?.location,
+      postedAt: job.createdAt,
     }));
 }
 
@@ -149,6 +166,7 @@ async function fetchAshbyJobs(company: string): Promise<JobPosting[]> {
       url: job.jobUrl ?? job.applyUrl,
       company,
       location: job.location ?? job.locationName,
+      postedAt: job.publishedAt,
     }));
 }
 
@@ -169,6 +187,7 @@ async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
       url: job.url,
       company: job.company,
       location: job.location,
+      postedAt: job.date ?? job.epoch,
     }));
 }
 
@@ -189,7 +208,7 @@ async function sendAlertEmail(newJobs: JobPosting[]) {
   const listHtml = newJobs
     .map(
       (job) =>
-        `<li><a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"} — ${job.location ?? "location unknown"}</li>`,
+        `<li><a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}</li>`,
     )
     .join("");
   const jobWord = newJobs.length === 1 ? "job posting" : "job postings";
