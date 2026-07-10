@@ -9,6 +9,7 @@ const REMOTEOK_URL = "https://remoteok.com/api";
 const GREENHOUSE_COMPANIES: string[] = [];
 const LEVER_COMPANIES: string[] = [];
 const ASHBY_COMPANIES: string[] = [];
+
 const SEARCH_TITLES = [
   "SDET",
   "Senior SDET",
@@ -38,6 +39,22 @@ const SEARCH_TITLES = [
   "Test Automation Architect",
   "Automation Architect",
 ];
+
+const ADZUNA_SEARCH_TITLES = [
+  "SDET",
+  "QA Automation Engineer",
+  "Test Automation Engineer",
+  "Software Development Engineer in Test",
+  "QA Engineer",
+  "Automation Engineer",
+];
+
+const USAJOBS_KEYWORDS = [
+  "software tester",
+  "quality assurance",
+  "test automation",
+];
+
 const SEEN_JOBS_PATH = "seen-jobs.json";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -191,6 +208,62 @@ async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
     }));
 }
 
+async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
+  const response = await fetch(
+    `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=20&what=${encodeURIComponent(title)}&content-type=application/json`,
+  );
+  const data = await response.json();
+  const jobs = data.results ?? [];
+  return jobs.map((job: any) => ({
+    key: `az:${job.id}`,
+    title: job.title,
+    url: job.redirect_url,
+    company: job.company?.display_name,
+    location: job.location?.display_name,
+    postedAt: job.created,
+  }));
+}
+
+async function fetchAllAdzunaJobs(): Promise<JobPosting[]> {
+  const results = await Promise.all(ADZUNA_SEARCH_TITLES.map(fetchAdzunaJobs));
+  const merged = results.flat();
+  const deduped = new Map(merged.map((job) => [job.key, job]));
+  return [...deduped.values()];
+}
+
+async function fetchUSAJobs(keyword: string): Promise<JobPosting[]> {
+  const response = await fetch(
+    `https://data.usajobs.gov/api/Search?Keyword=${encodeURIComponent(keyword)}&ResultsPerPage=50`,
+    {
+      headers: {
+        Host: "data.usajobs.gov",
+        "User-Agent": process.env.USAJOBS_EMAIL as string,
+        "Authorization-Key": process.env.USAJOBS_AUTH_KEY as string,
+      },
+    },
+  );
+  const data = await response.json();
+  const items = data.SearchResult?.SearchResultItems ?? [];
+  return items
+    .map((item: any) => item.MatchedObjectDescriptor)
+    .filter((job: any) => matchesAnyTitle(job.PositionTitle))
+    .map((job: any) => ({
+      key: `usaj:${job.PositionID}`,
+      title: job.PositionTitle,
+      url: job.PositionURI,
+      company: job.OrganizationName,
+      location: job.PositionLocationDisplay,
+      postedAt: job.PublicationStartDate,
+    }));
+}
+
+async function fetchAllUSAJobs(): Promise<JobPosting[]> {
+  const results = await Promise.all(USAJOBS_KEYWORDS.map(fetchUSAJobs));
+  const merged = results.flat();
+  const deduped = new Map(merged.map((job) => [job.key, job]));
+  return [...deduped.values()];
+}
+
 function loadSeenJobs(): { seen: Set<string>; isFirstRun: boolean } {
   try {
     const raw = readFileSync(SEEN_JOBS_PATH, "utf-8");
@@ -220,6 +293,15 @@ async function sendAlertEmail(newJobs: JobPosting[]) {
   });
 }
 
+async function safely<T>(promise: Promise<T[]>, label: string): Promise<T[]> {
+  try {
+    return await promise;
+  } catch (err) {
+    console.error(`${label} failed:`, err);
+    return [];
+  }
+}
+
 async function main() {
   const [
     therapyNotesJobs,
@@ -228,14 +310,19 @@ async function main() {
     leverJobs,
     ashbyJobs,
     remoteOkJobs,
+    adzunaJobs,
+    usaJobs,
   ] = await Promise.all([
-    fetchTherapyNotesJobs(),
-    fetchAllTitleSearchJobs(),
-    fetchAllGreenhouseJobs(),
-    fetchAllLeverJobs(),
-    fetchAllAshbyJobs(),
-    fetchRemoteOKJobs(),
+    safely(fetchTherapyNotesJobs(), "TherapyNotes"),
+    safely(fetchAllTitleSearchJobs(), "Workable title search"),
+    safely(fetchAllGreenhouseJobs(), "Greenhouse"),
+    safely(fetchAllLeverJobs(), "Lever"),
+    safely(fetchAllAshbyJobs(), "Ashby"),
+    safely(fetchRemoteOKJobs(), "RemoteOK"),
+    safely(fetchAllAdzunaJobs(), "Adzuna"),
+    safely(fetchAllUSAJobs(), "USAJOBS"),
   ]);
+
   const allJobs = [
     ...therapyNotesJobs,
     ...titleSearchJobs,
@@ -243,9 +330,13 @@ async function main() {
     ...leverJobs,
     ...ashbyJobs,
     ...remoteOkJobs,
+    ...adzunaJobs,
+    ...usaJobs,
   ];
+
   const { seen, isFirstRun } = loadSeenJobs();
   const newJobs = allJobs.filter((job) => !seen.has(job.key));
+
   if (newJobs.length > 0 && !isFirstRun) {
     await sendAlertEmail(newJobs);
     console.log(`Sent alert for ${newJobs.length} new job(s)`);
@@ -254,6 +345,7 @@ async function main() {
       isFirstRun ? "First run, baselining current jobs" : "No new jobs",
     );
   }
+
   allJobs.forEach((job) => seen.add(job.key));
   saveSeenJobs(seen);
 }
