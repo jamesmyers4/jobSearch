@@ -211,6 +211,13 @@ async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
 async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
   const response = await fetch(
     `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=20&what=${encodeURIComponent(title)}&content-type=application/json`,
+    {
+      headers: {
+        "User-Agent":
+          "jobSearch-checker/1.0 (github.com/jamesmyers4/jobSearch)",
+        Accept: "application/json",
+      },
+    },
   );
   const data = await response.json();
   const jobs = data.results ?? [];
@@ -225,8 +232,11 @@ async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
 }
 
 async function fetchAllAdzunaJobs(): Promise<JobPosting[]> {
-  const results = await Promise.all(ADZUNA_SEARCH_TITLES.map(fetchAdzunaJobs));
-  const merged = results.flat();
+  const merged: JobPosting[] = [];
+  for (const title of ADZUNA_SEARCH_TITLES) {
+    const jobs = await fetchAdzunaJobs(title);
+    merged.push(...jobs);
+  }
   const deduped = new Map(merged.map((job) => [job.key, job]));
   return [...deduped.values()];
 }
