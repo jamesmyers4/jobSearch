@@ -27,6 +27,7 @@ jobs:
           USAJOBS_AUTH_KEY: ${{ secrets.USAJOBS_AUTH_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           RESUME_VAULT_TOKEN: ${{ secrets.RESUME_VAULT_TOKEN }}
+          AI_PIPELINE_ENABLED: ${{ vars.AI_PIPELINE_ENABLED }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "update seen jobs"

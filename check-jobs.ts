@@ -40,6 +40,20 @@ const SEARCH_TITLES = [
   "Automation Architect",
 ];
 
+const AI_DRAFT_COMPANY_ALLOWLIST = ["TherapyNotes", "Golden Pet Brands"];
+
+const EXCLUDE_KEYWORDS = [
+  "manufacturing",
+  "factory",
+  "industrial",
+  "plant",
+  "robotics",
+  "rpa",
+  "uipath",
+  "ansible",
+  "controls engineer",
+];
+
 const ADZUNA_SEARCH_TITLES = [
   "SDET",
   "QA Automation Engineer",
@@ -61,6 +75,8 @@ const DRAFT_MAX_TOKENS = 8000;
 const RESUME_VAULT_REPO = "jamesmyers4/resume-vault";
 const PREFILTER_MODEL = "claude-haiku-4-5-20251001";
 const DRAFT_MODEL = "claude-sonnet-5";
+const AI_PIPELINE_ENABLED = process.env.AI_PIPELINE_ENABLED === "true";
+const AI_DRAFT_COMPANY_ALLOWLIST = ["TherapyNotes", "Golden Pet Brands"];
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 interface JobPosting {
@@ -75,7 +91,16 @@ interface JobPosting {
 
 function matchesAnyTitle(title: string): boolean {
   const lower = title.toLowerCase();
+  if (EXCLUDE_KEYWORDS.some((term) => lower.includes(term))) return false;
   return SEARCH_TITLES.some((term) => lower.includes(term.toLowerCase()));
+}
+
+function isAllowlistedCompany(job: JobPosting): boolean {
+  if (!job.company) return false;
+  const company = job.company.toLowerCase();
+  return AI_DRAFT_COMPANY_ALLOWLIST.some((name) =>
+    company.includes(name.toLowerCase()),
+  );
 }
 
 function daysAgoLabel(postedAt?: string | number): string {
@@ -133,14 +158,16 @@ async function fetchTitleSearchJobs(title: string): Promise<JobPosting[]> {
   );
   const data = await response.json();
   const jobs = data.jobs ?? data.results ?? [];
-  return jobs.map((job: any) => ({
-    key: `wk:${job.uuid ?? job.id}`,
-    title: job.title,
-    url: job.url ?? job.shortlink,
-    company: job.company?.name ?? job.companyName,
-    location: job.location?.location_str ?? job.location,
-    postedAt: job.updatedAt,
-  }));
+  return jobs
+    .filter((job: any) => matchesAnyTitle(job.title))
+    .map((job: any) => ({
+      key: `wk:${job.uuid ?? job.id}`,
+      title: job.title,
+      url: job.url ?? job.shortlink,
+      company: job.company?.name ?? job.companyName,
+      location: job.location?.location_str ?? job.location,
+      postedAt: job.updatedAt,
+    }));
 }
 
 async function fetchAllTitleSearchJobs(): Promise<JobPosting[]> {
@@ -522,33 +549,36 @@ async function main() {
 
   if (newJobs.length > 0 && !isFirstRun) {
     const drafts = new Map<string, string>();
-    const context = await safelyValue(fetchContext(), "fetchContext", "");
-    const corpus = await safelyValue(
-      fetchResumeCorpus(),
-      "fetchResumeCorpus",
-      "",
-    );
-    if (context && corpus) {
-      for (const job of newJobs) {
-        if (daysOld(job.postedAt) > MAX_DRAFT_AGE_DAYS) continue;
-        const isMatch = await safelyValue(
-          prefilterJob(job),
-          `prefilter ${job.key}`,
-          false,
-        );
-        if (isMatch) {
-          const draft = await safelyValue(
-            draftResume(job, corpus, context),
-            `draft ${job.key}`,
-            "",
+    if (AI_PIPELINE_ENABLED) {
+      const context = await safelyValue(fetchContext(), "fetchContext", "");
+      const corpus = await safelyValue(
+        fetchResumeCorpus(),
+        "fetchResumeCorpus",
+        "",
+      );
+      if (context && corpus) {
+        for (const job of newJobs) {
+          if (daysOld(job.postedAt) > MAX_DRAFT_AGE_DAYS) continue;
+          if (!isAllowlistedCompany(job)) continue;
+          const isMatch = await safelyValue(
+            prefilterJob(job),
+            `prefilter ${job.key}`,
+            false,
           );
-          if (draft) {
-            const fullDraft = draftHeader(job) + draft;
-            await safelyRun(
-              commitDraft(slugify(job), draft),
-              `commitDraft ${job.key}`,
+          if (isMatch) {
+            const draft = await safelyValue(
+              draftResume(job, corpus, context),
+              `draft ${job.key}`,
+              "",
             );
-            drafts.set(job.key, draft);
+            if (draft) {
+              const fullDraft = draftHeader(job) + draft;
+              await safelyRun(
+                commitDraft(slugify(job), fullDraft),
+                `commitDraft ${job.key}`,
+              );
+              drafts.set(job.key, fullDraft);
+            }
           }
         }
       }
