@@ -597,5 +597,9 @@ async function main() {
       isFirstRun ? "First run, baselining current jobs" : "No new jobs",
     );
   }
+  if (newJobs.length > 0 || isFirstRun) {
+    for (const job of newJobs) seen.add(job.key);
+    saveSeenJobs(seen);
+  }
 }
 main();
