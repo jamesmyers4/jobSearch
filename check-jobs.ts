@@ -56,6 +56,11 @@ const USAJOBS_KEYWORDS = [
 ];
 
 const SEEN_JOBS_PATH = "seen-jobs.json";
+const MAX_DRAFT_AGE_DAYS = 4;
+const DRAFT_MAX_TOKENS = 8000;
+const RESUME_VAULT_REPO = "jamesmyers4/resume-vault";
+const PREFILTER_MODEL = "claude-haiku-4-5-20251001";
+const DRAFT_MODEL = "claude-sonnet-5";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 interface JobPosting {
@@ -65,6 +70,7 @@ interface JobPosting {
   company?: string;
   location?: string;
   postedAt?: string | number;
+  description?: string;
 }
 
 function matchesAnyTitle(title: string): boolean {
@@ -82,6 +88,29 @@ function daysAgoLabel(postedAt?: string | number): string {
   if (days <= 0) return "posted today";
   if (days === 1) return "posted 1 day ago";
   return `posted ${days} days ago`;
+}
+
+function draftHeader(job: JobPosting): string {
+  const lines = [
+    `# ${job.title} — ${job.company ?? "unknown company"}`,
+    `Posting: ${job.url}`,
+    `Location: ${job.location ?? "unknown"}`,
+    `Discovered: ${daysAgoLabel(job.postedAt)}`,
+    "",
+    "## Original Job Description",
+    job.description ?? "Not provided by source.",
+    "",
+    "---",
+    "",
+  ];
+  return lines.join("\n");
+}
+
+function daysOld(postedAt?: string | number): number {
+  if (postedAt === undefined) return Infinity;
+  const posted = new Date(postedAt);
+  if (isNaN(posted.getTime())) return Infinity;
+  return Math.floor((Date.now() - posted.getTime()) / (1000 * 60 * 60 * 24));
 }
 
 async function fetchTherapyNotesJobs(): Promise<JobPosting[]> {
@@ -210,7 +239,7 @@ async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
 
 async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
   const response = await fetch(
-    `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=20&what=${encodeURIComponent(title)}&content-type=application/json`,
+    `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=20&max_days_old=${MAX_DRAFT_AGE_DAYS}&what=${encodeURIComponent(title)}&content-type=application/json`,
     {
       headers: {
         "User-Agent":
@@ -228,6 +257,7 @@ async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
     company: job.company?.display_name,
     location: job.location?.display_name,
     postedAt: job.created,
+    description: job.description,
   }));
 }
 
@@ -274,6 +304,118 @@ async function fetchAllUSAJobs(): Promise<JobPosting[]> {
   return [...deduped.values()];
 }
 
+async function githubApi(
+  path: string,
+  options: RequestInit = {},
+): Promise<any> {
+  const response = await fetch(
+    `https://api.github.com/repos/${RESUME_VAULT_REPO}/contents/${path}`,
+    {
+      ...options,
+      headers: {
+        Authorization: `Bearer ${process.env.RESUME_VAULT_TOKEN}`,
+        Accept: "application/vnd.github+json",
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+    },
+  );
+  if (!response.ok) throw new Error(`GitHub API ${response.status} on ${path}`);
+  return response.json();
+}
+
+async function fetchResumeCorpus(): Promise<string> {
+  const files = await githubApi("resumes");
+  const readable = files.filter((f: any) => f.type === "file");
+  const contents = await Promise.all(
+    readable.map(async (file: any) => {
+      const data = await githubApi(`resumes/${file.name}`);
+      return Buffer.from(data.content, "base64").toString("utf-8");
+    }),
+  );
+  return contents.join("\n\n---\n\n");
+}
+
+async function fetchContext(): Promise<string> {
+  const data = await githubApi("CONTEXT.md");
+  return Buffer.from(data.content, "base64").toString("utf-8");
+}
+
+async function commitDraft(slug: string, content: string): Promise<void> {
+  await githubApi(`drafts/${slug}.md`, {
+    method: "PUT",
+    body: JSON.stringify({
+      message: `add draft resume for ${slug}`,
+      content: Buffer.from(content, "utf-8").toString("base64"),
+    }),
+  });
+}
+
+function slugify(job: JobPosting): string {
+  const date = new Date().toISOString().slice(0, 10);
+  const base = `${job.company ?? "unknown"}-${job.title}-${date}`;
+  return base
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+async function callClaude(
+  system: string,
+  prompt: string,
+  model: string,
+  maxTokens: number,
+): Promise<string> {
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "x-api-key": process.env.ANTHROPIC_API_KEY as string,
+      "anthropic-version": "2023-06-01",
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: maxTokens,
+      system,
+      messages: [{ role: "user", content: prompt }],
+    }),
+  });
+  const data = await response.json();
+  const textBlock = data.content?.find((block: any) => block.type === "text");
+  return textBlock?.text ?? "";
+}
+
+async function prefilterJob(job: JobPosting): Promise<boolean> {
+  const descriptionLine = job.description
+    ? `\nDescription: ${job.description.slice(0, 1000)}`
+    : "";
+  const prompt = `Title: ${job.title}\nCompany: ${job.company ?? "unknown"}\nLocation: ${job.location ?? "unknown"}${descriptionLine}\n\nIs this a genuine match for a QA Automation Engineer / SDET with 22 years of enterprise software experience and 5 years of test automation (Playwright/TypeScript, Selenium, REST API testing)? Reply with only "yes" or "no".`;
+  const result = await callClaude(
+    "You are screening job postings for relevance. Reply with only yes or no.",
+    prompt,
+    PREFILTER_MODEL,
+    10,
+  );
+  return result.trim().toLowerCase().startsWith("y");
+}
+
+async function draftResume(
+  job: JobPosting,
+  corpus: string,
+  context: string,
+): Promise<string> {
+  const descriptionLine = job.description
+    ? `\nDescription: ${job.description}`
+    : "";
+  const prompt = `Job posting:\nTitle: ${job.title}\nCompany: ${job.company ?? "unknown"}\nLocation: ${job.location ?? "unknown"}${descriptionLine}\n\nContext and framing rules:\n${context}\n\nPast resume corpus:\n${corpus}\n\nDraft a tailored two-page resume for this posting, following the framing rules exactly. If anything about the fit is genuinely ambiguous, flag it clearly at the top under a "NEEDS REVIEW" heading instead of guessing.`;
+  return callClaude(
+    "You are drafting a tailored resume from an existing corpus and framing rules.",
+    prompt,
+    DRAFT_MODEL,
+    DRAFT_MAX_TOKENS,
+  );
+}
+
 function loadSeenJobs(): { seen: Set<string>; isFirstRun: boolean } {
   try {
     const raw = readFileSync(SEEN_JOBS_PATH, "utf-8");
@@ -287,19 +429,29 @@ function saveSeenJobs(seen: Set<string>) {
   writeFileSync(SEEN_JOBS_PATH, JSON.stringify([...seen], null, 2));
 }
 
-async function sendAlertEmail(newJobs: JobPosting[]) {
+async function sendAlertEmail(
+  newJobs: JobPosting[],
+  drafts: Map<string, string>,
+) {
   const listHtml = newJobs
     .map(
       (job) =>
-        `<li><a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}</li>`,
+        `<li><a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`,
     )
     .join("");
   const jobWord = newJobs.length === 1 ? "job posting" : "job postings";
+  const attachments = newJobs
+    .filter((job) => drafts.has(job.key))
+    .map((job) => ({
+      filename: `${slugify(job)}.md`,
+      content: Buffer.from(drafts.get(job.key) as string, "utf-8"),
+    }));
   await resend.emails.send({
     from: process.env.FROM_EMAIL as string,
     to: process.env.TO_EMAIL as string,
     subject: `${newJobs.length} new ${jobWord} found`,
     html: `<ul>${listHtml}</ul>`,
+    attachments,
   });
 }
 
@@ -309,6 +461,27 @@ async function safely<T>(promise: Promise<T[]>, label: string): Promise<T[]> {
   } catch (err) {
     console.error(`${label} failed:`, err);
     return [];
+  }
+}
+
+async function safelyValue<T>(
+  promise: Promise<T>,
+  label: string,
+  fallback: T,
+): Promise<T> {
+  try {
+    return await promise;
+  } catch (err) {
+    console.error(`${label} failed:`, err);
+    return fallback;
+  }
+}
+
+async function safelyRun(promise: Promise<void>, label: string): Promise<void> {
+  try {
+    await promise;
+  } catch (err) {
+    console.error(`${label} failed:`, err);
   }
 }
 
@@ -348,16 +521,44 @@ async function main() {
   const newJobs = allJobs.filter((job) => !seen.has(job.key));
 
   if (newJobs.length > 0 && !isFirstRun) {
-    await sendAlertEmail(newJobs);
+    const drafts = new Map<string, string>();
+    const context = await safelyValue(fetchContext(), "fetchContext", "");
+    const corpus = await safelyValue(
+      fetchResumeCorpus(),
+      "fetchResumeCorpus",
+      "",
+    );
+    if (context && corpus) {
+      for (const job of newJobs) {
+        if (daysOld(job.postedAt) > MAX_DRAFT_AGE_DAYS) continue;
+        const isMatch = await safelyValue(
+          prefilterJob(job),
+          `prefilter ${job.key}`,
+          false,
+        );
+        if (isMatch) {
+          const draft = await safelyValue(
+            draftResume(job, corpus, context),
+            `draft ${job.key}`,
+            "",
+          );
+          if (draft) {
+            const fullDraft = draftHeader(job) + draft;
+            await safelyRun(
+              commitDraft(slugify(job), draft),
+              `commitDraft ${job.key}`,
+            );
+            drafts.set(job.key, draft);
+          }
+        }
+      }
+    }
+    await sendAlertEmail(newJobs, drafts);
     console.log(`Sent alert for ${newJobs.length} new job(s)`);
   } else {
     console.log(
       isFirstRun ? "First run, baselining current jobs" : "No new jobs",
     );
   }
-
-  allJobs.forEach((job) => seen.add(job.key));
-  saveSeenJobs(seen);
 }
-
 main();
