@@ -40,8 +40,6 @@ const SEARCH_TITLES = [
   "Automation Architect",
 ];
 
-const AI_DRAFT_COMPANY_ALLOWLIST = ["TherapyNotes", "Golden Pet Brands"];
-
 const EXCLUDE_KEYWORDS = [
   "manufacturing",
   "factory",
@@ -129,6 +127,15 @@ function draftHeader(job: JobPosting): string {
     "",
   ];
   return lines.join("\n");
+}
+
+function stripHtml(html: string): string {
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function daysOld(postedAt?: string | number): number {
