@@ -5,7 +5,15 @@ if (!query) {
   console.log("Usage: node mark-submitted.js <title or company keyword>");
   process.exit(1);
 }
-const tracker = JSON.parse(readFileSync(path, "utf-8"));
+let tracker;
+try {
+  tracker = JSON.parse(readFileSync(path, "utf-8"));
+} catch {
+  console.log(
+    "No application-tracker.json yet — it's created automatically the first time a real alert email goes out.",
+  );
+  process.exit(0);
+}
 const matches = Object.entries(tracker).filter(
   ([, entry]) =>
     !entry.submittedAt &&

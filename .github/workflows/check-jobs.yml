@@ -34,4 +34,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "update seen jobs"
-          file_pattern: seen-jobs.json
+          file_pattern: seen-jobs.json application-tracker.json
