@@ -31,6 +31,10 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           RESUME_VAULT_TOKEN: ${{ secrets.RESUME_VAULT_TOKEN }}
           AI_PIPELINE_ENABLED: ${{ vars.AI_PIPELINE_ENABLED }}
+          PREFILTER_PROVIDER_FORMAT: openai
+          PREFILTER_BASE_URL: https://api.groq.com/openai/v1/chat/completions
+          PREFILTER_MODEL: llama-3.3-70b-versatile
+          PREFILTER_API_KEY: ${{ secrets.PREFILTER_API_KEY }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "update seen jobs"
