@@ -530,33 +530,88 @@ function slugify(job: JobPosting): string {
     .replace(/(^-|-$)/g, "");
 }
 
-async function callClaude(
+interface AiProviderConfig {
+  format: "anthropic" | "openai";
+  baseUrl: string;
+  apiKey: string | undefined;
+  model: string;
+}
+
+function resolveProvider(
+  tier: "PREFILTER" | "DRAFT",
+  fallbackModel: string,
+): AiProviderConfig {
+  const format =
+    (process.env[`${tier}_PROVIDER_FORMAT`] as "anthropic" | "openai" | undefined) ??
+    "anthropic";
+  const defaultBaseUrl =
+    format === "anthropic"
+      ? "https://api.anthropic.com/v1/messages"
+      : "https://api.groq.com/openai/v1/chat/completions";
+  const baseUrl = process.env[`${tier}_BASE_URL`] ?? defaultBaseUrl;
+  const apiKey =
+    process.env[`${tier}_API_KEY`] ??
+    (format === "anthropic" ? process.env.ANTHROPIC_API_KEY : undefined);
+  const model = process.env[`${tier}_MODEL`] ?? fallbackModel;
+  return { format, baseUrl, apiKey, model };
+}
+
+async function callAiModel(
   system: string,
   prompt: string,
-  model: string,
+  tier: "PREFILTER" | "DRAFT",
   maxTokens: number,
+  fallbackModel: string,
 ): Promise<string> {
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
+  const config = resolveProvider(tier, fallbackModel);
+  if (!config.apiKey) {
+    console.log(`${tier}: no API key configured, skipping call`);
+    return "";
+  }
+  if (config.format === "anthropic") {
+    const response = await fetch(config.baseUrl, {
+      method: "POST",
+      headers: {
+        "x-api-key": config.apiKey,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model: config.model,
+        max_tokens: maxTokens,
+        system,
+        messages: [{ role: "user", content: prompt }],
+      }),
+    });
+    const data = await response.json();
+    if (data.usage)
+      console.log(
+        `${config.model} usage: ${data.usage.input_tokens} in / ${data.usage.output_tokens} out`,
+      );
+    const textBlock = data.content?.find((block: any) => block.type === "text");
+    return textBlock?.text ?? "";
+  }
+  const response = await fetch(config.baseUrl, {
     method: "POST",
     headers: {
-      "x-api-key": process.env.ANTHROPIC_API_KEY as string,
-      "anthropic-version": "2023-06-01",
+      authorization: `Bearer ${config.apiKey}`,
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      model,
+      model: config.model,
       max_tokens: maxTokens,
-      system,
-      messages: [{ role: "user", content: prompt }],
+      messages: [
+        { role: "system", content: system },
+        { role: "user", content: prompt },
+      ],
     }),
   });
   const data = await response.json();
   if (data.usage)
     console.log(
-      `${model} usage: ${data.usage.input_tokens} in / ${data.usage.output_tokens} out`,
+      `${config.model} usage: ${data.usage.prompt_tokens} in / ${data.usage.completion_tokens} out`,
     );
-  const textBlock = data.content?.find((block: any) => block.type === "text");
-  return textBlock?.text ?? "";
+  return data.choices?.[0]?.message?.content ?? "";
 }
 
 async function prefilterJob(job: JobPosting): Promise<boolean> {
@@ -564,11 +619,12 @@ async function prefilterJob(job: JobPosting): Promise<boolean> {
     ? `\nDescription: ${job.description.slice(0, 1000)}`
     : "";
   const prompt = `Title: ${job.title}\nCompany: ${job.company ?? "unknown"}\nLocation: ${job.location ?? "unknown"}${descriptionLine}\n\nIs this a genuine match for a QA Automation Engineer / SDET with 22 years of enterprise software experience and 5 years of test automation (Playwright/TypeScript, Selenium, REST API testing)? Reply with only "yes" or "no".`;
-  const result = await callClaude(
+  const result = await callAiModel(
     "You are screening job postings for relevance. Reply with only yes or no.",
     prompt,
-    PREFILTER_MODEL,
+    "PREFILTER",
     10,
+    PREFILTER_MODEL,
   );
   return result.trim().toLowerCase().startsWith("y");
 }
@@ -582,11 +638,12 @@ async function draftResume(
     ? `\nDescription: ${job.description}`
     : "";
   const prompt = `Job posting:\nTitle: ${job.title}\nCompany: ${job.company ?? "unknown"}\nLocation: ${job.location ?? "unknown"}${descriptionLine}\n\nContext and framing rules:\n${context}\n\nPast resume corpus:\n${corpus}\n\nDraft a tailored two-page resume for this posting, following the framing rules exactly. If anything about the fit is genuinely ambiguous, flag it clearly at the top under a "NEEDS REVIEW" heading instead of guessing.`;
-  return callClaude(
+  return callAiModel(
     "You are drafting a tailored resume from an existing corpus and framing rules.",
     prompt,
-    DRAFT_MODEL,
+    "DRAFT",
     DRAFT_MAX_TOKENS,
+    DRAFT_MODEL,
   );
 }
 
