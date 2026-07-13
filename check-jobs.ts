@@ -920,6 +920,7 @@ async function main() {
     digestState.lastSentAt = new Date().toISOString();
   }
   if (!isFirstRun) saveDigestState(digestState);
+  if (!isFirstRun) saveTracker(loadTracker());
 
   if (newJobs.length > 0 || isFirstRun) {
     for (const job of newJobs) seen.add(job.key);
