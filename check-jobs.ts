@@ -118,6 +118,7 @@ const SOURCE_WEIGHT: Record<string, number> = {
   lv: 20,
   ab: 20,
   soltech: 20,
+  statheros: 20,
   rok: 10,
   az: 5,
 };
@@ -570,6 +571,42 @@ async function fetchSoltechJobs(): Promise<JobPosting[]> {
     .filter((job) => job.title && job.url && matchesAnyTitle(job.title));
 }
 
+const STATHEROS_BASE_URL = "https://statheros.freshteam.com";
+
+async function fetchStatherosJobs(): Promise<JobPosting[]> {
+  const response = await fetch(`${STATHEROS_BASE_URL}/jobs`);
+  const html = await response.text();
+  const blocks = html.match(/<a href="\/jobs\/[\s\S]*?<\/a>/g) ?? [];
+  return blocks
+    .map((block) => {
+      const hrefMatch = block.match(/href="(\/jobs\/[^"]+)"/);
+      const titleMatch = block.match(/<div class="job-title">([\s\S]*?)<\/div>/);
+      const descMatch = block.match(/<div\s+class="job-desc text">([\s\S]*?)<\/div>/);
+      const locationMatch = block.match(/data-portal-location="([^"]*)"/);
+      const remoteMatch = block.match(/data-portal-remote-location=(true|false)/);
+      const href = hrefMatch ? hrefMatch[1] : "";
+      const title = titleMatch ? titleMatch[1].trim() : "";
+      const description = descMatch
+        ? descMatch[1].replace(/\s+/g, " ").trim()
+        : undefined;
+      return {
+        key: `statheros:${href}`,
+        title,
+        url: href ? `${STATHEROS_BASE_URL}${href}` : "",
+        company: "Statheros",
+        location: locationMatch ? locationMatch[1].trim() : undefined,
+        description,
+        yearsRequired: extractYearsRequired(description),
+        workArrangement: remoteMatch
+          ? remoteMatch[1] === "true"
+            ? "remote"
+            : "onsite"
+          : undefined,
+      };
+    })
+    .filter((job) => job.title && job.url && matchesAnyTitle(job.title));
+}
+
 async function githubApi(
   path: string,
   options: RequestInit = {},
@@ -831,6 +868,7 @@ function sourceLabel(key: string): string {
     lv: "Lever",
     ab: "Ashby",
     soltech: "SOLTECH",
+    statheros: "Statheros",
     rok: "RemoteOK",
     az: "Adzuna",
     usaj: "USAJOBS",
@@ -919,6 +957,7 @@ async function main() {
     adzunaJobs,
     usaJobs,
     soltechJobs,
+    statherosJobs,
   ] = await Promise.all([
     safely(fetchTherapyNotesJobs(), "TherapyNotes"),
     safely(fetchAllTitleSearchJobs(), "Workable title search"),
@@ -929,6 +968,7 @@ async function main() {
     safely(fetchAllAdzunaJobs(), "Adzuna"),
     safely(fetchAllUSAJobs(), "USAJOBS"),
     safely(fetchSoltechJobs(), "SOLTECH"),
+    safely(fetchStatherosJobs(), "Statheros"),
   ]);
 
   const allJobs = dedupeBySignature(
@@ -942,6 +982,7 @@ async function main() {
       ...adzunaJobs,
       ...usaJobs,
       ...soltechJobs,
+      ...statherosJobs,
     ]
       .filter(isRemoteJob)
       .filter(isFreshJob),
