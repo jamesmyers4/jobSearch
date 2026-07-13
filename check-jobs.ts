@@ -10,6 +10,9 @@ interface JobPosting {
   location?: string;
   postedAt?: string | number;
   description?: string;
+  salaryRange?: string;
+  yearsRequired?: string;
+  workArrangement?: string;
 }
 
 interface TrackerEntry {
@@ -172,6 +175,8 @@ function historyStatus(company?: string): string | undefined {
 function isRemoteJob(job: JobPosting): boolean {
   if (!REMOTE_ONLY) return true;
   if (job.key.startsWith("rok:")) return true;
+  if (job.workArrangement === "hybrid" || job.workArrangement === "onsite") return false;
+  if (job.workArrangement === "remote") return true;
   const text = `${job.location ?? ""} ${job.title}`.toLowerCase();
   if (text.includes("hybrid")) return false;
   return REMOTE_KEYWORDS.some((term) => text.includes(term));
@@ -224,6 +229,36 @@ function matchesAnyTitle(title: string): boolean {
   const lower = title.toLowerCase();
   if (EXCLUDE_KEYWORDS.some((term) => lower.includes(term))) return false;
   return SEARCH_TITLES.some((term) => lower.includes(term.toLowerCase()));
+}
+
+function formatSalaryRange(
+  min?: number,
+  max?: number,
+  interval?: string,
+): string | undefined {
+  if (!min && !max) return undefined;
+  const fmt = (n: number) => `$${Math.round(n).toLocaleString()}`;
+  const suffix = interval ? ` ${interval.replace(/^Per /i, "/")}` : "";
+  if (min && max) return `${fmt(min)}–${fmt(max)}${suffix}`;
+  if (min) return `${fmt(min)}+${suffix}`;
+  return `up to ${fmt(max as number)}${suffix}`;
+}
+
+function extractYearsRequired(description?: string): string | undefined {
+  if (!description) return undefined;
+  const match = description.match(
+    /\b(\d{1,2})\+?\s*(?:-|to|–)?\s*(\d{1,2})?\+?\s*years?\b[^.]{0,40}?experience/i,
+  );
+  return match ? match[0].replace(/\s+/g, " ").trim() : undefined;
+}
+
+function extractWorkArrangement(description?: string): string | undefined {
+  if (!description) return undefined;
+  const text = description.toLowerCase();
+  if (/\bhybrid\b/.test(text)) return "hybrid";
+  if (/\b(on-site|onsite|in[\s-]office)\b/.test(text)) return "onsite";
+  if (/\b(fully remote|100% remote|remote)\b/.test(text)) return "remote";
+  return undefined;
 }
 
 function isAllowlistedCompany(job: JobPosting): boolean {
@@ -428,6 +463,9 @@ async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
       location: job.location?.display_name,
       postedAt: job.created,
       description: job.description,
+      salaryRange: formatSalaryRange(job.salary_min, job.salary_max, "Per Year"),
+      yearsRequired: extractYearsRequired(job.description),
+      workArrangement: extractWorkArrangement(job.description),
     }));
 }
 
@@ -457,14 +495,26 @@ async function fetchUSAJobs(keyword: string): Promise<JobPosting[]> {
   return items
     .map((item: any) => item.MatchedObjectDescriptor)
     .filter((job: any) => matchesAnyTitle(job.PositionTitle))
-    .map((job: any) => ({
-      key: `usaj:${job.PositionID}`,
-      title: job.PositionTitle,
-      url: job.PositionURI,
-      company: job.OrganizationName,
-      location: job.PositionLocationDisplay,
-      postedAt: job.PublicationStartDate,
-    }));
+    .map((job: any) => {
+      const remuneration = job.PositionRemuneration?.[0];
+      const description = job.UserArea?.Details?.JobSummary;
+      return {
+        key: `usaj:${job.PositionID}`,
+        title: job.PositionTitle,
+        url: job.PositionURI,
+        company: job.OrganizationName,
+        location: job.PositionLocationDisplay,
+        postedAt: job.PublicationStartDate,
+        description,
+        salaryRange: formatSalaryRange(
+          remuneration ? parseFloat(remuneration.MinimumRange) : undefined,
+          remuneration ? parseFloat(remuneration.MaximumRange) : undefined,
+          remuneration?.RateIntervalCode,
+        ),
+        yearsRequired: extractYearsRequired(description),
+        workArrangement: extractWorkArrangement(description),
+      };
+    });
 }
 
 async function fetchAllUSAJobs(): Promise<JobPosting[]> {
@@ -750,7 +800,9 @@ async function sendAlertEmail(
       const status = historyStatus(job.company);
       const statusTag = status && status !== "active" ? ` [${status}]` : "";
       const fireTag = scoreJob(job) >= FIRE_SCORE_THRESHOLD ? "🔥 " : "";
-      return `<li>${fireTag}[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`;
+      const salarySegment = job.salaryRange ? ` — ${job.salaryRange}` : "";
+      const yearsSegment = job.yearsRequired ? ` — ${job.yearsRequired}` : "";
+      return `<li>${fireTag}[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"}${salarySegment}${yearsSegment} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`;
     })
     .join("");
   const jobWord = newJobs.length === 1 ? "job posting" : "job postings";
