@@ -12,6 +12,14 @@ interface JobPosting {
   description?: string;
 }
 
+interface TrackerEntry {
+  title: string;
+  company?: string;
+  postedAt?: string | number;
+  alertedAt: string;
+  submittedAt?: string;
+}
+
 const THERAPYNOTES_URL =
   "https://apply.workable.com/api/v1/widget/accounts/therapynotes";
 const SEARCH_URL = "https://jobs.workable.com/api/v1/jobs";
@@ -587,6 +595,37 @@ function saveSeenJobs(seen: Set<string>) {
   writeFileSync(SEEN_JOBS_PATH, JSON.stringify([...seen], null, 2));
 }
 
+const TRACKER_PATH = "application-tracker.json";
+
+function loadTracker(): Record<string, TrackerEntry> {
+  try {
+    const raw = readFileSync(TRACKER_PATH, "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return {};
+  }
+}
+
+function saveTracker(tracker: Record<string, TrackerEntry>) {
+  writeFileSync(TRACKER_PATH, JSON.stringify(tracker, null, 2));
+}
+
+function recordAlerts(jobs: JobPosting[]) {
+  const tracker = loadTracker();
+  const now = new Date().toISOString();
+  for (const job of jobs) {
+    if (!tracker[job.key]) {
+      tracker[job.key] = {
+        title: job.title,
+        company: job.company,
+        postedAt: job.postedAt,
+        alertedAt: now,
+      };
+    }
+  }
+  saveTracker(tracker);
+}
+
 function sourceLabel(key: string): string {
   const prefix = key.split(":")[0];
   const labels: Record<string, string> = {
@@ -750,6 +789,7 @@ async function main() {
     }
     await sendAlertEmail(newJobs, drafts);
     console.log(`Sent alert for ${newJobs.length} new job(s)`);
+    recordAlerts(newJobs);
   } else {
     console.log(
       isFirstRun ? "First run, baselining current jobs" : "No new jobs",
