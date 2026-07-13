@@ -2,13 +2,23 @@ import "dotenv/config";
 import { Resend } from "resend";
 import { readFileSync, writeFileSync } from "fs";
 
+interface JobPosting {
+  key: string;
+  title: string;
+  url: string;
+  company?: string;
+  location?: string;
+  postedAt?: string | number;
+  description?: string;
+}
+
 const THERAPYNOTES_URL =
   "https://apply.workable.com/api/v1/widget/accounts/therapynotes";
 const SEARCH_URL = "https://jobs.workable.com/api/v1/jobs";
 const REMOTEOK_URL = "https://remoteok.com/api";
-const GREENHOUSE_COMPANIES: string[] = [];
+const GREENHOUSE_COMPANIES: string[] = ["impiricus"];
 const LEVER_COMPANIES: string[] = [];
-const ASHBY_COMPANIES: string[] = [];
+const ASHBY_COMPANIES: string[] = ["QAWolf"];
 
 const SEARCH_TITLES = [
   "SDET",
@@ -74,10 +84,14 @@ const USAJOBS_KEYWORDS = [
   "software tester",
   "quality assurance",
   "test automation",
+  "automated testing",
+  "systems test",
+  "test engineer",
+  "software quality",
 ];
 
 const SEEN_JOBS_PATH = "seen-jobs.json";
-const MAX_DRAFT_AGE_DAYS = 4;
+const MAX_DRAFT_AGE_DAYS = 7;
 const DRAFT_MAX_TOKENS = 8000;
 const RESUME_VAULT_REPO = "jamesmyers4/resume-vault";
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -95,14 +109,9 @@ function isRemoteJob(job: JobPosting): boolean {
   return REMOTE_KEYWORDS.some((term) => text.includes(term));
 }
 
-interface JobPosting {
-  key: string;
-  title: string;
-  url: string;
-  company?: string;
-  location?: string;
-  postedAt?: string | number;
-  description?: string;
+function isFreshJob(job: JobPosting): boolean {
+  if (job.postedAt === undefined) return true;
+  return daysOld(job.postedAt) <= MAX_ALERT_AGE_DAYS;
 }
 
 function matchesAnyTitle(title: string): boolean {
@@ -598,7 +607,9 @@ async function main() {
     ...remoteOkJobs,
     ...adzunaJobs,
     ...usaJobs,
-  ].filter(isRemoteJob);
+  ]
+    .filter(isRemoteJob)
+    .filter(isFreshJob);
 
   const { seen, isFirstRun } = loadSeenJobs();
   const newJobs = allJobs.filter((job) => !seen.has(job.key));
