@@ -93,6 +93,35 @@ const USAJOBS_KEYWORDS = [
 const SEEN_JOBS_PATH = "seen-jobs.json";
 const MAX_DRAFT_AGE_DAYS = 4;
 const MAX_ALERT_AGE_DAYS = 7;
+
+const SOURCE_WEIGHT: Record<string, number> = {
+  tn: 30,
+  usaj: 25,
+  wk: 20,
+  gh: 20,
+  lv: 20,
+  ab: 20,
+  rok: 10,
+  az: 5,
+};
+
+const STRONG_TITLE_KEYWORDS = [
+  "sdet",
+  "test automation",
+  "automation engineer",
+  "software development engineer in test",
+];
+
+const BOOST_KEYWORDS = [
+  "playwright",
+  "typescript",
+  "selenium",
+  "ci/cd",
+  "github actions",
+  "agentic",
+];
+
+const FIRE_SCORE_THRESHOLD = 45;
 const DRAFT_MAX_TOKENS = 8000;
 const RESUME_VAULT_REPO = "jamesmyers4/resume-vault";
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -156,6 +185,23 @@ function dedupeBySignature(jobs: JobPosting[]): JobPosting[] {
     seen.add(signature);
     return true;
   });
+}
+
+function scoreJob(job: JobPosting): number {
+  const prefix = job.key.split(":")[0];
+  let score = SOURCE_WEIGHT[prefix] ?? 0;
+  const titleLower = job.title.toLowerCase();
+  if (STRONG_TITLE_KEYWORDS.some((term) => titleLower.includes(term))) score += 15;
+  const age = daysOld(job.postedAt);
+  if (age <= 1) score += 15;
+  else if (age <= 3) score += 10;
+  else if (age <= 7) score += 5;
+  const text = `${job.title} ${job.description ?? ""}`.toLowerCase();
+  for (const keyword of BOOST_KEYWORDS) {
+    if (text.includes(keyword)) score += 3;
+  }
+  if (historyStatus(job.company) === "rejected") score -= 20;
+  return score;
 }
 
 function matchesAnyTitle(title: string): boolean {
@@ -564,7 +610,8 @@ async function sendAlertEmail(
     .map((job) => {
       const status = historyStatus(job.company);
       const statusTag = status && status !== "active" ? ` [${status}]` : "";
-      return `<li>[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`;
+      const fireTag = scoreJob(job) >= FIRE_SCORE_THRESHOLD ? "🔥 " : "";
+      return `<li>${fireTag}[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`;
     })
     .join("");
   const jobWord = newJobs.length === 1 ? "job posting" : "job postings";
@@ -660,7 +707,9 @@ async function main() {
   );
 
   const { seen, isFirstRun } = loadSeenJobs();
-  const newJobs = allJobs.filter((job) => !seen.has(job.key));
+  const newJobs = allJobs
+    .filter((job) => !seen.has(job.key))
+    .sort((a, b) => scoreJob(b) - scoreJob(a));
 
   if (newJobs.length > 0 && !isFirstRun) {
     const drafts = new Map<string, string>();
