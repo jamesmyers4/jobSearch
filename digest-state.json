@@ -1,4 +1,16 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5798898743",
+      "title": "SDET",
+      "url": "https://www.adzuna.com/land/ad/5798898743?se=THPjzPp-8RGs7dgs9IoaeQ&utm_medium=api&utm_source=ae2feac4&v=C067050B1AE6905E0F7B881AD9CFA62889E3D6E3",
+      "company": "OpTech",
+      "location": "Okemos, Ingham County",
+      "postedAt": "2026-07-13T11:37:42Z",
+      "description": "Why work at OpTech? OpTech is a woman-owned company that values your ideas, encourages your growth, and always has your back. When you work at OpTech, not only do you get health and dental benefits, but you also have training opportunities, flexible/remote work options, growth opportunities, 401K and competitive pay. Apply today! Summary We are seeking a forward-thinking SDET to help modernize and lead our test automation strategy. To be clear, the candidate needs to understand why they are doi…",
+      "salaryRange": "$91,638–$91,638 /Year",
+      "workArrangement": "remote"
+    }
+  ],
   "lastSentAt": "2026-07-13T19:55:19.205Z"
 }
