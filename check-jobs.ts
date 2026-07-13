@@ -117,6 +117,7 @@ const SOURCE_WEIGHT: Record<string, number> = {
   gh: 20,
   lv: 20,
   ab: 20,
+  soltech: 20,
   rok: 10,
   az: 5,
 };
@@ -524,6 +525,51 @@ async function fetchAllUSAJobs(): Promise<JobPosting[]> {
   return [...deduped.values()];
 }
 
+const SOLTECH_RSS_URL = "https://soltech.hire.trakstar.com/jobfeeds/soltech";
+
+function decodeXmlEntities(text: string): string {
+  return text
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, "&");
+}
+
+function stripCdata(text: string): string {
+  const match = text.match(/^<!\[CDATA\[([\s\S]*?)\]\]>$/);
+  return match ? match[1].trim() : text.trim();
+}
+
+function extractXmlTag(itemXml: string, tag: string): string | undefined {
+  const match = itemXml.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"));
+  if (!match) return undefined;
+  const value = decodeXmlEntities(stripCdata(match[1]));
+  return value || undefined;
+}
+
+async function fetchSoltechJobs(): Promise<JobPosting[]> {
+  const response = await fetch(SOLTECH_RSS_URL);
+  const xml = await response.text();
+  const items = xml.match(/<item[^>]*>[\s\S]*?<\/item>/g) ?? [];
+  return items
+    .map((item) => {
+      const title = extractXmlTag(item, "title") ?? "";
+      const link = extractXmlTag(item, "link") ?? "";
+      const guid = extractXmlTag(item, "guid") ?? link;
+      return {
+        key: `soltech:${guid}`,
+        title,
+        url: link,
+        company: "SOLTECH",
+        postedAt: extractXmlTag(item, "pubDate"),
+        description: extractXmlTag(item, "description"),
+      };
+    })
+    .filter((job) => job.title && job.url && matchesAnyTitle(job.title));
+}
+
 async function githubApi(
   path: string,
   options: RequestInit = {},
@@ -784,6 +830,7 @@ function sourceLabel(key: string): string {
     gh: "Greenhouse",
     lv: "Lever",
     ab: "Ashby",
+    soltech: "SOLTECH",
     rok: "RemoteOK",
     az: "Adzuna",
     usaj: "USAJOBS",
@@ -871,6 +918,7 @@ async function main() {
     remoteOkJobs,
     adzunaJobs,
     usaJobs,
+    soltechJobs,
   ] = await Promise.all([
     safely(fetchTherapyNotesJobs(), "TherapyNotes"),
     safely(fetchAllTitleSearchJobs(), "Workable title search"),
@@ -880,6 +928,7 @@ async function main() {
     safely(fetchRemoteOKJobs(), "RemoteOK"),
     safely(fetchAllAdzunaJobs(), "Adzuna"),
     safely(fetchAllUSAJobs(), "USAJOBS"),
+    safely(fetchSoltechJobs(), "SOLTECH"),
   ]);
 
   const allJobs = dedupeBySignature(
@@ -892,6 +941,7 @@ async function main() {
       ...remoteOkJobs,
       ...adzunaJobs,
       ...usaJobs,
+      ...soltechJobs,
     ]
       .filter(isRemoteJob)
       .filter(isFreshJob),
