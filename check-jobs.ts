@@ -20,6 +20,11 @@ interface TrackerEntry {
   submittedAt?: string;
 }
 
+interface DigestState {
+  lastSentAt?: string;
+  queue: JobPosting[];
+}
+
 const THERAPYNOTES_URL =
   "https://apply.workable.com/api/v1/widget/accounts/therapynotes";
 const SEARCH_URL = "https://jobs.workable.com/api/v1/jobs";
@@ -130,6 +135,9 @@ const BOOST_KEYWORDS = [
 ];
 
 const FIRE_SCORE_THRESHOLD = 45;
+const DIGEST_SOURCES = new Set(["rok", "az"]);
+const DIGEST_INTERVAL_HOURS = 24;
+const DIGEST_STATE_PATH = "digest-state.json";
 const DRAFT_MAX_TOKENS = 8000;
 const RESUME_VAULT_REPO = "jamesmyers4/resume-vault";
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -626,6 +634,41 @@ function recordAlerts(jobs: JobPosting[]) {
   saveTracker(tracker);
 }
 
+function isDigestSource(job: JobPosting): boolean {
+  return DIGEST_SOURCES.has(job.key.split(":")[0]);
+}
+
+function loadDigestState(): DigestState {
+  try {
+    const raw = readFileSync(DIGEST_STATE_PATH, "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return { queue: [] };
+  }
+}
+
+function saveDigestState(state: DigestState) {
+  writeFileSync(DIGEST_STATE_PATH, JSON.stringify(state, null, 2));
+}
+
+async function sendDigestEmail(jobs: JobPosting[]) {
+  const sorted = [...jobs].sort((a, b) => scoreJob(b) - scoreJob(a));
+  const listHtml = sorted
+    .map((job) => {
+      const status = historyStatus(job.company);
+      const statusTag = status && status !== "active" ? ` [${status}]` : "";
+      return `<li>[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}</li>`;
+    })
+    .join("");
+  const jobWord = jobs.length === 1 ? "job posting" : "job postings";
+  await resend.emails.send({
+    from: process.env.FROM_EMAIL as string,
+    to: process.env.TO_EMAIL as string,
+    subject: `Daily digest: ${jobs.length} RemoteOK/Adzuna ${jobWord}`,
+    html: `<p>Lower-confidence postings from the last day, batched instead of real-time.</p><ul>${listHtml}</ul>`,
+  });
+}
+
 function sourceLabel(key: string): string {
   const prefix = key.split(":")[0];
   const labels: Record<string, string> = {
@@ -749,8 +792,15 @@ async function main() {
   const newJobs = allJobs
     .filter((job) => !seen.has(job.key))
     .sort((a, b) => scoreJob(b) - scoreJob(a));
+  const immediateJobs = newJobs.filter((job) => !isDigestSource(job));
+  const digestJobs = newJobs.filter((job) => isDigestSource(job));
 
-  if (newJobs.length > 0 && !isFirstRun) {
+  const digestState = loadDigestState();
+  if (!isFirstRun && digestJobs.length > 0) {
+    digestState.queue.push(...digestJobs);
+  }
+
+  if (immediateJobs.length > 0 && !isFirstRun) {
     const drafts = new Map<string, string>();
     if (AI_PIPELINE_ENABLED) {
       const context = await safelyValue(fetchContext(), "fetchContext", "");
@@ -760,7 +810,7 @@ async function main() {
         "",
       );
       if (context && corpus) {
-        for (const job of newJobs) {
+        for (const job of immediateJobs) {
           if (drafts.size >= MAX_DRAFTS_PER_RUN) break;
           if (daysOld(job.postedAt) > MAX_DRAFT_AGE_DAYS) continue;
           if (!isAllowlistedCompany(job)) continue;
@@ -787,14 +837,33 @@ async function main() {
         }
       }
     }
-    await sendAlertEmail(newJobs, drafts);
-    console.log(`Sent alert for ${newJobs.length} new job(s)`);
-    recordAlerts(newJobs);
+    await sendAlertEmail(immediateJobs, drafts);
+    console.log(`Sent alert for ${immediateJobs.length} new job(s)`);
+    recordAlerts(immediateJobs);
   } else {
     console.log(
-      isFirstRun ? "First run, baselining current jobs" : "No new jobs",
+      isFirstRun ? "First run, baselining current jobs" : "No new immediate jobs",
     );
   }
+
+  if (!digestState.lastSentAt) {
+    digestState.lastSentAt = new Date().toISOString();
+  }
+  const hoursSinceDigest =
+    (Date.now() - new Date(digestState.lastSentAt).getTime()) / 3600000;
+  if (
+    !isFirstRun &&
+    digestState.queue.length > 0 &&
+    hoursSinceDigest >= DIGEST_INTERVAL_HOURS
+  ) {
+    await sendDigestEmail(digestState.queue);
+    recordAlerts(digestState.queue);
+    console.log(`Sent digest for ${digestState.queue.length} job(s)`);
+    digestState.queue = [];
+    digestState.lastSentAt = new Date().toISOString();
+  }
+  if (!isFirstRun) saveDigestState(digestState);
+
   if (newJobs.length > 0 || isFirstRun) {
     for (const job of newJobs) seen.add(job.key);
     saveSeenJobs(seen);
