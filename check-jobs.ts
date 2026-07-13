@@ -302,7 +302,7 @@ async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
   );
   const data = await response.json();
   const jobs = data.results ?? [];
-  return jobs.map
+  return jobs
     .filter((job: any) => matchesAnyTitle(job.title))
     .map((job: any) => ({
       key: `az:${job.id}`,
@@ -509,7 +509,7 @@ async function sendAlertEmail(
   const listHtml = newJobs
     .map(
       (job) =>
-        `<li><a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`,
+        `<li>[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`,
     )
     .join("");
   const jobWord = newJobs.length === 1 ? "job posting" : "job postings";
