@@ -91,7 +91,8 @@ const USAJOBS_KEYWORDS = [
 ];
 
 const SEEN_JOBS_PATH = "seen-jobs.json";
-const MAX_DRAFT_AGE_DAYS = 7;
+const MAX_DRAFT_AGE_DAYS = 4;
+const MAX_ALERT_AGE_DAYS = 7;
 const DRAFT_MAX_TOKENS = 8000;
 const RESUME_VAULT_REPO = "jamesmyers4/resume-vault";
 const resend = new Resend(process.env.RESEND_API_KEY);
