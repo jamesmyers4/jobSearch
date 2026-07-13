@@ -40,6 +40,15 @@ const SEARCH_TITLES = [
   "Automation Architect",
 ];
 
+const REMOTE_ONLY = true;
+const REMOTE_KEYWORDS = [
+  "remote",
+  "work from home",
+  "wfh",
+  "anywhere",
+  "distributed",
+];
+
 const EXCLUDE_KEYWORDS = [
   "manufacturing",
   "factory",
@@ -71,11 +80,20 @@ const SEEN_JOBS_PATH = "seen-jobs.json";
 const MAX_DRAFT_AGE_DAYS = 4;
 const DRAFT_MAX_TOKENS = 8000;
 const RESUME_VAULT_REPO = "jamesmyers4/resume-vault";
+const resend = new Resend(process.env.RESEND_API_KEY);
 const PREFILTER_MODEL = "claude-haiku-4-5-20251001";
 const DRAFT_MODEL = "claude-sonnet-5";
 const AI_PIPELINE_ENABLED = process.env.AI_PIPELINE_ENABLED === "true";
-const AI_DRAFT_COMPANY_ALLOWLIST = ["TherapyNotes", "Golden Pet Brands"];
-const resend = new Resend(process.env.RESEND_API_KEY);
+const AI_DRAFT_COMPANY_ALLOWLIST = ["TherapyNotes"];
+const MAX_DRAFTS_PER_RUN = 3;
+
+function isRemoteJob(job: JobPosting): boolean {
+  if (!REMOTE_ONLY) return true;
+  if (job.key.startsWith("rok:")) return true;
+  const text = `${job.location ?? ""} ${job.title}`.toLowerCase();
+  if (text.includes("hybrid")) return false;
+  return REMOTE_KEYWORDS.some((term) => text.includes(term));
+}
 
 interface JobPosting {
   key: string;
@@ -284,15 +302,17 @@ async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
   );
   const data = await response.json();
   const jobs = data.results ?? [];
-  return jobs.map((job: any) => ({
-    key: `az:${job.id}`,
-    title: job.title,
-    url: job.redirect_url,
-    company: job.company?.display_name,
-    location: job.location?.display_name,
-    postedAt: job.created,
-    description: job.description,
-  }));
+  return jobs.map
+    .filter((job: any) => matchesAnyTitle(job.title))
+    .map((job: any) => ({
+      key: `az:${job.id}`,
+      title: job.title,
+      url: job.redirect_url,
+      company: job.company?.display_name,
+      location: job.location?.display_name,
+      postedAt: job.created,
+      description: job.description,
+    }));
 }
 
 async function fetchAllAdzunaJobs(): Promise<JobPosting[]> {
@@ -415,6 +435,10 @@ async function callClaude(
     }),
   });
   const data = await response.json();
+  if (data.usage)
+    console.log(
+      `${model} usage: ${data.usage.input_tokens} in / ${data.usage.output_tokens} out`,
+    );
   const textBlock = data.content?.find((block: any) => block.type === "text");
   return textBlock?.text ?? "";
 }
@@ -463,6 +487,21 @@ function saveSeenJobs(seen: Set<string>) {
   writeFileSync(SEEN_JOBS_PATH, JSON.stringify([...seen], null, 2));
 }
 
+function sourceLabel(key: string): string {
+  const prefix = key.split(":")[0];
+  const labels: Record<string, string> = {
+    tn: "TherapyNotes",
+    wk: "Workable",
+    gh: "Greenhouse",
+    lv: "Lever",
+    ab: "Ashby",
+    rok: "RemoteOK",
+    az: "Adzuna",
+    usaj: "USAJOBS",
+  };
+  return labels[prefix] ?? prefix;
+}
+
 async function sendAlertEmail(
   newJobs: JobPosting[],
   drafts: Map<string, string>,
@@ -474,6 +513,16 @@ async function sendAlertEmail(
     )
     .join("");
   const jobWord = newJobs.length === 1 ? "job posting" : "job postings";
+  const draftWord = drafts.size === 1 ? "draft" : "drafts";
+  const bySource = new Map<string, number>();
+  for (const job of newJobs) {
+    const label = sourceLabel(job.key);
+    bySource.set(label, (bySource.get(label) ?? 0) + 1);
+  }
+  const breakdown = [...bySource.entries()]
+    .map(([label, count]) => `${count} ${label}`)
+    .join(", ");
+  const summary = `<p>${newJobs.length} new remote ${jobWord} (${breakdown})${drafts.size > 0 ? ` — ${drafts.size} ${draftWord} attached` : ""}.</p>`;
   const attachments = newJobs
     .filter((job) => drafts.has(job.key))
     .map((job) => ({
@@ -484,7 +533,7 @@ async function sendAlertEmail(
     from: process.env.FROM_EMAIL as string,
     to: process.env.TO_EMAIL as string,
     subject: `${newJobs.length} new ${jobWord} found`,
-    html: `<ul>${listHtml}</ul>`,
+    html: `${summary}<ul>${listHtml}</ul>`,
     attachments,
   });
 }
@@ -549,7 +598,7 @@ async function main() {
     ...remoteOkJobs,
     ...adzunaJobs,
     ...usaJobs,
-  ];
+  ].filter(isRemoteJob);
 
   const { seen, isFirstRun } = loadSeenJobs();
   const newJobs = allJobs.filter((job) => !seen.has(job.key));
@@ -565,6 +614,7 @@ async function main() {
       );
       if (context && corpus) {
         for (const job of newJobs) {
+          if (drafts.size >= MAX_DRAFTS_PER_RUN) break;
           if (daysOld(job.postedAt) > MAX_DRAFT_AGE_DAYS) continue;
           if (!isAllowlistedCompany(job)) continue;
           const isMatch = await safelyValue(
