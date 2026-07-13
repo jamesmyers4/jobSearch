@@ -101,6 +101,28 @@ const DRAFT_MODEL = "claude-sonnet-5";
 const AI_PIPELINE_ENABLED = process.env.AI_PIPELINE_ENABLED === "true";
 const AI_DRAFT_COMPANY_ALLOWLIST = ["TherapyNotes"];
 const MAX_DRAFTS_PER_RUN = 3;
+const COMPANY_HISTORY_PATH = "company-history.json";
+
+function loadCompanyHistory(): Map<string, string> {
+  try {
+    const raw = readFileSync(COMPANY_HISTORY_PATH, "utf-8");
+    const parsed = JSON.parse(raw) as Record<string, string>;
+    return new Map(Object.entries(parsed).map(([name, status]) => [name.toLowerCase(), status]));
+  } catch {
+    return new Map();
+  }
+}
+
+const COMPANY_HISTORY = loadCompanyHistory();
+
+function historyStatus(company?: string): string | undefined {
+  if (!company) return undefined;
+  const lower = company.toLowerCase();
+  for (const [name, status] of COMPANY_HISTORY) {
+    if (lower.includes(name)) return status;
+  }
+  return undefined;
+}
 
 function isRemoteJob(job: JobPosting): boolean {
   if (!REMOTE_ONLY) return true;
@@ -115,6 +137,27 @@ function isFreshJob(job: JobPosting): boolean {
   return daysOld(job.postedAt) <= MAX_ALERT_AGE_DAYS;
 }
 
+function normalizeForDedupe(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[.,]/g, "")
+    .replace(/\b(inc|llc|ltd|corp)\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function dedupeBySignature(jobs: JobPosting[]): JobPosting[] {
+  const seen = new Set<string>();
+  return jobs.filter((job) => {
+    const signature = job.company
+      ? `${normalizeForDedupe(job.company)}::${normalizeForDedupe(job.title)}`
+      : job.key;
+    if (seen.has(signature)) return false;
+    seen.add(signature);
+    return true;
+  });
+}
+
 function matchesAnyTitle(title: string): boolean {
   const lower = title.toLowerCase();
   if (EXCLUDE_KEYWORDS.some((term) => lower.includes(term))) return false;
@@ -123,6 +166,7 @@ function matchesAnyTitle(title: string): boolean {
 
 function isAllowlistedCompany(job: JobPosting): boolean {
   if (!job.company) return false;
+  if (historyStatus(job.company) === "rejected") return false;
   const company = job.company.toLowerCase();
   return AI_DRAFT_COMPANY_ALLOWLIST.some((name) =>
     company.includes(name.toLowerCase()),
@@ -517,10 +561,11 @@ async function sendAlertEmail(
   drafts: Map<string, string>,
 ) {
   const listHtml = newJobs
-    .map(
-      (job) =>
-        `<li>[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`,
-    )
+    .map((job) => {
+      const status = historyStatus(job.company);
+      const statusTag = status && status !== "active" ? ` [${status}]` : "";
+      return `<li>[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`;
+    })
     .join("");
   const jobWord = newJobs.length === 1 ? "job posting" : "job postings";
   const draftWord = drafts.size === 1 ? "draft" : "drafts";
@@ -599,18 +644,20 @@ async function main() {
     safely(fetchAllUSAJobs(), "USAJOBS"),
   ]);
 
-  const allJobs = [
-    ...therapyNotesJobs,
-    ...titleSearchJobs,
-    ...greenhouseJobs,
-    ...leverJobs,
-    ...ashbyJobs,
-    ...remoteOkJobs,
-    ...adzunaJobs,
-    ...usaJobs,
-  ]
-    .filter(isRemoteJob)
-    .filter(isFreshJob);
+  const allJobs = dedupeBySignature(
+    [
+      ...therapyNotesJobs,
+      ...titleSearchJobs,
+      ...greenhouseJobs,
+      ...leverJobs,
+      ...ashbyJobs,
+      ...remoteOkJobs,
+      ...adzunaJobs,
+      ...usaJobs,
+    ]
+      .filter(isRemoteJob)
+      .filter(isFreshJob),
+  );
 
   const { seen, isFirstRun } = loadSeenJobs();
   const newJobs = allJobs.filter((job) => !seen.has(job.key));
