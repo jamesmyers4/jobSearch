@@ -120,6 +120,7 @@ const SOURCE_WEIGHT: Record<string, number> = {
   ab: 20,
   soltech: 20,
   statheros: 20,
+  qh: 20,
   rok: 10,
   az: 5,
 };
@@ -627,6 +628,29 @@ async function fetchStatherosJobs(): Promise<JobPosting[]> {
     .filter((job) => job.title && job.url && matchesAnyTitle(job.title));
 }
 
+async function fetchQuarterhillJobs(): Promise<JobPosting[]> {
+  const response = await fetch(
+    "https://careers.quarterhill.com/api/jobs?page=1&sortBy=relevance&descending=false&internal=false",
+  );
+  const data = await response.json();
+  const entries = data.jobs ?? [];
+  return entries
+    .map((entry: any) => entry.data)
+    .filter((job: any) => job && matchesAnyTitle(job.title ?? ""))
+    .map((job: any) => ({
+      key: `qh:${job.slug}`,
+      title: job.title,
+      url: job.canonical_url ?? job.apply_url,
+      company: "Quarterhill",
+      location: job.location_name,
+      postedAt: job.posted_date,
+      salaryRange: formatSalaryRange(
+        job.salary_min_value || undefined,
+        job.salary_max_value || undefined,
+      ),
+    }));
+}
+
 async function githubApi(
   path: string,
   options: RequestInit = {},
@@ -1090,6 +1114,7 @@ function sourceLabel(key: string): string {
     ab: "Ashby",
     soltech: "SOLTECH",
     statheros: "Statheros",
+    qh: "Quarterhill",
     rok: "RemoteOK",
     az: "Adzuna",
     usaj: "USAJOBS",
@@ -1184,6 +1209,7 @@ async function main() {
     usaJobs,
     soltechJobs,
     statherosJobs,
+    quarterhillJobs,
   ] = await Promise.all([
     safely(fetchTherapyNotesJobs(), "TherapyNotes"),
     safely(fetchAllTitleSearchJobs(), "Workable title search"),
@@ -1195,6 +1221,7 @@ async function main() {
     safely(fetchAllUSAJobs(), "USAJOBS"),
     safely(fetchSoltechJobs(), "SOLTECH"),
     safely(fetchStatherosJobs(), "Statheros"),
+    safely(fetchQuarterhillJobs(), "Quarterhill"),
   ]);
 
   const allJobs = dedupeBySignature(
@@ -1209,6 +1236,7 @@ async function main() {
       ...usaJobs,
       ...soltechJobs,
       ...statherosJobs,
+      ...quarterhillJobs,
     ]
       .filter(isRemoteJob)
       .filter(isFreshJob),
