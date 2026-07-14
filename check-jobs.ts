@@ -13,6 +13,7 @@ interface JobPosting {
   salaryRange?: string;
   yearsRequired?: string;
   workArrangement?: string;
+  templateDraftUrl?: string;
 }
 
 interface TrackerEntry {
@@ -654,6 +655,140 @@ async function commitDraft(slug: string, content: string): Promise<void> {
   });
 }
 
+async function fetchResumeFiles(): Promise<Map<string, string>> {
+  const files = await githubApi("resumes");
+  const readable = files.filter((f: any) => f.type === "file");
+  const entries = await Promise.all(
+    readable.map(async (file: any) => {
+      const data = await githubApi(`resumes/${file.name}`);
+      const content = Buffer.from(data.content, "base64").toString("utf-8");
+      return [file.name, content] as [string, string];
+    }),
+  );
+  return new Map(entries);
+}
+
+async function commitTemplateDraft(slug: string, content: string): Promise<void> {
+  await githubApi(`template-drafts/${slug}.md`, {
+    method: "PUT",
+    body: JSON.stringify({
+      message: `add template draft for ${slug}`,
+      content: Buffer.from(content, "utf-8").toString("base64"),
+    }),
+  });
+}
+
+const STOP_WORDS = new Set([
+  "and", "the", "for", "with", "via", "using", "used", "use", "level",
+  "one", "two", "some", "any", "not", "but", "also", "into", "from", "this",
+  "experience", "exposure", "project", "projects", "confirmed", "context",
+  "years", "year", "production", "personal", "record", "scope", "depth",
+  "worth", "prior", "etc", "beyond", "flagged", "review", "mark",
+  "your", "answer", "delete", "question", "comfortable", "writing", "directly",
+  "mostly", "mediated", "distinct", "familiarity", "you", "our", "team",
+  "role", "work", "will", "have", "are", "that",
+]);
+
+function significantWords(text: string): Set<string> {
+  const words = text
+    .toLowerCase()
+    .replace(/[^a-z0-9#+\s]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length > 0);
+  const shortAllowlist = new Set(["ai", "js", "ts", "db", "ui", "ux", "ci", "cd", "r2"]);
+  return new Set(
+    words.filter(
+      (w) => (w.length > 2 || shortAllowlist.has(w)) && !STOP_WORDS.has(w),
+    ),
+  );
+}
+
+function extractUnconfirmedTerms(contextMd: string): Set<string> {
+  const sectionMatch = contextMd.match(
+    /## Master Skill Inventory([\s\S]*?)(?=\n## [^\n]|$)/,
+  );
+  const section = sectionMatch ? sectionMatch[1] : "";
+  const unconfirmedMatch = section.match(
+    /### Unconfirmed[\s\S]*?(?=\n### |\n## |$)/,
+  );
+  const unconfirmedText = unconfirmedMatch ? unconfirmedMatch[0] : "";
+  const confirmedText = section.replace(unconfirmedText, "");
+  const unconfirmedWords = significantWords(unconfirmedText);
+  const confirmedWords = significantWords(confirmedText);
+  return new Set([...unconfirmedWords].filter((w) => !confirmedWords.has(w)));
+}
+
+function buildCoverLetter(job: JobPosting, matchedTerms: string[]): string {
+  const company = job.company ?? "the team";
+  const highlight =
+    matchedTerms.slice(0, 3).join(", ") || "test automation and QA engineering";
+  return [
+    `Dear Hiring Team at ${company},`,
+    "",
+    `I'm writing to apply for the ${job.title} position. Over 22 years in software, the last several building and owning test automation end to end, I've developed hands-on depth in ${highlight} that lines up closely with what you're looking for.`,
+    "",
+    "I'd welcome the chance to talk through how that background could contribute to your team.",
+    "",
+    "Best,",
+    "James R. Myers Jr.",
+  ].join("\n");
+}
+
+function buildTemplateDraft(
+  job: JobPosting,
+  resumes: Map<string, string>,
+  contextMd: string,
+): string | undefined {
+  if (resumes.size === 0) return undefined;
+  const jobWords = significantWords(`${job.title} ${job.description ?? ""}`);
+  const resumeWordSets = new Map<string, Set<string>>();
+  const wordDocFreq = new Map<string, number>();
+  for (const [name, content] of resumes) {
+    const words = significantWords(content);
+    resumeWordSets.set(name, words);
+    for (const w of words) wordDocFreq.set(w, (wordDocFreq.get(w) ?? 0) + 1);
+  }
+  let bestName = "";
+  let bestScore = -1;
+  let bestMatched: string[] = [];
+  for (const [name, words] of resumeWordSets) {
+    let score = 0;
+    const matched: string[] = [];
+    for (const w of jobWords) {
+      if (words.has(w)) {
+        const weight = 1 / (wordDocFreq.get(w) ?? 1);
+        score += weight;
+        if (weight > 0.3) matched.push(w);
+      }
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestName = name;
+      bestMatched = matched;
+    }
+  }
+  const bestContent = resumes.get(bestName) ?? "";
+  const unconfirmed = extractUnconfirmedTerms(contextMd);
+  const gaps = [...jobWords].filter((w) => unconfirmed.has(w));
+  const coverLetter = buildCoverLetter(job, bestMatched);
+  const header = [
+    "# TEMPLATE DRAFT (mechanically matched by keyword overlap, not AI-generated)",
+    "",
+    `Resume selected: **${bestName}** (matched on: ${bestMatched.slice(0, 8).join(", ") || "shared/common skills only, see note below"})`,
+    gaps.length > 0
+      ? `⚠ Possible skill gaps flagged from CONTEXT.md's Unconfirmed list: ${gaps.join(", ")} — verify before sending.`
+      : "No flagged gaps against the Unconfirmed skill list.",
+    "",
+    bestMatched.length === 0
+      ? "Note: matched broadly on skills shared across all resume variants — nothing stood out as strongly distinguishing for this specific posting."
+      : "",
+    "",
+    "---",
+    "",
+  ].join("\n");
+  return `${header}${bestContent}\n\n---\n\n## Cover Letter (draft)\n\n${coverLetter}\n`;
+}
+
 function slugify(job: JobPosting): string {
   const date = new Date().toISOString().slice(0, 10);
   const base = `${job.company ?? "unknown"}-${job.title}-${date}`;
@@ -847,7 +982,10 @@ async function sendDigestEmail(jobs: JobPosting[]) {
     .map((job) => {
       const status = historyStatus(job.company);
       const statusTag = status && status !== "active" ? ` [${status}]` : "";
-      return `<li>[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}</li>`;
+      const draftTag = job.templateDraftUrl
+        ? ` — <a href="${job.templateDraftUrl}">template draft</a>`
+        : "";
+      return `<li>[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${draftTag}</li>`;
     })
     .join("");
   const jobWord = jobs.length === 1 ? "job posting" : "job postings";
@@ -887,7 +1025,12 @@ async function sendAlertEmail(
       const fireTag = scoreJob(job) >= FIRE_SCORE_THRESHOLD ? "🔥 " : "";
       const salarySegment = job.salaryRange ? ` — ${job.salaryRange}` : "";
       const yearsSegment = job.yearsRequired ? ` — ${job.yearsRequired}` : "";
-      return `<li>${fireTag}[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"}${salarySegment}${yearsSegment} — ${daysAgoLabel(job.postedAt)}${drafts.has(job.key) ? " — draft resume attached" : ""}</li>`;
+      const draftTag = drafts.has(job.key)
+        ? " — AI draft attached"
+        : job.templateDraftUrl
+          ? ` — <a href="${job.templateDraftUrl}">template draft</a>`
+          : "";
+      return `<li>${fireTag}[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"}${salarySegment}${yearsSegment} — ${daysAgoLabel(job.postedAt)}${draftTag}</li>`;
     })
     .join("");
   const jobWord = newJobs.length === 1 ? "job posting" : "job postings";
@@ -998,6 +1141,31 @@ async function main() {
   const digestState = loadDigestState();
   if (!isFirstRun && digestJobs.length > 0) {
     digestState.queue.push(...digestJobs);
+  }
+
+  if (!isFirstRun && newJobs.length > 0) {
+    const templateContext = await safelyValue(
+      fetchContext(),
+      "fetchContext (template)",
+      "",
+    );
+    const templateResumes = await safelyValue(
+      fetchResumeFiles(),
+      "fetchResumeFiles",
+      new Map<string, string>(),
+    );
+    if (templateContext && templateResumes.size > 0) {
+      for (const job of newJobs) {
+        const draft = buildTemplateDraft(job, templateResumes, templateContext);
+        if (!draft) continue;
+        const slug = slugify(job);
+        await safelyRun(
+          commitTemplateDraft(slug, draft),
+          `commitTemplateDraft ${job.key}`,
+        );
+        job.templateDraftUrl = `https://github.com/${RESUME_VAULT_REPO}/blob/main/template-drafts/${slug}.md`;
+      }
+    }
   }
 
   if (immediateJobs.length > 0 && !isFirstRun) {
