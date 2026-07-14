@@ -1,8 +1,9 @@
 import "dotenv/config";
 import { Resend } from "resend";
 import { readFileSync, writeFileSync } from "fs";
+import { fileURLToPath } from "url";
 
-interface JobPosting {
+export interface JobPosting {
   key: string;
   title: string;
   url: string;
@@ -16,7 +17,7 @@ interface JobPosting {
   templateDraftUrl?: string;
 }
 
-interface TrackerEntry {
+export interface TrackerEntry {
   title: string;
   company?: string;
   postedAt?: string | number;
@@ -24,7 +25,7 @@ interface TrackerEntry {
   submittedAt?: string;
 }
 
-interface DigestState {
+export interface DigestState {
   lastSentAt?: string;
   queue: JobPosting[];
 }
@@ -108,8 +109,8 @@ const USAJOBS_KEYWORDS = [
 ];
 
 const SEEN_JOBS_PATH = "seen-jobs.json";
-const MAX_DRAFT_AGE_DAYS = 4;
-const MAX_ALERT_AGE_DAYS = 7;
+export const MAX_DRAFT_AGE_DAYS = 4;
+export const MAX_ALERT_AGE_DAYS = 7;
 
 const SOURCE_WEIGHT: Record<string, number> = {
   tn: 30,
@@ -141,7 +142,7 @@ const BOOST_KEYWORDS = [
   "agentic",
 ];
 
-const FIRE_SCORE_THRESHOLD = 45;
+export const FIRE_SCORE_THRESHOLD = 45;
 const DIGEST_SOURCES = new Set(["rok", "az"]);
 const DIGEST_INTERVAL_HOURS = 12;
 const DIGEST_STATE_PATH = "digest-state.json";
@@ -155,7 +156,7 @@ const AI_DRAFT_COMPANY_ALLOWLIST = ["TherapyNotes"];
 const MAX_DRAFTS_PER_RUN = 3;
 const COMPANY_HISTORY_PATH = "company-history.json";
 
-function loadCompanyHistory(): Map<string, string> {
+export function loadCompanyHistory(): Map<string, string> {
   try {
     const raw = readFileSync(COMPANY_HISTORY_PATH, "utf-8");
     const parsed = JSON.parse(raw) as Record<string, string>;
@@ -172,7 +173,7 @@ function loadCompanyHistory(): Map<string, string> {
 
 const COMPANY_HISTORY = loadCompanyHistory();
 
-function historyStatus(company?: string): string | undefined {
+export function historyStatus(company?: string): string | undefined {
   if (!company) return undefined;
   const lower = company.toLowerCase();
   for (const [name, status] of COMPANY_HISTORY) {
@@ -181,7 +182,7 @@ function historyStatus(company?: string): string | undefined {
   return undefined;
 }
 
-function isRemoteJob(job: JobPosting): boolean {
+export function isRemoteJob(job: JobPosting): boolean {
   if (!REMOTE_ONLY) return true;
   if (job.key.startsWith("rok:")) return true;
   if (job.workArrangement === "hybrid" || job.workArrangement === "onsite")
@@ -192,12 +193,12 @@ function isRemoteJob(job: JobPosting): boolean {
   return REMOTE_KEYWORDS.some((term) => text.includes(term));
 }
 
-function isFreshJob(job: JobPosting): boolean {
+export function isFreshJob(job: JobPosting): boolean {
   if (job.postedAt === undefined) return true;
   return daysOld(job.postedAt) <= MAX_ALERT_AGE_DAYS;
 }
 
-function normalizeForDedupe(value: string): string {
+export function normalizeForDedupe(value: string): string {
   return value
     .toLowerCase()
     .replace(/[.,]/g, "")
@@ -206,7 +207,7 @@ function normalizeForDedupe(value: string): string {
     .trim();
 }
 
-function dedupeBySignature(jobs: JobPosting[]): JobPosting[] {
+export function dedupeBySignature(jobs: JobPosting[]): JobPosting[] {
   const seen = new Set<string>();
   return jobs.filter((job) => {
     const signature = job.company
@@ -218,7 +219,7 @@ function dedupeBySignature(jobs: JobPosting[]): JobPosting[] {
   });
 }
 
-function scoreJob(job: JobPosting): number {
+export function scoreJob(job: JobPosting): number {
   const prefix = job.key.split(":")[0];
   let score = SOURCE_WEIGHT[prefix] ?? 0;
   const titleLower = job.title.toLowerCase();
@@ -236,13 +237,13 @@ function scoreJob(job: JobPosting): number {
   return score;
 }
 
-function matchesAnyTitle(title: string): boolean {
+export function matchesAnyTitle(title: string): boolean {
   const lower = title.toLowerCase();
   if (EXCLUDE_KEYWORDS.some((term) => lower.includes(term))) return false;
   return SEARCH_TITLES.some((term) => lower.includes(term.toLowerCase()));
 }
 
-function formatSalaryRange(
+export function formatSalaryRange(
   min?: number,
   max?: number,
   interval?: string,
@@ -255,7 +256,7 @@ function formatSalaryRange(
   return `up to ${fmt(max as number)}${suffix}`;
 }
 
-function extractYearsRequired(description?: string): string | undefined {
+export function extractYearsRequired(description?: string): string | undefined {
   if (!description) return undefined;
   const match = description.match(
     /\b(\d{1,2})\+?\s*(?:-|to|–)?\s*(\d{1,2})?\+?\s*years?\b[^.]{0,40}?experience/i,
@@ -263,7 +264,9 @@ function extractYearsRequired(description?: string): string | undefined {
   return match ? match[0].replace(/\s+/g, " ").trim() : undefined;
 }
 
-function extractWorkArrangement(description?: string): string | undefined {
+export function extractWorkArrangement(
+  description?: string,
+): string | undefined {
   if (!description) return undefined;
   const text = description.toLowerCase();
   if (/\bhybrid\b/.test(text)) return "hybrid";
@@ -272,7 +275,7 @@ function extractWorkArrangement(description?: string): string | undefined {
   return undefined;
 }
 
-function isAllowlistedCompany(job: JobPosting): boolean {
+export function isAllowlistedCompany(job: JobPosting): boolean {
   if (!job.company) return false;
   if (historyStatus(job.company) === "rejected") return false;
   const company = job.company.toLowerCase();
@@ -281,7 +284,7 @@ function isAllowlistedCompany(job: JobPosting): boolean {
   );
 }
 
-function daysAgoLabel(postedAt?: string | number): string {
+export function daysAgoLabel(postedAt?: string | number): string {
   if (postedAt === undefined) return "posted date unknown";
   const posted = new Date(postedAt);
   if (isNaN(posted.getTime())) return "posted date unknown";
@@ -293,7 +296,7 @@ function daysAgoLabel(postedAt?: string | number): string {
   return `posted ${days} days ago`;
 }
 
-function draftHeader(job: JobPosting): string {
+export function draftHeader(job: JobPosting): string {
   const lines = [
     `# ${job.title} — ${job.company ?? "unknown company"}`,
     `Posting: ${job.url}`,
@@ -309,7 +312,7 @@ function draftHeader(job: JobPosting): string {
   return lines.join("\n");
 }
 
-function stripHtml(html: string): string {
+export function stripHtml(html: string): string {
   return html
     .replace(/<[^>]*>/g, " ")
     .replace(/&nbsp;/g, " ")
@@ -318,14 +321,14 @@ function stripHtml(html: string): string {
     .trim();
 }
 
-function daysOld(postedAt?: string | number): number {
+export function daysOld(postedAt?: string | number): number {
   if (postedAt === undefined) return Infinity;
   const posted = new Date(postedAt);
   if (isNaN(posted.getTime())) return Infinity;
   return Math.floor((Date.now() - posted.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-async function fetchTherapyNotesJobs(): Promise<JobPosting[]> {
+export async function fetchTherapyNotesJobs(): Promise<JobPosting[]> {
   const response = await fetch(THERAPYNOTES_URL);
   const data = await response.json();
   const jobs = data.jobs ?? [];
@@ -339,7 +342,9 @@ async function fetchTherapyNotesJobs(): Promise<JobPosting[]> {
   }));
 }
 
-async function fetchTitleSearchJobs(title: string): Promise<JobPosting[]> {
+export async function fetchTitleSearchJobs(
+  title: string,
+): Promise<JobPosting[]> {
   const response = await fetch(
     `${SEARCH_URL}?query=${encodeURIComponent(title)}`,
   );
@@ -357,14 +362,16 @@ async function fetchTitleSearchJobs(title: string): Promise<JobPosting[]> {
     }));
 }
 
-async function fetchAllTitleSearchJobs(): Promise<JobPosting[]> {
+export async function fetchAllTitleSearchJobs(): Promise<JobPosting[]> {
   const results = await Promise.all(SEARCH_TITLES.map(fetchTitleSearchJobs));
   const merged = results.flat();
   const deduped = new Map(merged.map((job) => [job.key, job]));
   return [...deduped.values()];
 }
 
-async function fetchGreenhouseJobs(company: string): Promise<JobPosting[]> {
+export async function fetchGreenhouseJobs(
+  company: string,
+): Promise<JobPosting[]> {
   const response = await fetch(
     `https://api.greenhouse.io/v1/boards/${company}/jobs?content=true`,
   );
@@ -382,14 +389,14 @@ async function fetchGreenhouseJobs(company: string): Promise<JobPosting[]> {
     }));
 }
 
-async function fetchAllGreenhouseJobs(): Promise<JobPosting[]> {
+export async function fetchAllGreenhouseJobs(): Promise<JobPosting[]> {
   const results = await Promise.all(
     GREENHOUSE_COMPANIES.map(fetchGreenhouseJobs),
   );
   return results.flat();
 }
 
-async function fetchLeverJobs(company: string): Promise<JobPosting[]> {
+export async function fetchLeverJobs(company: string): Promise<JobPosting[]> {
   const response = await fetch(
     `https://api.lever.co/v0/postings/${company}?mode=json`,
   );
@@ -407,12 +414,12 @@ async function fetchLeverJobs(company: string): Promise<JobPosting[]> {
     }));
 }
 
-async function fetchAllLeverJobs(): Promise<JobPosting[]> {
+export async function fetchAllLeverJobs(): Promise<JobPosting[]> {
   const results = await Promise.all(LEVER_COMPANIES.map(fetchLeverJobs));
   return results.flat();
 }
 
-async function fetchAshbyJobs(company: string): Promise<JobPosting[]> {
+export async function fetchAshbyJobs(company: string): Promise<JobPosting[]> {
   const response = await fetch(
     `https://api.ashbyhq.com/posting-api/job-board/${company}?includeCompensation=true`,
   );
@@ -430,12 +437,12 @@ async function fetchAshbyJobs(company: string): Promise<JobPosting[]> {
     }));
 }
 
-async function fetchAllAshbyJobs(): Promise<JobPosting[]> {
+export async function fetchAllAshbyJobs(): Promise<JobPosting[]> {
   const results = await Promise.all(ASHBY_COMPANIES.map(fetchAshbyJobs));
   return results.flat();
 }
 
-async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
+export async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
   const response = await fetch(REMOTEOK_URL);
   const data = await response.json();
   const jobs = data.filter((item: any) => item.id && item.position);
@@ -451,7 +458,7 @@ async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
     }));
 }
 
-async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
+export async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
   const response = await fetch(
     `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=20&max_days_old=${MAX_DRAFT_AGE_DAYS}&what=${encodeURIComponent(title)}&content-type=application/json`,
     {
@@ -484,7 +491,7 @@ async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
     }));
 }
 
-async function fetchAllAdzunaJobs(): Promise<JobPosting[]> {
+export async function fetchAllAdzunaJobs(): Promise<JobPosting[]> {
   const merged: JobPosting[] = [];
   for (const title of ADZUNA_SEARCH_TITLES) {
     const jobs = await fetchAdzunaJobs(title);
@@ -494,7 +501,7 @@ async function fetchAllAdzunaJobs(): Promise<JobPosting[]> {
   return [...deduped.values()];
 }
 
-async function fetchUSAJobs(keyword: string): Promise<JobPosting[]> {
+export async function fetchUSAJobs(keyword: string): Promise<JobPosting[]> {
   const response = await fetch(
     `https://data.usajobs.gov/api/Search?Keyword=${encodeURIComponent(keyword)}&ResultsPerPage=50`,
     {
@@ -532,7 +539,7 @@ async function fetchUSAJobs(keyword: string): Promise<JobPosting[]> {
     });
 }
 
-async function fetchAllUSAJobs(): Promise<JobPosting[]> {
+export async function fetchAllUSAJobs(): Promise<JobPosting[]> {
   const results = await Promise.all(USAJOBS_KEYWORDS.map(fetchUSAJobs));
   const merged = results.flat();
   const deduped = new Map(merged.map((job) => [job.key, job]));
@@ -541,7 +548,7 @@ async function fetchAllUSAJobs(): Promise<JobPosting[]> {
 
 const SOLTECH_RSS_URL = "https://soltech.hire.trakstar.com/jobfeeds/soltech";
 
-function decodeXmlEntities(text: string): string {
+export function decodeXmlEntities(text: string): string {
   return text
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
@@ -551,12 +558,15 @@ function decodeXmlEntities(text: string): string {
     .replace(/&amp;/g, "&");
 }
 
-function stripCdata(text: string): string {
+export function stripCdata(text: string): string {
   const match = text.match(/^<!\[CDATA\[([\s\S]*?)\]\]>$/);
   return match ? match[1].trim() : text.trim();
 }
 
-function extractXmlTag(itemXml: string, tag: string): string | undefined {
+export function extractXmlTag(
+  itemXml: string,
+  tag: string,
+): string | undefined {
   const match = itemXml.match(
     new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"),
   );
@@ -565,7 +575,7 @@ function extractXmlTag(itemXml: string, tag: string): string | undefined {
   return value || undefined;
 }
 
-async function fetchSoltechJobs(): Promise<JobPosting[]> {
+export async function fetchSoltechJobs(): Promise<JobPosting[]> {
   const response = await fetch(SOLTECH_RSS_URL);
   const xml = await response.text();
   const items = xml.match(/<item[^>]*>[\s\S]*?<\/item>/g) ?? [];
@@ -588,7 +598,7 @@ async function fetchSoltechJobs(): Promise<JobPosting[]> {
 
 const STATHEROS_BASE_URL = "https://statheros.freshteam.com";
 
-async function fetchStatherosJobs(): Promise<JobPosting[]> {
+export async function fetchStatherosJobs(): Promise<JobPosting[]> {
   const response = await fetch(`${STATHEROS_BASE_URL}/jobs`);
   const html = await response.text();
   const blocks = html.match(/<a href="\/jobs\/[\s\S]*?<\/a>/g) ?? [];
@@ -628,7 +638,7 @@ async function fetchStatherosJobs(): Promise<JobPosting[]> {
     .filter((job) => job.title && job.url && matchesAnyTitle(job.title));
 }
 
-async function fetchQuarterhillJobs(): Promise<JobPosting[]> {
+export async function fetchQuarterhillJobs(): Promise<JobPosting[]> {
   const response = await fetch(
     "https://careers.quarterhill.com/api/jobs?page=1&sortBy=relevance&descending=false&internal=false",
   );
@@ -651,7 +661,7 @@ async function fetchQuarterhillJobs(): Promise<JobPosting[]> {
     }));
 }
 
-async function githubApi(
+export async function githubApi(
   path: string,
   options: RequestInit = {},
 ): Promise<any> {
@@ -671,7 +681,7 @@ async function githubApi(
   return response.json();
 }
 
-async function fetchResumeCorpus(): Promise<string> {
+export async function fetchResumeCorpus(): Promise<string> {
   const files = await githubApi("resumes");
   const readable = files.filter((f: any) => f.type === "file");
   const contents = await Promise.all(
@@ -683,12 +693,15 @@ async function fetchResumeCorpus(): Promise<string> {
   return contents.join("\n\n---\n\n");
 }
 
-async function fetchContext(): Promise<string> {
+export async function fetchContext(): Promise<string> {
   const data = await githubApi("CONTEXT.md");
   return Buffer.from(data.content, "base64").toString("utf-8");
 }
 
-async function commitDraft(slug: string, content: string): Promise<void> {
+export async function commitDraft(
+  slug: string,
+  content: string,
+): Promise<void> {
   await githubApi(`drafts/${slug}.md`, {
     method: "PUT",
     body: JSON.stringify({
@@ -698,7 +711,7 @@ async function commitDraft(slug: string, content: string): Promise<void> {
   });
 }
 
-async function fetchResumeFiles(): Promise<Map<string, string>> {
+export async function fetchResumeFiles(): Promise<Map<string, string>> {
   const files = await githubApi("resumes");
   const readable = files.filter((f: any) => f.type === "file");
   const entries = await Promise.all(
@@ -711,7 +724,7 @@ async function fetchResumeFiles(): Promise<Map<string, string>> {
   return new Map(entries);
 }
 
-async function commitTemplateDraft(
+export async function commitTemplateDraft(
   slug: string,
   content: string,
 ): Promise<void> {
@@ -786,7 +799,7 @@ const STOP_WORDS = new Set([
   "that",
 ]);
 
-function significantWords(text: string): Set<string> {
+export function significantWords(text: string): Set<string> {
   const words = text
     .toLowerCase()
     .replace(/[^a-z0-9#+\s]/g, " ")
@@ -810,7 +823,7 @@ function significantWords(text: string): Set<string> {
   );
 }
 
-function extractUnconfirmedTerms(contextMd: string): Set<string> {
+export function extractUnconfirmedTerms(contextMd: string): Set<string> {
   const sectionMatch = contextMd.match(
     /## Master Skill Inventory([\s\S]*?)(?=\n## [^\n]|$)/,
   );
@@ -825,7 +838,10 @@ function extractUnconfirmedTerms(contextMd: string): Set<string> {
   return new Set([...unconfirmedWords].filter((w) => !confirmedWords.has(w)));
 }
 
-function buildCoverLetter(job: JobPosting, matchedTerms: string[]): string {
+export function buildCoverLetter(
+  job: JobPosting,
+  matchedTerms: string[],
+): string {
   const company = job.company ?? "the team";
   const highlight =
     matchedTerms.slice(0, 3).join(", ") || "test automation and QA engineering";
@@ -841,7 +857,7 @@ function buildCoverLetter(job: JobPosting, matchedTerms: string[]): string {
   ].join("\n");
 }
 
-function buildTemplateDraft(
+export function buildTemplateDraft(
   job: JobPosting,
   resumes: Map<string, string>,
   contextMd: string,
@@ -896,7 +912,7 @@ function buildTemplateDraft(
   return `${header}${bestContent}\n\n---\n\n## Cover Letter (draft)\n\n${coverLetter}\n`;
 }
 
-function slugify(job: JobPosting): string {
+export function slugify(job: JobPosting): string {
   const date = new Date().toISOString().slice(0, 10);
   const base = `${job.company ?? "unknown"}-${job.title}-${date}`;
   return base
@@ -905,14 +921,14 @@ function slugify(job: JobPosting): string {
     .replace(/(^-|-$)/g, "");
 }
 
-interface AiProviderConfig {
+export interface AiProviderConfig {
   format: "anthropic" | "openai";
   baseUrl: string;
   apiKey: string | undefined;
   model: string;
 }
 
-function resolveProvider(
+export function resolveProvider(
   tier: "PREFILTER" | "DRAFT",
   fallbackModel: string,
 ): AiProviderConfig {
@@ -931,7 +947,7 @@ function resolveProvider(
   return { format, baseUrl, apiKey, model };
 }
 
-async function callAiModel(
+export async function callAiModel(
   system: string,
   prompt: string,
   tier: "PREFILTER" | "DRAFT",
@@ -989,7 +1005,7 @@ async function callAiModel(
   return data.choices?.[0]?.message?.content ?? "";
 }
 
-async function prefilterJob(job: JobPosting): Promise<boolean> {
+export async function prefilterJob(job: JobPosting): Promise<boolean> {
   const descriptionLine = job.description
     ? `\nDescription: ${job.description.slice(0, 1000)}`
     : "";
@@ -1004,7 +1020,7 @@ async function prefilterJob(job: JobPosting): Promise<boolean> {
   return result.trim().toLowerCase().startsWith("y");
 }
 
-async function draftResume(
+export async function draftResume(
   job: JobPosting,
   corpus: string,
   context: string,
@@ -1022,7 +1038,7 @@ async function draftResume(
   );
 }
 
-function loadSeenJobs(): { seen: Set<string>; isFirstRun: boolean } {
+export function loadSeenJobs(): { seen: Set<string>; isFirstRun: boolean } {
   try {
     const raw = readFileSync(SEEN_JOBS_PATH, "utf-8");
     return { seen: new Set(JSON.parse(raw)), isFirstRun: false };
@@ -1031,13 +1047,13 @@ function loadSeenJobs(): { seen: Set<string>; isFirstRun: boolean } {
   }
 }
 
-function saveSeenJobs(seen: Set<string>) {
+export function saveSeenJobs(seen: Set<string>) {
   writeFileSync(SEEN_JOBS_PATH, JSON.stringify([...seen], null, 2));
 }
 
 const TRACKER_PATH = "application-tracker.json";
 
-function loadTracker(): Record<string, TrackerEntry> {
+export function loadTracker(): Record<string, TrackerEntry> {
   try {
     const raw = readFileSync(TRACKER_PATH, "utf-8");
     return JSON.parse(raw);
@@ -1046,11 +1062,11 @@ function loadTracker(): Record<string, TrackerEntry> {
   }
 }
 
-function saveTracker(tracker: Record<string, TrackerEntry>) {
+export function saveTracker(tracker: Record<string, TrackerEntry>) {
   writeFileSync(TRACKER_PATH, JSON.stringify(tracker, null, 2));
 }
 
-function recordAlerts(jobs: JobPosting[]) {
+export function recordAlerts(jobs: JobPosting[]) {
   const tracker = loadTracker();
   const now = new Date().toISOString();
   for (const job of jobs) {
@@ -1066,11 +1082,11 @@ function recordAlerts(jobs: JobPosting[]) {
   saveTracker(tracker);
 }
 
-function isDigestSource(job: JobPosting): boolean {
+export function isDigestSource(job: JobPosting): boolean {
   return DIGEST_SOURCES.has(job.key.split(":")[0]);
 }
 
-function loadDigestState(): DigestState {
+export function loadDigestState(): DigestState {
   try {
     const raw = readFileSync(DIGEST_STATE_PATH, "utf-8");
     return JSON.parse(raw);
@@ -1079,11 +1095,11 @@ function loadDigestState(): DigestState {
   }
 }
 
-function saveDigestState(state: DigestState) {
+export function saveDigestState(state: DigestState) {
   writeFileSync(DIGEST_STATE_PATH, JSON.stringify(state, null, 2));
 }
 
-async function sendDigestEmail(jobs: JobPosting[]) {
+export async function sendDigestEmail(jobs: JobPosting[]) {
   const sorted = [...jobs].sort((a, b) => scoreJob(b) - scoreJob(a));
   const listHtml = sorted
     .map((job) => {
@@ -1104,7 +1120,7 @@ async function sendDigestEmail(jobs: JobPosting[]) {
   });
 }
 
-function sourceLabel(key: string): string {
+export function sourceLabel(key: string): string {
   const prefix = key.split(":")[0];
   const labels: Record<string, string> = {
     tn: "TherapyNotes",
@@ -1122,7 +1138,7 @@ function sourceLabel(key: string): string {
   return labels[prefix] ?? prefix;
 }
 
-async function sendAlertEmail(
+export async function sendAlertEmail(
   newJobs: JobPosting[],
   drafts: Map<string, string>,
 ) {
@@ -1167,7 +1183,10 @@ async function sendAlertEmail(
   });
 }
 
-async function safely<T>(promise: Promise<T[]>, label: string): Promise<T[]> {
+export async function safely<T>(
+  promise: Promise<T[]>,
+  label: string,
+): Promise<T[]> {
   try {
     return await promise;
   } catch (err) {
@@ -1176,7 +1195,7 @@ async function safely<T>(promise: Promise<T[]>, label: string): Promise<T[]> {
   }
 }
 
-async function safelyValue<T>(
+export async function safelyValue<T>(
   promise: Promise<T>,
   label: string,
   fallback: T,
@@ -1189,7 +1208,10 @@ async function safelyValue<T>(
   }
 }
 
-async function safelyRun(promise: Promise<void>, label: string): Promise<void> {
+export async function safelyRun(
+  promise: Promise<void>,
+  label: string,
+): Promise<void> {
   try {
     await promise;
   } catch (err) {
@@ -1197,7 +1219,7 @@ async function safelyRun(promise: Promise<void>, label: string): Promise<void> {
   }
 }
 
-async function main() {
+export async function main() {
   const [
     therapyNotesJobs,
     titleSearchJobs,
@@ -1351,4 +1373,6 @@ async function main() {
     saveSeenJobs(seen);
   }
 }
-main();
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main();
+}
