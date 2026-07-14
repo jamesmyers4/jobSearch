@@ -21,6 +21,30 @@
       "description": "Software Development Engineer in Test (SDET) Location: Remote Who We Are: Tuesday Health is a value-based palliative care provider group dedicated to transforming serious illness and end-of-life care. We deliver goal-centered care focused on alleviating physical symptoms and emotional stress for individuals and their caregivers. Our interdisciplinary care teams reduce avoidable hospitalizations and improve quality of life wherever individuals call home. Through our leading-edge care model, Tues…",
       "salaryRange": "$105,384–$105,384 /Year",
       "workArrangement": "remote"
+    },
+    {
+      "key": "az:5799030504",
+      "title": "Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5799030504?se=NJsmsC1_8RGwLP9-oeTViQ&utm_medium=api&utm_source=ae2feac4&v=45E5602E188FE48A40E5DB300AB855023EA6C12F",
+      "company": "ADDSOURCE",
+      "location": "US",
+      "postedAt": "2026-07-13T15:34:11Z",
+      "description": "Role: Automation Engineer Location: - Remote (Canada EST) Experience: - Minimum 8 Years Automation Engineer with expertise in Selenium/Playwright, Medical Imaging, API Testing, and Performance Testing, responsible for designing scalable automation frameworks and validating complex 3D visualization and imaging workflows. Responsibilities: - Perform end-to-end testing of MUV 3D visualization workflows including rendering, annotations, and measurements. Validate image quality, accuracy, and perfor…",
+      "salaryRange": "$103,915–$103,915 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/addsource-automation-engineer-2026-07-14.md"
+    },
+    {
+      "key": "az:5799032856",
+      "title": "Test Automation Engineer with Security Clearance",
+      "url": "https://www.adzuna.com/land/ad/5799032856?se=VNhHry1_8RGNR8QQ3i_xnw&utm_medium=api&utm_source=ae2feac4&v=2D0E0BF0E397BD6DE1E6B7D604AC5E79B5D15526",
+      "company": "SciTec, Inc.",
+      "location": "Boulder, Boulder County",
+      "postedAt": "2026-07-13T15:41:26Z",
+      "description": "Description SciTec, a wholly owned subsidiary of Firefly Aerospace, is a dynamic non-traditional defense contractor that delivers advanced technologies in support of U.S. National Security and Defense. For the past forty-five plus years, we have supported Department of Defense customers by developing innovative remote sensing algorithms, tools, and techniques to deliver world-class data exploitation capabilities supporting missile defense; intelligence, surveillance, & reconnaissance; space dom…",
+      "salaryRange": "$168,040–$168,040 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/scitec-inc-test-automation-engineer-with-security-clearance-2026-07-14.md"
     }
   ],
   "lastSentAt": "2026-07-13T19:55:19.205Z"
