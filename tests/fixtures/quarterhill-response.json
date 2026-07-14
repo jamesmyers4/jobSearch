@@ -1,0 +1,40 @@
+{
+  "jobs": [
+    {
+      "data": {
+        "slug": "1491",
+        "title": "Lead, PMO Quality",
+        "location_name": "QH Frisco",
+        "posted_date": "2026-07-13T16:34:00+0000",
+        "canonical_url": "https://careers.quarterhill.com/jobs/1491?lang=en-us",
+        "apply_url": "https://careers-quarterhill.icims.com/jobs/1491/login",
+        "salary_min_value": 0,
+        "salary_max_value": 0
+      }
+    },
+    {
+      "data": {
+        "slug": "1477",
+        "title": "ITS Field Technician - New Jersey",
+        "location_name": "Remote - US",
+        "posted_date": "2026-06-23T15:58:00+0000",
+        "canonical_url": "https://careers.quarterhill.com/jobs/1477?lang=en-us",
+        "apply_url": "https://careers-quarterhill.icims.com/jobs/1477/login",
+        "salary_min_value": 75000,
+        "salary_max_value": 95000
+      }
+    },
+    {
+      "data": {
+        "slug": "1480",
+        "title": "Electrician (C-10 Licensed) - California",
+        "location_name": "Remote - CA,",
+        "posted_date": "2026-06-23T15:38:00+0000",
+        "canonical_url": "https://careers.quarterhill.com/jobs/1480?lang=en-us",
+        "apply_url": "https://careers-quarterhill.icims.com/jobs/1480/login",
+        "salary_min_value": 0,
+        "salary_max_value": 0
+      }
+    }
+  ]
+}

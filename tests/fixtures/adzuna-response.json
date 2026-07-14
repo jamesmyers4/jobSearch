@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "id": "5799030504",
+      "title": "QA Automation Engineer",
+      "redirect_url": "https://www.adzuna.com/land/ad/5799030504",
+      "company": { "display_name": "Acme Health" },
+      "location": { "display_name": "Remote - US" },
+      "created": "2026-07-13T10:00:00Z",
+      "salary_min": 90000,
+      "salary_max": 120000,
+      "description": "We're looking for a QA Automation Engineer to join our HIPAA-compliant healthcare platform team. Requires 5+ years of experience in test automation, Selenium, REST API testing, and SQL. This is a hybrid role requiring 3 days per week in our Nashville office."
+    },
+    {
+      "id": "5799032856",
+      "title": "Manufacturing QC Inspector",
+      "redirect_url": "https://www.adzuna.com/land/ad/5799032856",
+      "company": { "display_name": "Widget Co" },
+      "location": { "display_name": "Remote" },
+      "created": "2026-07-13T09:00:00Z",
+      "salary_min": null,
+      "salary_max": null,
+      "description": "Quality control inspector for manufacturing floor operations."
+    }
+  ]
+}
