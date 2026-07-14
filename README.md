@@ -2,7 +2,7 @@
 
 ![Check TherapyNotes Jobs](https://github.com/jamesmyers4/jobSearch/actions/workflows/check-jobs.yml/badge.svg)
 
-Checks six public job-board sources every 30 minutes and emails an alert the moment a genuinely new posting shows up — TherapyNotes' own board, a cross-company title search on Workable, optional per-company Greenhouse/Lever/Ashby boards, and RemoteOK.
+Checks ten public job-board sources every 30 minutes and emails an alert the moment a genuinely new posting shows up — TherapyNotes' own board, a cross-company title search on Workable, optional per-company Greenhouse/Lever/Ashby boards, and RemoteOK.
 
 ## How it works
 
@@ -11,6 +11,7 @@ Checks six public job-board sources every 30 minutes and emails an alert the mom
 - First run ever just records the current list as a baseline — no email, since those roles were already open before monitoring started.
 - Every run after that emails you via Resend if anything new shows up, then commits the updated `seen-jobs.json` back to the repo.
 - Each emailed job includes a title, company, location, and a "posted X days ago" label where the source provides one — useful for telling a truly new posting apart from an old one that got relisted and only looks new to this checker.
+- RemoteOK/Adzuna now batch into a daily digest instead of firing every 30 minutes.
 
 ## Sources checked every run
 
@@ -22,6 +23,10 @@ Checks six public job-board sources every 30 minutes and emails an alert the mom
 | Lever                         | Per-company, add slugs to `LEVER_COMPANIES`                           | `createdAt`                                                  |
 | Ashby                         | Per-company, add slugs to `ASHBY_COMPANIES`                           | `publishedAt`                                                |
 | RemoteOK                      | Entire remote-jobs feed, filtered client-side against `SEARCH_TITLES` | `date` — unconfirmed, may fall back to "posted date unknown" |
+| Adzuna
+| USA Jobs
+| SOLTECH
+| Statheros
 
 Greenhouse, Lever, and Ashby fields are confirmed against official docs. Workable's cross-company search, TherapyNotes' own widget endpoint, and RemoteOK are less officially documented — if a date or link ever looks wrong in an email, that's the place to check first.
 
