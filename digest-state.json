@@ -1,4 +1,29 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5800054726",
+      "title": "Tosca Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5800054726?se=ju1HEZ9_8RGXptzwgxhogw&utm_medium=api&utm_source=ae2feac4&v=3310AC02146880F856F1825C5627CAA70FA71C4B",
+      "company": "SN Cloud Solutions",
+      "location": "US",
+      "postedAt": "2026-07-14T11:35:10Z",
+      "description": "Hi Shoikot, I hope you are doing well Please find the attached Job Description below and let me know your thoughts Position: Tosca Automation Engineer Location: Remote Long Term Contract role (18 months contract) Job Description: Job Summary We are seeking an experienced TOSCA Test Automation Engineer with a strong background in the Energy & Utilities domain. The ideal candidate will have expertise in Tricentis Tosca automation, test planning, API testing, and utility business processes such as…",
+      "salaryRange": "$60,222–$60,222 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/sn-cloud-solutions-tosca-automation-engineer-2026-07-14.md"
+    },
+    {
+      "key": "az:5800076556",
+      "title": "(Senior QA Engineer)",
+      "url": "https://www.adzuna.com/land/ad/5800076556?se=CEkJEZ9_8RG5MtxbcY8k-A&utm_medium=api&utm_source=ae2feac4&v=CA62BF3E755FF5A0F63C022E1FA25FF62D324618",
+      "company": "Arcadia Talent Advisory LLC",
+      "location": "US",
+      "postedAt": "2026-07-14T11:44:35Z",
+      "description": "READ THE ENTIRE JD- NO 3RD PARTIES AT ALL- PLEASE RESPECT THIS REQUEST- PLEASE READ THE ENTIRE JD BEFORE YOU SUBMIT YOUR RESUME. SEVERAL OPPORTUNITIES An in-person interview will be required. WE WILL MEET YOU IN A LOCAL AREA BY YOU. (NORTHEAST CANDIDATES ONLY) Hiring: Senior QA Automation Engineer, 6-month Remote (USA Only). Playwright, TypeScript, and Automation MUST be genuinely strong. Absolutely NO 3rd parties. These roles can convert to full-time. Role: Bringing on a true Senior QA Automat…",
+      "salaryRange": "$94,102–$94,102 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/arcadia-talent-advisory-llc-senior-qa-engineer-2026-07-14.md"
+    }
+  ],
   "lastSentAt": "2026-07-14T12:47:25.152Z"
 }
