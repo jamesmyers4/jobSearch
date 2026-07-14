@@ -142,7 +142,7 @@ const BOOST_KEYWORDS = [
 
 const FIRE_SCORE_THRESHOLD = 45;
 const DIGEST_SOURCES = new Set(["rok", "az"]);
-const DIGEST_INTERVAL_HOURS = 24;
+const DIGEST_INTERVAL_HOURS = 12;
 const DIGEST_STATE_PATH = "digest-state.json";
 const DRAFT_MAX_TOKENS = 8000;
 const RESUME_VAULT_REPO = "jamesmyers4/resume-vault";
@@ -158,7 +158,12 @@ function loadCompanyHistory(): Map<string, string> {
   try {
     const raw = readFileSync(COMPANY_HISTORY_PATH, "utf-8");
     const parsed = JSON.parse(raw) as Record<string, string>;
-    return new Map(Object.entries(parsed).map(([name, status]) => [name.toLowerCase(), status]));
+    return new Map(
+      Object.entries(parsed).map(([name, status]) => [
+        name.toLowerCase(),
+        status,
+      ]),
+    );
   } catch {
     return new Map();
   }
@@ -178,7 +183,8 @@ function historyStatus(company?: string): string | undefined {
 function isRemoteJob(job: JobPosting): boolean {
   if (!REMOTE_ONLY) return true;
   if (job.key.startsWith("rok:")) return true;
-  if (job.workArrangement === "hybrid" || job.workArrangement === "onsite") return false;
+  if (job.workArrangement === "hybrid" || job.workArrangement === "onsite")
+    return false;
   if (job.workArrangement === "remote") return true;
   const text = `${job.location ?? ""} ${job.title}`.toLowerCase();
   if (text.includes("hybrid")) return false;
@@ -215,7 +221,8 @@ function scoreJob(job: JobPosting): number {
   const prefix = job.key.split(":")[0];
   let score = SOURCE_WEIGHT[prefix] ?? 0;
   const titleLower = job.title.toLowerCase();
-  if (STRONG_TITLE_KEYWORDS.some((term) => titleLower.includes(term))) score += 15;
+  if (STRONG_TITLE_KEYWORDS.some((term) => titleLower.includes(term)))
+    score += 15;
   const age = daysOld(job.postedAt);
   if (age <= 1) score += 15;
   else if (age <= 3) score += 10;
@@ -466,7 +473,11 @@ async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
       location: job.location?.display_name,
       postedAt: job.created,
       description: job.description,
-      salaryRange: formatSalaryRange(job.salary_min, job.salary_max, "Per Year"),
+      salaryRange: formatSalaryRange(
+        job.salary_min,
+        job.salary_max,
+        "Per Year",
+      ),
       yearsRequired: extractYearsRequired(job.description),
       workArrangement: extractWorkArrangement(job.description),
     }));
@@ -545,7 +556,9 @@ function stripCdata(text: string): string {
 }
 
 function extractXmlTag(itemXml: string, tag: string): string | undefined {
-  const match = itemXml.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"));
+  const match = itemXml.match(
+    new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"),
+  );
   if (!match) return undefined;
   const value = decodeXmlEntities(stripCdata(match[1]));
   return value || undefined;
@@ -581,10 +594,16 @@ async function fetchStatherosJobs(): Promise<JobPosting[]> {
   return blocks
     .map((block) => {
       const hrefMatch = block.match(/href="(\/jobs\/[^"]+)"/);
-      const titleMatch = block.match(/<div class="job-title">([\s\S]*?)<\/div>/);
-      const descMatch = block.match(/<div\s+class="job-desc text">([\s\S]*?)<\/div>/);
+      const titleMatch = block.match(
+        /<div class="job-title">([\s\S]*?)<\/div>/,
+      );
+      const descMatch = block.match(
+        /<div\s+class="job-desc text">([\s\S]*?)<\/div>/,
+      );
       const locationMatch = block.match(/data-portal-location="([^"]*)"/);
-      const remoteMatch = block.match(/data-portal-remote-location=(true|false)/);
+      const remoteMatch = block.match(
+        /data-portal-remote-location=(true|false)/,
+      );
       const href = hrefMatch ? hrefMatch[1] : "";
       const title = titleMatch ? titleMatch[1].trim() : "";
       const description = descMatch
@@ -668,7 +687,10 @@ async function fetchResumeFiles(): Promise<Map<string, string>> {
   return new Map(entries);
 }
 
-async function commitTemplateDraft(slug: string, content: string): Promise<void> {
+async function commitTemplateDraft(
+  slug: string,
+  content: string,
+): Promise<void> {
   await githubApi(`template-drafts/${slug}.md`, {
     method: "PUT",
     body: JSON.stringify({
@@ -679,14 +701,65 @@ async function commitTemplateDraft(slug: string, content: string): Promise<void>
 }
 
 const STOP_WORDS = new Set([
-  "and", "the", "for", "with", "via", "using", "used", "use", "level",
-  "one", "two", "some", "any", "not", "but", "also", "into", "from", "this",
-  "experience", "exposure", "project", "projects", "confirmed", "context",
-  "years", "year", "production", "personal", "record", "scope", "depth",
-  "worth", "prior", "etc", "beyond", "flagged", "review", "mark",
-  "your", "answer", "delete", "question", "comfortable", "writing", "directly",
-  "mostly", "mediated", "distinct", "familiarity", "you", "our", "team",
-  "role", "work", "will", "have", "are", "that",
+  "and",
+  "the",
+  "for",
+  "with",
+  "via",
+  "using",
+  "used",
+  "use",
+  "level",
+  "one",
+  "two",
+  "some",
+  "any",
+  "not",
+  "but",
+  "also",
+  "into",
+  "from",
+  "this",
+  "experience",
+  "exposure",
+  "project",
+  "projects",
+  "confirmed",
+  "context",
+  "years",
+  "year",
+  "production",
+  "personal",
+  "record",
+  "scope",
+  "depth",
+  "worth",
+  "prior",
+  "etc",
+  "beyond",
+  "flagged",
+  "review",
+  "mark",
+  "your",
+  "answer",
+  "delete",
+  "question",
+  "comfortable",
+  "writing",
+  "directly",
+  "mostly",
+  "mediated",
+  "distinct",
+  "familiarity",
+  "you",
+  "our",
+  "team",
+  "role",
+  "work",
+  "will",
+  "have",
+  "are",
+  "that",
 ]);
 
 function significantWords(text: string): Set<string> {
@@ -695,7 +768,17 @@ function significantWords(text: string): Set<string> {
     .replace(/[^a-z0-9#+\s]/g, " ")
     .split(/\s+/)
     .filter((w) => w.length > 0);
-  const shortAllowlist = new Set(["ai", "js", "ts", "db", "ui", "ux", "ci", "cd", "r2"]);
+  const shortAllowlist = new Set([
+    "ai",
+    "js",
+    "ts",
+    "db",
+    "ui",
+    "ux",
+    "ci",
+    "cd",
+    "r2",
+  ]);
   return new Set(
     words.filter(
       (w) => (w.length > 2 || shortAllowlist.has(w)) && !STOP_WORDS.has(w),
@@ -810,8 +893,8 @@ function resolveProvider(
   fallbackModel: string,
 ): AiProviderConfig {
   const format =
-    (process.env[`${tier}_PROVIDER_FORMAT`] as "anthropic" | "openai" | undefined) ??
-    "anthropic";
+    (process.env[`${tier}_PROVIDER_FORMAT`] as
+      "anthropic" | "openai" | undefined) ?? "anthropic";
   const defaultBaseUrl =
     format === "anthropic"
       ? "https://api.anthropic.com/v1/messages"
@@ -1210,7 +1293,9 @@ async function main() {
     recordAlerts(immediateJobs);
   } else {
     console.log(
-      isFirstRun ? "First run, baselining current jobs" : "No new immediate jobs",
+      isFirstRun
+        ? "First run, baselining current jobs"
+        : "No new immediate jobs",
     );
   }
 
