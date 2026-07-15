@@ -57,6 +57,12 @@ describe("fetchAdzunaJobs", () => {
     const jobs = await fetchAdzunaJobs("SDET");
     expect(jobs[0].salaryRange).toBeUndefined();
   });
+
+  it("returns an empty array rather than throwing when the response has no results field", async () => {
+    mockFetch({});
+    const jobs = await fetchAdzunaJobs("SDET");
+    expect(jobs).toEqual([]);
+  });
 });
 
 describe("fetchAllAdzunaJobs", () => {

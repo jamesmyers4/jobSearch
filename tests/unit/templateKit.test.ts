@@ -74,9 +74,9 @@ Docker and Ansible are mentioned here but outside the Master Skill Inventory sec
     expect(terms.has("ansible")).toBe(false);
   });
 
-  it("leaks the literal word 'unconfirmed' into the result — a real artifact of the heading text itself passing through significantWords", () => {
+  it("does not include the literal word 'unconfirmed' from the section's own heading", () => {
     const terms = extractUnconfirmedTerms(contextMd);
-    expect(terms.has("unconfirmed")).toBe(true);
+    expect(terms.has("unconfirmed")).toBe(false);
   });
 
   it("returns an empty set when there's no Master Skill Inventory section at all", () => {

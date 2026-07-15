@@ -57,7 +57,13 @@ describe("fetchRemoteOKJobs", () => {
     });
   });
 
-  it("falls back to epoch when date is absent", async () => {
+  it("falls back to epoch when date is absent, converting Unix seconds to milliseconds", async () => {
+    // job.epoch is Unix seconds; daysOld/daysAgoLabel call `new Date(n)`,
+    // which always treats a numeric argument as milliseconds. Passing the
+    // raw seconds value through would land the computed date near 1970 and
+    // silently drop the posting as stale. Converting at this call site keeps
+    // daysOld/daysAgoLabel themselves untouched, since every other source
+    // already passes a proper ISO date string through them.
     mockFetch([
       {
         id: "888888",
@@ -68,6 +74,12 @@ describe("fetchRemoteOKJobs", () => {
       },
     ]);
     const jobs = await fetchRemoteOKJobs();
-    expect(jobs[0].postedAt).toBe(1783991631);
+    expect(jobs[0].postedAt).toBe(1783991631000);
+  });
+
+  it("returns an empty array rather than throwing when RemoteOK returns a non-array error object (e.g. rate limiting)", async () => {
+    mockFetch({ error: "Too many requests" });
+    const jobs = await fetchRemoteOKJobs();
+    expect(jobs).toEqual([]);
   });
 });

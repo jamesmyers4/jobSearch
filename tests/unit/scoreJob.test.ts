@@ -57,4 +57,10 @@ describe("scoreJob", () => {
     });
     expect(scoreJob(withKeywords)).toBeGreaterThan(scoreJob(withoutKeywords));
   });
+
+  it("falls back to a zero base score for a key prefix not in SOURCE_WEIGHT", () => {
+    const job = makeJob({ key: "unknownsource:1", postedAt: new Date().toISOString() });
+    expect(scoreJob(job)).toBeGreaterThanOrEqual(0);
+    expect(scoreJob(job)).toBeLessThan(scoreJob({ ...job, key: "tn:1" }));
+  });
 });

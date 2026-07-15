@@ -312,15 +312,6 @@ export function draftHeader(job: JobPosting): string {
   return lines.join("\n");
 }
 
-export function stripHtml(html: string): string {
-  return html
-    .replace(/<[^>]*>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
 export function daysOld(postedAt?: string | number): number {
   if (postedAt === undefined) return Infinity;
   const posted = new Date(postedAt);
@@ -332,14 +323,16 @@ export async function fetchTherapyNotesJobs(): Promise<JobPosting[]> {
   const response = await fetch(THERAPYNOTES_URL);
   const data = await response.json();
   const jobs = data.jobs ?? [];
-  return jobs.map((job: any) => ({
-    key: `tn:${job.shortcode}`,
-    title: job.title,
-    url: job.url,
-    company: "TherapyNotes",
-    location: job.location?.location_str,
-    postedAt: job.published_on ?? job.created_at,
-  }));
+  return jobs
+    .filter((job: any) => matchesAnyTitle(job.title))
+    .map((job: any) => ({
+      key: `tn:${job.shortcode}`,
+      title: job.title,
+      url: job.url,
+      company: "TherapyNotes",
+      location: [job.city, job.state].filter(Boolean).join(", ") || job.country || undefined,
+      postedAt: job.published_on ?? job.created_at,
+    }));
 }
 
 export async function fetchTitleSearchJobs(
@@ -356,9 +349,13 @@ export async function fetchTitleSearchJobs(
       key: `wk:${job.uuid ?? job.id}`,
       title: job.title,
       url: job.url ?? job.shortlink,
-      company: job.company?.name ?? job.companyName,
-      location: job.location?.location_str ?? job.location,
-      postedAt: job.updatedAt,
+      company: job.company?.title ?? job.companyName,
+      location: job.location
+        ? [job.location.city, job.location.subregion, job.location.countryName]
+            .filter(Boolean)
+            .join(", ") || undefined
+        : undefined,
+      postedAt: job.updated ?? job.updatedAt,
     }));
 }
 
@@ -367,6 +364,22 @@ export async function fetchAllTitleSearchJobs(): Promise<JobPosting[]> {
   const merged = results.flat();
   const deduped = new Map(merged.map((job) => [job.key, job]));
   return [...deduped.values()];
+}
+
+// Greenhouse's public API returns job.content as HTML markup that is itself
+// HTML-entity-encoded (e.g. a literal "<p>" tag arrives as the text
+// "&lt;p&gt;"), confirmed against a real live capture — so the entities have
+// to be decoded before tag-stripping can find any tags to strip.
+function stripGreenhouseContent(html: string): string {
+  const decoded = html
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+  return decoded
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export async function fetchGreenhouseJobs(
@@ -379,14 +392,22 @@ export async function fetchGreenhouseJobs(
   const jobs = data.jobs ?? [];
   return jobs
     .filter((job: any) => matchesAnyTitle(job.title))
-    .map((job: any) => ({
-      key: `gh:${company}:${job.id}`,
-      title: job.title,
-      url: job.absolute_url,
-      company,
-      location: job.location?.name,
-      postedAt: job.updated_at,
-    }));
+    .map((job: any) => {
+      const description = job.content
+        ? stripGreenhouseContent(job.content)
+        : undefined;
+      return {
+        key: `gh:${company}:${job.id}`,
+        title: job.title,
+        url: job.absolute_url,
+        company,
+        location: job.location?.name,
+        postedAt: job.updated_at,
+        description,
+        yearsRequired: extractYearsRequired(description),
+        workArrangement: extractWorkArrangement(description),
+      };
+    });
 }
 
 export async function fetchAllGreenhouseJobs(): Promise<JobPosting[]> {
@@ -434,6 +455,17 @@ export async function fetchAshbyJobs(company: string): Promise<JobPosting[]> {
       company,
       location: job.location ?? job.locationName,
       postedAt: job.publishedAt,
+      workArrangement: job.workplaceType
+        ? job.workplaceType.toLowerCase().includes("remote")
+          ? "remote"
+          : job.workplaceType.toLowerCase().includes("hybrid")
+            ? "hybrid"
+            : "onsite"
+        : job.isRemote === true
+          ? "remote"
+          : job.isRemote === false
+            ? "onsite"
+            : undefined,
     }));
 }
 
@@ -445,7 +477,8 @@ export async function fetchAllAshbyJobs(): Promise<JobPosting[]> {
 export async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
   const response = await fetch(REMOTEOK_URL);
   const data = await response.json();
-  const jobs = data.filter((item: any) => item.id && item.position);
+  const rawJobs = Array.isArray(data) ? data : [];
+  const jobs = rawJobs.filter((item: any) => item.id && item.position);
   return jobs
     .filter((job: any) => matchesAnyTitle(job.position))
     .map((job: any) => ({
@@ -454,7 +487,7 @@ export async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
       url: job.url,
       company: job.company,
       location: job.location,
-      postedAt: job.date ?? job.epoch,
+      postedAt: job.date ?? (typeof job.epoch === "number" ? job.epoch * 1000 : undefined),
     }));
 }
 
@@ -531,7 +564,7 @@ export async function fetchUSAJobs(keyword: string): Promise<JobPosting[]> {
         salaryRange: formatSalaryRange(
           remuneration ? parseFloat(remuneration.MinimumRange) : undefined,
           remuneration ? parseFloat(remuneration.MaximumRange) : undefined,
-          remuneration?.RateIntervalCode,
+          remuneration?.Description,
         ),
         yearsRequired: extractYearsRequired(description),
         workArrangement: extractWorkArrangement(description),
@@ -833,7 +866,8 @@ export function extractUnconfirmedTerms(contextMd: string): Set<string> {
   );
   const unconfirmedText = unconfirmedMatch ? unconfirmedMatch[0] : "";
   const confirmedText = section.replace(unconfirmedText, "");
-  const unconfirmedWords = significantWords(unconfirmedText);
+  const unconfirmedBody = unconfirmedText.replace(/^###\s*Unconfirmed\s*/i, "");
+  const unconfirmedWords = significantWords(unconfirmedBody);
   const confirmedWords = significantWords(confirmedText);
   return new Set([...unconfirmedWords].filter((w) => !confirmedWords.has(w)));
 }

@@ -2,13 +2,14 @@
 
 ## Where things stand right now
 
-The test suite scaffolding is built and verified: Vitest + Playwright installed, `check-jobs.ts` refactored to be safely importable (main() guarded, everything exported, email HTML-building separated from sending), five test layers structured with one real, passing example each, and real fixture data captured from actual sources rather than invented. See `TESTING.md` for the full layer-by-layer status and `CONTEXT.md` for the reasoning and gotchas behind each decision. 11 of the 12 example tests were actually executed and confirmed passing during scaffolding; the one Playwright spec typechecks and its data was verified correct via a standalone script, but couldn't be executed in the sandbox that built it (no network access to `cdn.playwright.dev`) — running it for real is the first thing to do next.
+The test suite has full coverage across all five layers, including a full `main()`-level integration test, a dedicated `AI_PIPELINE_ENABLED=true` integration test, and a genuine fault-injection test proving `safely()`/`safelyValue()`/`safelyRun()` contain a real rejected fetch. `check-jobs.ts` is safely importable (main() guarded, everything exported, email HTML-building separated from sending). See `TESTING.md` for the full layer-by-layer status (198 Vitest tests / 35 files, 5 Playwright tests / 2 files, 99.07% statement / 89.03% branch / 100% function coverage on `check-jobs.ts`) and `CONTEXT.md` for the reasoning and gotchas behind each decision.
+
+This round (2026-07-15) fixed all four real-data bugs `LASTRUN.md` had flagged but deliberately left unfixed (TherapyNotes title filter + location, Workable company/location/postedAt, RemoteOK epoch/ms, USAJOBS salary suffix), plus a fifth found during the same pass (`extractUnconfirmedTerms` leaking "unconfirmed"), removed the dead `stripHtml` export, closed the Greenhouse `content` gap with a real live capture, and closed both coverage gaps `TESTING.md` had flagged (`AI_PIPELINE_ENABLED=true`, the resilience/fault-injection layer). The test-first rule was followed for every fix — see `TESTING.md`'s "Real quirks discovered" section for what each one actually does.
 
 ## Immediate next steps, in order
 
-1. **Run `npx playwright install chromium && npm run test:email`** to confirm the one untested file actually works. Everything else in the scaffolding has already been proven to run.
-2. **Work through `TESTING.md`'s Roadmap section**, layer by layer. Suggested order: fetcher tests for Adzuna and Quarterhill first (fixtures already exist, fastest wins), then the rest of the unit layer, then the remaining fetchers, then state layer, then the full `main()`-level integration test last (biggest lift, most value once everything under it is solid).
-3. **From here forward: every change to `check-jobs.ts` gets a test written as part of the change, not after.** This is a hard rule going forward, not a suggestion — see `CONTEXT.md`'s Workflow section.
+1. **From here forward: every change to `check-jobs.ts` gets a test written as part of the change, not after.** This is a hard rule going forward, not a suggestion — see `CONTEXT.md`'s Workflow section.
+2. Nothing else is currently queued as a "next step" for the test suite itself — see "Open items" below for what's genuinely still open, none of which is testing-scaffolding work.
 
 ## Open items and things worth a real discussion — full list, not just testing
 
@@ -21,9 +22,7 @@ These have come up across the whole engagement and are worth deciding on, not ju
 
 **jobSearch, bigger/deferred by choice:**
 
-- Resilience/fault-injection test layer (the k6 reframe) — deferred this round. Revisit if a real fetcher failure ever causes a problem in production that a test like this would have caught.
 - SMS/push notifications — needs an actual provider decision (Twilio-type), not just code. Been on the list a while, never blocking, never picked up.
-- A true `main()`-level integration test (all 11 sources + Resend + GitHub API mocked at once) — real, valuable, but big. Planned as the last item in the test roadmap for a reason.
 - Statheros is the most fragile source in the pipeline — HTML-structure-dependent rather than API/RSS-backed. Not broken, just worth knowing where to look first if it ever silently starts returning zero jobs.
 
 **Cucumber/BDD** — considered seriously, declined with real reasoning (see `TESTING.md`), not a "maybe later," genuinely not planned unless a specific case emerges where it'd add something a Vitest test can't.

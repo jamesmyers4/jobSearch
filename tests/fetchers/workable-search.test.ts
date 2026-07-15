@@ -18,17 +18,12 @@ afterEach(() => {
 });
 
 describe("fetchTitleSearchJobs", () => {
-  it("maps matching real postings, exposing two real field-mapping quirks", async () => {
-    // Real jobs.workable.com response shape differs from what fetchTitleSearchJobs
-    // expects in two ways that are worth locking down rather than losing track of:
-    //   1. job.company is { id, title, website } — there's no job.company.name or
-    //      top-level job.companyName, so `company` maps to undefined for every
-    //      real Workable cross-search result as currently written.
-    //   2. job.location is { city, subregion, countryName } with no location_str
-    //      field, so `job.location?.location_str ?? job.location` falls through
-    //      to the whole object, not a string.
-    // Also job.updatedAt doesn't exist on the real payload (it's "updated"),
-    // so postedAt is always undefined for this source today.
+  it("maps company, location, and postedAt correctly from the real jobs.workable.com shape", async () => {
+    // job.company is { id, title, website } — company comes from .title, not
+    // .name. job.location is { city, subregion, countryName } with no
+    // location_str field, so it's built into a joined string instead of
+    // passed through as an object. The real timestamp field is "updated",
+    // not "updatedAt".
     mockFetch(realResponse);
     const jobs = await fetchTitleSearchJobs("SDET");
     expect(jobs).toHaveLength(2);
@@ -36,13 +31,23 @@ describe("fetchTitleSearchJobs", () => {
       key: "wk:897a7a1f-93ec-42d8-901a-5bd3a29aee51",
       title: "Software Development Engineer in Test (SDET)",
       url: "https://jobs.workable.com/view/hYCFFefUaYqF8rSwJz2ojM/software-development-engineer-in-test-(sdet)-in-hyderabad-at-accellor",
-      company: undefined,
-      postedAt: undefined,
+      company: "Accellor",
+      location: "Hyderabad, Telangana, India",
+      postedAt: "2026-04-13T07:08:13.046Z",
     });
-    expect(jobs[0].location).toEqual({
-      city: "Hyderabad",
-      subregion: "Telangana",
-      countryName: "India",
+  });
+
+  it("skips empty/null location parts cleanly instead of producing stray separators (real fixture's second job)", async () => {
+    // The second real fixture job has location.city: "" and
+    // location.subregion: null — confirm those get filtered out rather than
+    // producing ", , Peru" or similar.
+    mockFetch(realResponse);
+    const jobs = await fetchTitleSearchJobs("SDET");
+    expect(jobs[1]).toMatchObject({
+      key: "wk:385b77ee-3146-45f6-8154-a1c584a63962",
+      company: "OrderMesh",
+      location: "Peru",
+      postedAt: "2026-07-07T00:17:31.657Z",
     });
   });
 
@@ -79,6 +84,29 @@ describe("fetchTitleSearchJobs", () => {
     const jobs = await fetchTitleSearchJobs("QA");
     expect(jobs[0].key).toBe("wk:fallback-uuid");
     expect(jobs[0].url).toBe("https://jobs.workable.com/view/fallback");
+    expect(jobs[0].company).toBe("Fallback Co");
+    expect(jobs[0].location).toBe("Remote, United States");
+  });
+
+  it("falls back to data.results when data.jobs is absent", async () => {
+    mockFetch({
+      results: [
+        {
+          id: "results-fallback",
+          title: "SDET",
+          url: "https://jobs.workable.com/view/results-fallback",
+          location: { city: "Remote" },
+        },
+      ],
+    });
+    const jobs = await fetchTitleSearchJobs("SDET");
+    expect(jobs[0].key).toBe("wk:results-fallback");
+  });
+
+  it("returns an empty array rather than throwing when neither jobs nor results is present", async () => {
+    mockFetch({});
+    const jobs = await fetchTitleSearchJobs("SDET");
+    expect(jobs).toEqual([]);
   });
 });
 

@@ -53,7 +53,98 @@ describe("fetchAshbyJobs", () => {
       company: "QAWolf",
       location: "United States",
       postedAt: "2026-07-01T00:00:00.000-04:00",
+      workArrangement: "remote",
     });
+  });
+
+  it("maps workplaceType 'Onsite' to onsite even when isRemote is absent", async () => {
+    mockFetch({
+      jobs: [
+        {
+          id: "id-onsite",
+          title: "SDET",
+          location: "Cookeville, TN",
+          publishedAt: "2026-07-01T00:00:00.000-04:00",
+          workplaceType: "Onsite",
+          jobUrl: "https://jobs.ashbyhq.com/QAWolf/id-onsite",
+        },
+      ],
+    });
+    const jobs = await fetchAshbyJobs("QAWolf");
+    expect(jobs[0].workArrangement).toBe("onsite");
+  });
+
+  it("falls back to the isRemote boolean when workplaceType is absent", async () => {
+    mockFetch({
+      jobs: [
+        {
+          id: "id-remote-bool",
+          title: "SDET",
+          location: "Remote",
+          publishedAt: "2026-07-01T00:00:00.000-04:00",
+          isRemote: true,
+          jobUrl: "https://jobs.ashbyhq.com/QAWolf/id-remote-bool",
+        },
+      ],
+    });
+    const jobs = await fetchAshbyJobs("QAWolf");
+    expect(jobs[0].workArrangement).toBe("remote");
+  });
+
+  it("maps workplaceType containing 'Hybrid' to hybrid", async () => {
+    mockFetch({
+      jobs: [
+        {
+          id: "id-hybrid",
+          title: "SDET",
+          location: "Cookeville, TN",
+          publishedAt: "2026-07-01T00:00:00.000-04:00",
+          workplaceType: "Hybrid",
+          jobUrl: "https://jobs.ashbyhq.com/QAWolf/id-hybrid",
+        },
+      ],
+    });
+    const jobs = await fetchAshbyJobs("QAWolf");
+    expect(jobs[0].workArrangement).toBe("hybrid");
+  });
+
+  it("falls back to onsite when isRemote is explicitly false and workplaceType is absent", async () => {
+    mockFetch({
+      jobs: [
+        {
+          id: "id-remote-false",
+          title: "SDET",
+          location: "Cookeville, TN",
+          publishedAt: "2026-07-01T00:00:00.000-04:00",
+          isRemote: false,
+          jobUrl: "https://jobs.ashbyhq.com/QAWolf/id-remote-false",
+        },
+      ],
+    });
+    const jobs = await fetchAshbyJobs("QAWolf");
+    expect(jobs[0].workArrangement).toBe("onsite");
+  });
+
+  it("leaves workArrangement undefined when neither workplaceType nor isRemote is present", async () => {
+    mockFetch({
+      jobs: [
+        {
+          id: "id-unknown",
+          title: "SDET",
+          location: "Remote",
+          publishedAt: "2026-07-01T00:00:00.000-04:00",
+          jobUrl: "https://jobs.ashbyhq.com/QAWolf/id-unknown",
+        },
+      ],
+    });
+    const jobs = await fetchAshbyJobs("QAWolf");
+    expect(jobs[0].workArrangement).toBeUndefined();
+  });
+
+  it("returns an empty array rather than throwing when the response has no jobs field", async () => {
+    mockFetch({});
+    const jobs = await fetchAshbyJobs("QAWolf");
+    expect(jobs).toEqual([]);
   });
 
   it("falls back to applyUrl when jobUrl is absent", async () => {

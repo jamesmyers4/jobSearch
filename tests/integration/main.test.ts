@@ -45,8 +45,8 @@ Kubernetes exposure, but not confirmed production experience.
 
 const RESUME_CONTENT = "Extensive experience with Playwright, TypeScript, Selenium, and REST API test automation.";
 
-function makeFetchRouter() {
-  return vi.fn(async (url: string, options: any = {}) => {
+function makeFetchRouter(options: { failAdzuna?: boolean } = {}) {
+  return vi.fn(async (url: string, fetchOptions: any = {}) => {
     if (url.includes("apply.workable.com/api/v1/widget/accounts/therapynotes")) {
       return jsonResponse({
         jobs: [
@@ -66,6 +66,7 @@ function makeFetchRouter() {
     if (url.includes("api.lever.co")) return jsonResponse([]);
     if (url.includes("api.ashbyhq.com")) return jsonResponse({ jobs: [] });
     if (url.includes("api.adzuna.com")) {
+      if (options.failAdzuna) throw new Error("simulated Adzuna network failure");
       return jsonResponse({
         results: [
           {
@@ -91,7 +92,7 @@ function makeFetchRouter() {
     if (url.endsWith("/contents/resumes")) return jsonResponse([{ name: "resume1.md", type: "file" }]);
     if (url.includes("/contents/template-drafts/")) return jsonResponse({ content: {} });
     if (url.includes("api.resend.com")) return jsonResponse({ id: "mock-email-id" });
-    throw new Error(`Unmocked URL in main() integration test: ${options.method ?? "GET"} ${url}`);
+    throw new Error(`Unmocked URL in main() integration test: ${fetchOptions.method ?? "GET"} ${url}`);
   });
 }
 
@@ -217,5 +218,40 @@ describe("main()", () => {
     expect(Object.keys(tracker)).toEqual(
       expect.arrayContaining(["tn:NEW-TN-1", "az:OLD-QUEUED-1", "az:NEW-AZ-1"]),
     );
+  });
+
+  it("contains a single source's rejected fetch call rather than crashing the whole run, and still alerts on the other sources' postings", async () => {
+    // Every mocked source in every other test in this suite resolves
+    // successfully — nothing has ever actually thrown into safely()/
+    // safelyValue()/safelyRun() to prove they contain a failure rather than
+    // letting it crash main() entirely. Adzuna's fetch call is made to
+    // reject here while all 10 other sources continue to resolve normally.
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const fetchMock = makeFetchRouter({ failAdzuna: true });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(main()).resolves.toBeUndefined();
+
+    // The immediate alert (TherapyNotes) still goes out even though Adzuna's
+    // fetch rejected.
+    const resendCalls = fetchMock.mock.calls.filter(([url]) => String(url).includes("api.resend.com"));
+    expect(resendCalls).toHaveLength(1);
+    const alertBody = JSON.parse(resendCalls[0][1].body);
+    expect(alertBody.html).toContain("Remote Senior SDET");
+
+    // seen-jobs.json only records the TherapyNotes posting — the Adzuna
+    // posting was never fetched at all, so it was never seen this run.
+    const seen = JSON.parse(readFileSync("seen-jobs.json", "utf-8"));
+    expect(seen).toEqual(expect.arrayContaining(["some-other-key-already-seen", "tn:NEW-TN-1"]));
+    expect(seen).not.toContain("az:NEW-AZ-1");
+
+    // safely() logged the failure under Adzuna's label rather than
+    // swallowing it silently.
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Adzuna failed:",
+      expect.objectContaining({ message: "simulated Adzuna network failure" }),
+    );
+
+    consoleErrorSpy.mockRestore();
   });
 });

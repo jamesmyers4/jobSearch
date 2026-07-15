@@ -22,16 +22,15 @@ describe("daysOld", () => {
     expect(daysOld(daysAgo(5))).toBe(5);
   });
 
-  it("misinterprets a RemoteOK-style epoch-seconds postedAt as milliseconds, producing a huge day count instead of the real one", () => {
-    // fetchRemoteOKJobs falls back to `job.epoch` (Unix seconds, e.g. the real
-    // captured value 1783991631) when `job.date` is absent. `new Date(n)`
-    // always treats a numeric argument as milliseconds, so this lands near
-    // the 1970 epoch instead of 2026 — daysOld comes back enormous rather
-    // than the ~0 days old the posting actually is. Documenting this real
-    // quirk rather than silently "fixing" it here.
-    const epochSecondsToday = Math.floor(Date.now() / 1000);
-    const result = daysOld(epochSecondsToday);
-    expect(result).toBeGreaterThan(1000);
+  it("still treats a bare numeric postedAt as milliseconds (fetchRemoteOKJobs converts epoch-seconds to ms before this is ever called)", () => {
+    // daysOld itself always treats a numeric argument as milliseconds via
+    // `new Date(n)` — that's unchanged, since every other source already
+    // passes a proper ISO date string through it. The fix for RemoteOK's
+    // Unix-seconds `job.epoch` fallback lives at the fetchRemoteOKJobs call
+    // site instead (see tests/fetchers/remoteok.test.ts), converting to
+    // milliseconds before it ever reaches daysOld/daysAgoLabel.
+    const msToday = Date.now();
+    expect(daysOld(msToday)).toBe(0);
   });
 });
 

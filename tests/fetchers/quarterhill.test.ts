@@ -78,4 +78,10 @@ describe("fetchQuarterhillJobs", () => {
     expect(jobs[0].url).toBe("https://careers-quarterhill.icims.com/jobs/9002/login");
     expect(jobs[0].salaryRange).toBeUndefined();
   });
+
+  it("returns an empty array rather than throwing when the response has no jobs field", async () => {
+    mockFetch({});
+    const jobs = await fetchQuarterhillJobs();
+    expect(jobs).toEqual([]);
+  });
 });
