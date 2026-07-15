@@ -1,0 +1,52 @@
+{
+  "SearchResult": {
+    "SearchResultItems": [
+      {
+        "MatchedObjectDescriptor": {
+          "PositionTitle": "Test Automation Engineer",
+          "PositionID": "SSA12879403-26-DHA-CIO",
+          "OrganizationName": "Social Security Administration",
+          "PositionLocationDisplay": "Woodlawn, Maryland",
+          "PositionURI": "https://www.usajobs.gov:443/job/856707700",
+          "PublicationStartDate": "2026-02-06T00:00:00",
+          "PositionRemuneration": [
+            {
+              "MinimumRange": "143913",
+              "MaximumRange": "197200",
+              "RateIntervalCode": "PA",
+              "Description": "Per Year"
+            }
+          ],
+          "UserArea": {
+            "Details": {
+              "JobSummary": "IT Specialist (APPSW) Test Automation Engineer position(s) are being filled through the Office of Personnel Management's delegated Direct Hire Authority, open to all U.S. citizens. Requires 3+ years of experience in test automation."
+            }
+          }
+        }
+      },
+      {
+        "MatchedObjectDescriptor": {
+          "PositionTitle": "Public Safety Telecommunicator (Office Automation)",
+          "PositionID": "MCFU-26-13000251 - DHA",
+          "OrganizationName": "United States Army Installation Management Command",
+          "PositionLocationDisplay": "Yuma Proving Ground, Arizona",
+          "PositionURI": "https://www.usajobs.gov:443/job/875880100",
+          "PublicationStartDate": "2026-07-09T10:23:26.323",
+          "PositionRemuneration": [
+            {
+              "MinimumRange": "22.87",
+              "MaximumRange": "26.68",
+              "RateIntervalCode": "PH",
+              "Description": "Per Hour"
+            }
+          ],
+          "UserArea": {
+            "Details": {
+              "JobSummary": "Dispatches emergency and non-emergency calls for service."
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1099,7 +1099,10 @@ export function saveDigestState(state: DigestState) {
   writeFileSync(DIGEST_STATE_PATH, JSON.stringify(state, null, 2));
 }
 
-export async function sendDigestEmail(jobs: JobPosting[]) {
+export function buildDigestEmailHtml(jobs: JobPosting[]): {
+  subject: string;
+  html: string;
+} {
   const sorted = [...jobs].sort((a, b) => scoreJob(b) - scoreJob(a));
   const listHtml = sorted
     .map((job) => {
@@ -1112,11 +1115,19 @@ export async function sendDigestEmail(jobs: JobPosting[]) {
     })
     .join("");
   const jobWord = jobs.length === 1 ? "job posting" : "job postings";
+  return {
+    subject: `Daily digest: ${jobs.length} RemoteOK/Adzuna ${jobWord}`,
+    html: `<p>Lower-confidence postings from the last day, batched instead of real-time.</p><ul>${listHtml}</ul>`,
+  };
+}
+
+async function sendDigestEmail(jobs: JobPosting[]) {
+  const { subject, html } = buildDigestEmailHtml(jobs);
   await resend.emails.send({
     from: process.env.FROM_EMAIL as string,
     to: process.env.TO_EMAIL as string,
-    subject: `Daily digest: ${jobs.length} RemoteOK/Adzuna ${jobWord}`,
-    html: `<p>Lower-confidence postings from the last day, batched instead of real-time.</p><ul>${listHtml}</ul>`,
+    subject,
+    html,
   });
 }
 
@@ -1138,10 +1149,10 @@ export function sourceLabel(key: string): string {
   return labels[prefix] ?? prefix;
 }
 
-export async function sendAlertEmail(
+export function buildAlertEmailHtml(
   newJobs: JobPosting[],
   drafts: Map<string, string>,
-) {
+): { subject: string; html: string } {
   const listHtml = newJobs
     .map((job) => {
       const status = historyStatus(job.company);
@@ -1168,6 +1179,17 @@ export async function sendAlertEmail(
     .map(([label, count]) => `${count} ${label}`)
     .join(", ");
   const summary = `<p>${newJobs.length} new remote ${jobWord} (${breakdown})${drafts.size > 0 ? ` — ${drafts.size} ${draftWord} attached` : ""}.</p>`;
+  return {
+    subject: `${newJobs.length} new ${jobWord} found`,
+    html: `${summary}<ul>${listHtml}</ul>`,
+  };
+}
+
+async function sendAlertEmail(
+  newJobs: JobPosting[],
+  drafts: Map<string, string>,
+) {
+  const { subject, html } = buildAlertEmailHtml(newJobs, drafts);
   const attachments = newJobs
     .filter((job) => drafts.has(job.key))
     .map((job) => ({
@@ -1177,8 +1199,8 @@ export async function sendAlertEmail(
   await resend.emails.send({
     from: process.env.FROM_EMAIL as string,
     to: process.env.TO_EMAIL as string,
-    subject: `${newJobs.length} new ${jobWord} found`,
-    html: `${summary}<ul>${listHtml}</ul>`,
+    subject,
+    html,
     attachments,
   });
 }

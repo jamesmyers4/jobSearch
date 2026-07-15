@@ -1,0 +1,29 @@
+{
+  "jobs": [
+    {
+      "id": "0de41761-2f0d-4c6d-8977-e81adf516cd9",
+      "title": "Commercial Account Executive, West ",
+      "department": "Sales",
+      "location": "United States",
+      "publishedAt": "2026-04-21T12:54:03.036-04:00",
+      "isListed": true,
+      "isRemote": true,
+      "workplaceType": "Remote",
+      "jobUrl": "https://jobs.ashbyhq.com/QAWolf/0de41761-2f0d-4c6d-8977-e81adf516cd9",
+      "applyUrl": "https://jobs.ashbyhq.com/QAWolf/0de41761-2f0d-4c6d-8977-e81adf516cd9/application"
+    },
+    {
+      "id": "b77af397-50b6-43cb-8537-c3c88a1a49c6",
+      "title": "Major Account Executive, West ",
+      "department": "Sales",
+      "location": "United States",
+      "publishedAt": "2026-04-21T13:23:02.614-04:00",
+      "isListed": true,
+      "isRemote": true,
+      "workplaceType": "Remote",
+      "jobUrl": "https://jobs.ashbyhq.com/QAWolf/b77af397-50b6-43cb-8537-c3c88a1a49c6",
+      "applyUrl": "https://jobs.ashbyhq.com/QAWolf/b77af397-50b6-43cb-8537-c3c88a1a49c6/application"
+    }
+  ],
+  "apiVersion": 2
+}
