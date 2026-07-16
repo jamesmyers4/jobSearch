@@ -1,3 +1,55 @@
 {
-  "Golden Pet Brands": "rejected"
+  "golden-pet-brands": {
+    "displayName": "Golden Pet Brands",
+    "aliases": ["Golden Pet Brands", "GPB", "goldenpetbrands"],
+    "applications": [
+      {
+        "role": "Lead SDET",
+        "appliedDate": "",
+        "source": "direct",
+        "stageReached": "hiring_manager_interview",
+        "outcome": "rejected",
+        "outcomeDate": "",
+        "contact": "Trish Huyler",
+        "signal": "positive_reapply_invited",
+        "notes": "Hiring manager interview with Anisha Zacharia went well. Rejected by Trish Huyler afterward, but told to keep an eye out for future openings and seemed open to further contact."
+      }
+    ],
+    "reapplyInvited": true,
+    "status": "active",
+    "statusReason": "Explicit invitation to reapply outweighs a single rejection. Would want a second unanswered application before this counts as a real signal either way.",
+    "lastUpdated": "2026-07-16"
+  },
+  "therapynotes": {
+    "displayName": "TherapyNotes",
+    "aliases": ["TherapyNotes", "TherapyNotes LLC", "therapynotes"],
+    "applications": [
+      {
+        "role": "QA Engineer",
+        "appliedDate": "",
+        "source": "direct",
+        "stageReached": "technical_interview",
+        "outcome": "rejected",
+        "outcomeDate": "",
+        "contact": "",
+        "signal": "possible_overqualified",
+        "notes": "Led the entire technical interview, interviewer didn't need to ask a single question and took notes on several things done well. Hiring manager mentioned they screen candidates for certain qualities. Suspect this read as overqualified for the role rather than a poor fit."
+      },
+      {
+        "role": "Senior QA Engineer",
+        "appliedDate": "",
+        "source": "direct",
+        "stageReached": "applied",
+        "outcome": "pending",
+        "outcomeDate": null,
+        "contact": "",
+        "signal": "unknown",
+        "notes": "Second application at the same company after the first rejection was ambiguous. This outcome will clarify whether the first rejection was role-specific or a broader pass on the company."
+      }
+    ],
+    "reapplyInvited": null,
+    "status": "active",
+    "statusReason": "First rejection reads as role-specific, not a hard pass. Waiting on the Senior QA Engineer outcome before drawing a conclusion.",
+    "lastUpdated": "2026-07-16"
+  }
 }

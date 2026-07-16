@@ -30,6 +30,57 @@ export interface DigestState {
   queue: JobPosting[];
 }
 
+export type ApplicationStage =
+  | "applied"
+  | "screen"
+  | "technical_interview"
+  | "hiring_manager_interview"
+  | "panel"
+  | "final_round"
+  | "offer";
+
+export type ApplicationOutcome =
+  | "pending"
+  | "rejected"
+  | "withdrawn"
+  | "offer_accepted"
+  | "offer_declined"
+  | "ghosted";
+
+export type CompanySignal =
+  | "neutral"
+  | "positive_reapply_invited"
+  | "possible_overqualified"
+  | "possible_underqualified"
+  | "explicit_decline_future_contact"
+  | "unknown";
+
+export type CompanyStatus = "active" | "caution" | "blocked";
+
+export interface ApplicationRecord {
+  role: string;
+  appliedDate: string;
+  source: string;
+  stageReached: ApplicationStage;
+  outcome: ApplicationOutcome;
+  outcomeDate: string | null;
+  contact: string | null;
+  signal: CompanySignal;
+  notes: string;
+}
+
+export interface CompanyHistoryEntry {
+  displayName: string;
+  aliases: string[];
+  applications: ApplicationRecord[];
+  reapplyInvited: boolean | null;
+  status: CompanyStatus;
+  statusReason: string;
+  lastUpdated: string;
+}
+
+export type CompanyHistory = Record<string, CompanyHistoryEntry>;
+
 const THERAPYNOTES_URL =
   "https://apply.workable.com/api/v1/widget/accounts/therapynotes";
 const SEARCH_URL = "https://jobs.workable.com/api/v1/jobs";
@@ -165,16 +216,17 @@ const AI_DRAFT_COMPANY_ALLOWLIST = ["TherapyNotes"];
 const MAX_DRAFTS_PER_RUN = 3;
 const COMPANY_HISTORY_PATH = "company-history.json";
 
-export function loadCompanyHistory(): Map<string, string> {
+export function loadCompanyHistory(): Map<string, CompanyHistoryEntry> {
   try {
     const raw = readFileSync(COMPANY_HISTORY_PATH, "utf-8");
-    const parsed = JSON.parse(raw) as Record<string, string>;
-    return new Map(
-      Object.entries(parsed).map(([name, status]) => [
-        name.toLowerCase(),
-        status,
-      ]),
-    );
+    const parsed = JSON.parse(raw) as CompanyHistory;
+    const map = new Map<string, CompanyHistoryEntry>();
+    for (const entry of Object.values(parsed)) {
+      for (const name of [entry.displayName, ...entry.aliases]) {
+        map.set(name.toLowerCase(), entry);
+      }
+    }
+    return map;
   } catch {
     return new Map();
   }
@@ -182,13 +234,17 @@ export function loadCompanyHistory(): Map<string, string> {
 
 const COMPANY_HISTORY = loadCompanyHistory();
 
-export function historyStatus(company?: string): string | undefined {
+export function historyStatus(company?: string): CompanyStatus | undefined {
   if (!company) return undefined;
   const lower = company.toLowerCase();
-  for (const [name, status] of COMPANY_HISTORY) {
-    if (lower.includes(name)) return status;
+  for (const [name, entry] of COMPANY_HISTORY) {
+    if (lower.includes(name)) return entry.status;
   }
   return undefined;
+}
+
+export function isBlockedCompany(job: JobPosting): boolean {
+  return historyStatus(job.company) === "blocked";
 }
 
 export function isRemoteJob(job: JobPosting): boolean {
@@ -242,7 +298,7 @@ export function scoreJob(job: JobPosting): number {
   for (const keyword of BOOST_KEYWORDS) {
     if (text.includes(keyword)) score += 3;
   }
-  if (historyStatus(job.company) === "rejected") score -= 20;
+  if (historyStatus(job.company) === "caution") score -= 20;
   return score;
 }
 
@@ -286,7 +342,8 @@ export function extractWorkArrangement(
 
 export function isAllowlistedCompany(job: JobPosting): boolean {
   if (!job.company) return false;
-  if (historyStatus(job.company) === "rejected") return false;
+  const status = historyStatus(job.company);
+  if (status === "caution" || status === "blocked") return false;
   const company = job.company.toLowerCase();
   return AI_DRAFT_COMPANY_ALLOWLIST.some((name) =>
     company.includes(name.toLowerCase()),
@@ -1361,7 +1418,8 @@ export async function main() {
       ...quarterhillJobs,
     ]
       .filter(isRemoteJob)
-      .filter(isFreshJob),
+      .filter(isFreshJob)
+      .filter((job) => !isBlockedCompany(job)),
   );
 
   const { seen, isFirstRun } = loadSeenJobs();

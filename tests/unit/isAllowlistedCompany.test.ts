@@ -1,5 +1,9 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { mkdtempSync, rmSync, writeFileSync } from "fs";
+import { tmpdir } from "os";
+import { join } from "path";
 import { isAllowlistedCompany, type JobPosting } from "../../check-jobs.ts";
+import type { CompanyHistory } from "../../check-jobs.ts";
 
 function makeJob(overrides: Partial<JobPosting>): JobPosting {
   return {
@@ -10,7 +14,7 @@ function makeJob(overrides: Partial<JobPosting>): JobPosting {
   };
 }
 
-describe("isAllowlistedCompany", () => {
+describe("isAllowlistedCompany (real repo data)", () => {
   it("returns true for a company name matching AI_DRAFT_COMPANY_ALLOWLIST", () => {
     const job = makeJob({ company: "TherapyNotes" });
     expect(isAllowlistedCompany(job)).toBe(true);
@@ -30,15 +34,68 @@ describe("isAllowlistedCompany", () => {
     const job = makeJob({ company: undefined });
     expect(isAllowlistedCompany(job)).toBe(false);
   });
+});
 
-  it("returns false for a rejected company even if hypothetically allowlisted", () => {
-    // company-history.json only marks "Golden Pet Brands" as rejected, and it's
-    // not in AI_DRAFT_COMPANY_ALLOWLIST — so the "allowlisted AND rejected"
-    // branch inside isAllowlistedCompany genuinely can't be exercised with real
-    // repo data today. This test instead confirms the allowlist check alone
-    // doesn't accidentally bypass the rejected-company check for a company
-    // that IS marked rejected, which is the safety property that matters most.
-    const job = makeJob({ company: "Golden Pet Brands" });
-    expect(isAllowlistedCompany(job)).toBe(false);
+// company-history.json currently has no "caution" or "blocked" entries — both
+// real companies in it are "active" (see historyStatus.test.ts for why). The
+// "caution"/"blocked" exclusion branches are exercised here against a
+// synthetic file in an isolated temp cwd + a fresh module import, since
+// COMPANY_HISTORY is only read once at import time. Mirrors the
+// vi.resetModules() + dynamic import pattern from
+// tests/integration/main-ai-pipeline.test.ts.
+describe("isAllowlistedCompany (synthetic caution/blocked data)", () => {
+  let tempDir: string;
+  let originalCwd: string;
+
+  beforeEach(() => {
+    originalCwd = process.cwd();
+    tempDir = mkdtempSync(join(tmpdir(), "jobsearch-allowlist-test-"));
+    process.chdir(tempDir);
+    vi.resetModules();
+  });
+
+  afterEach(() => {
+    process.chdir(originalCwd);
+    rmSync(tempDir, { recursive: true, force: true });
+    vi.resetModules();
+  });
+
+  it("returns false for an allowlisted company that's also flagged caution", async () => {
+    // TherapyNotes is the one real entry in AI_DRAFT_COMPANY_ALLOWLIST — this
+    // confirms a caution flag overrides the allowlist rather than being
+    // silently bypassed by it.
+    const history: CompanyHistory = {
+      therapynotes: {
+        displayName: "TherapyNotes",
+        aliases: [],
+        applications: [],
+        reapplyInvited: null,
+        status: "caution",
+        statusReason: "Test fixture.",
+        lastUpdated: "2026-07-16",
+      },
+    };
+    writeFileSync("company-history.json", JSON.stringify(history));
+    const fresh = await import("../../check-jobs.ts");
+    const job = makeJob({ company: "TherapyNotes" });
+    expect(fresh.isAllowlistedCompany(job)).toBe(false);
+  });
+
+  it("returns false for an allowlisted company that's also flagged blocked", async () => {
+    const history: CompanyHistory = {
+      therapynotes: {
+        displayName: "TherapyNotes",
+        aliases: [],
+        applications: [],
+        reapplyInvited: false,
+        status: "blocked",
+        statusReason: "Test fixture.",
+        lastUpdated: "2026-07-16",
+      },
+    };
+    writeFileSync("company-history.json", JSON.stringify(history));
+    const fresh = await import("../../check-jobs.ts");
+    const job = makeJob({ company: "TherapyNotes" });
+    expect(fresh.isAllowlistedCompany(job)).toBe(false);
   });
 });

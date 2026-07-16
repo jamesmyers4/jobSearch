@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { buildAlertEmailHtml, type JobPosting } from "../../check-jobs.ts";
+import { mkdtempSync, rmSync, writeFileSync } from "fs";
+import { tmpdir } from "os";
+import { join, resolve } from "path";
+import { pathToFileURL } from "url";
+import { buildAlertEmailHtml, type JobPosting, type CompanyHistory } from "../../check-jobs.ts";
 
 // This is the one place in the suite that touches a real browser — the email
 // HTML is the only genuinely visual artifact this headless script produces,
@@ -41,19 +45,48 @@ test("alert email renders fire tags, salary, and a template-draft link correctly
   await expect(jobLink).toHaveAttribute("href", "https://example.com/jobs/1");
 });
 
-test("a job at a rejected company shows the status tag inline", async ({ page }) => {
-  // Relies on the real company-history.json in the repo marking
-  // "Golden Pet Brands" as rejected.
-  const jobs: JobPosting[] = [
-    {
-      key: "wk:1",
-      title: "SDET",
-      url: "https://example.com/jobs/2",
-      company: "Golden Pet Brands",
-      postedAt: new Date().toISOString(),
-    },
-  ];
-  const { html } = buildAlertEmailHtml(jobs, new Map());
-  await page.setContent(html);
-  await expect(page.locator("li").first()).toContainText("[rejected]");
+test("a job at a company flagged caution shows the status tag inline", async ({ page }) => {
+  // company-history.json in the repo root currently has no "caution" or
+  // "blocked" entries — both real companies in it are "active" (a rejection
+  // with a reapply invitation, and an ambiguous single rejection, neither of
+  // which warrants a flag yet). So this exercises the tag-rendering branch
+  // against a synthetic file in an isolated temp cwd, loaded via a
+  // cache-busted dynamic import (COMPANY_HISTORY is only read once, at
+  // check-jobs.ts's first import, so re-importing the same specifier would
+  // hit Node's module cache and still see the real repo file).
+  const tempDir = mkdtempSync(join(tmpdir(), "jobsearch-alert-email-test-"));
+  const originalCwd = process.cwd();
+  try {
+    process.chdir(tempDir);
+    const history: CompanyHistory = {
+      "flaky-corp": {
+        displayName: "Flaky Corp",
+        aliases: [],
+        applications: [],
+        reapplyInvited: null,
+        status: "caution",
+        statusReason: "Test fixture.",
+        lastUpdated: "2026-07-16",
+      },
+    };
+    writeFileSync("company-history.json", JSON.stringify(history));
+    const moduleUrl = `${pathToFileURL(resolve(originalCwd, "check-jobs.ts")).href}?t=${Date.now()}`;
+    const fresh = (await import(moduleUrl)) as typeof import("../../check-jobs.ts");
+
+    const jobs: JobPosting[] = [
+      {
+        key: "wk:1",
+        title: "SDET",
+        url: "https://example.com/jobs/2",
+        company: "Flaky Corp",
+        postedAt: new Date().toISOString(),
+      },
+    ];
+    const { html } = fresh.buildAlertEmailHtml(jobs, new Map());
+    await page.setContent(html);
+    await expect(page.locator("li").first()).toContainText("[caution]");
+  } finally {
+    process.chdir(originalCwd);
+    rmSync(tempDir, { recursive: true, force: true });
+  }
 });

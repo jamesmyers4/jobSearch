@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { buildDigestEmailHtml, type JobPosting } from "../../check-jobs.ts";
+import { mkdtempSync, rmSync, writeFileSync } from "fs";
+import { tmpdir } from "os";
+import { join, resolve } from "path";
+import { pathToFileURL } from "url";
+import { buildDigestEmailHtml, type JobPosting, type CompanyHistory } from "../../check-jobs.ts";
 
 // Mirrors alert-email.spec.ts's approach: render the real HTML string via
 // page.setContent() and assert on real DOM rather than string-matching.
@@ -47,21 +51,45 @@ test("digest email sorts jobs by score, labels the source, and links a template 
   await expect(items.last()).toContainText("Quality Engineer");
 });
 
-test("a job at a rejected company shows the status tag inline", async ({ page }) => {
-  // Relies on the real company-history.json in the repo marking
-  // "Golden Pet Brands" as rejected.
-  const jobs: JobPosting[] = [
-    {
-      key: "az:2",
-      title: "QA Engineer",
-      url: "https://example.com/jobs/2",
-      company: "Golden Pet Brands",
-      postedAt: new Date().toISOString(),
-    },
-  ];
-  const { html } = buildDigestEmailHtml(jobs);
-  await page.setContent(html);
-  await expect(page.locator("li").first()).toContainText("[rejected]");
+test("a job at a company flagged caution shows the status tag inline", async ({ page }) => {
+  // company-history.json in the repo root currently has no "caution" or
+  // "blocked" entries — see the matching note in alert-email.spec.ts. Same
+  // isolated-temp-cwd + cache-busted dynamic import approach.
+  const tempDir = mkdtempSync(join(tmpdir(), "jobsearch-digest-email-test-"));
+  const originalCwd = process.cwd();
+  try {
+    process.chdir(tempDir);
+    const history: CompanyHistory = {
+      "flaky-corp": {
+        displayName: "Flaky Corp",
+        aliases: [],
+        applications: [],
+        reapplyInvited: null,
+        status: "caution",
+        statusReason: "Test fixture.",
+        lastUpdated: "2026-07-16",
+      },
+    };
+    writeFileSync("company-history.json", JSON.stringify(history));
+    const moduleUrl = `${pathToFileURL(resolve(originalCwd, "check-jobs.ts")).href}?t=${Date.now()}`;
+    const fresh = (await import(moduleUrl)) as typeof import("../../check-jobs.ts");
+
+    const jobs: JobPosting[] = [
+      {
+        key: "az:2",
+        title: "QA Engineer",
+        url: "https://example.com/jobs/2",
+        company: "Flaky Corp",
+        postedAt: new Date().toISOString(),
+      },
+    ];
+    const { html } = fresh.buildDigestEmailHtml(jobs);
+    await page.setContent(html);
+    await expect(page.locator("li").first()).toContainText("[caution]");
+  } finally {
+    process.chdir(originalCwd);
+    rmSync(tempDir, { recursive: true, force: true });
+  }
 });
 
 test("subject uses singular 'job posting' for a single-job digest", async ({ page }) => {
