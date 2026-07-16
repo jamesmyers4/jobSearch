@@ -52,6 +52,9 @@ const SEARCH_TITLES = [
   "Lead Software Development Engineer in Test",
   "Staff Software Development Engineer in Test",
   "Quality Engineer",
+  "Quality Assurance Engineer",
+  "Senior Quality Assurance Engineer",
+  "Lead Quality Assurance Engineer",
   "QA Engineer",
   "Senior QA Engineer",
   "Lead QA Engineer",
@@ -330,7 +333,11 @@ export async function fetchTherapyNotesJobs(): Promise<JobPosting[]> {
       title: job.title,
       url: job.url,
       company: "TherapyNotes",
-      location: [job.city, job.state].filter(Boolean).join(", ") || job.country || undefined,
+      location:
+        [job.city, job.state].filter(Boolean).join(", ") ||
+        job.country ||
+        undefined,
+      workArrangement: job.telecommuting ? "remote" : undefined,
       postedAt: job.published_on ?? job.created_at,
     }));
 }
@@ -487,7 +494,9 @@ export async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
       url: job.url,
       company: job.company,
       location: job.location,
-      postedAt: job.date ?? (typeof job.epoch === "number" ? job.epoch * 1000 : undefined),
+      postedAt:
+        job.date ??
+        (typeof job.epoch === "number" ? job.epoch * 1000 : undefined),
     }));
 }
 
