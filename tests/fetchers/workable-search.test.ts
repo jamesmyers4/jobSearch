@@ -51,6 +51,36 @@ describe("fetchTitleSearchJobs", () => {
     });
   });
 
+  it("maps the real workplace field into workArrangement (remote/hybrid/on_site -> onsite)", async () => {
+    // A live capture of this endpoint (2026-07-15) confirmed job.workplace
+    // takes exactly three real values: "remote", "hybrid", "on_site" — a
+    // clean field this endpoint has that the account-widget endpoint
+    // doesn't (that one only has a telecommuting boolean). The real fixture
+    // already has one of each of the two non-hybrid values across its two
+    // jobs: job[0] is "on_site", job[1] is "remote".
+    mockFetch(realResponse);
+    const jobs = await fetchTitleSearchJobs("SDET");
+    expect(jobs[0].workArrangement).toBe("onsite");
+    expect(jobs[1].workArrangement).toBe("remote");
+  });
+
+  it("maps a hybrid workplace value into workArrangement", async () => {
+    mockFetch({
+      jobs: [
+        {
+          id: "hybrid-job",
+          title: "SDET",
+          url: "https://jobs.workable.com/view/hybrid-job",
+          location: { city: "Chicago", countryName: "United States" },
+          company: { title: "Some Co" },
+          workplace: "hybrid",
+        },
+      ],
+    });
+    const jobs = await fetchTitleSearchJobs("SDET");
+    expect(jobs[0].workArrangement).toBe("hybrid");
+  });
+
   it("filters out a non-matching title using the real payload's schema", async () => {
     mockFetch({
       jobs: [

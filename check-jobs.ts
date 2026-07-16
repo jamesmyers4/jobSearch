@@ -69,6 +69,12 @@ const SEARCH_TITLES = [
   "Automation Test Engineer",
   "Test Automation Architect",
   "Automation Architect",
+  "Software Engineer in Test",
+  "Software Tester",
+  "Software Testing Engineer",
+  "QA Architect",
+  "Test Automation Specialist",
+  "Automation Testing Engineer",
 ];
 
 const REMOTE_ONLY = true;
@@ -363,6 +369,8 @@ export async function fetchTitleSearchJobs(
             .join(", ") || undefined
         : undefined,
       postedAt: job.updated ?? job.updatedAt,
+      workArrangement:
+        job.workplace === "on_site" ? "onsite" : job.workplace,
     }));
 }
 
@@ -439,6 +447,13 @@ export async function fetchLeverJobs(company: string): Promise<JobPosting[]> {
       company,
       location: job.categories?.location,
       postedAt: job.createdAt,
+      workArrangement: job.workplaceType
+        ? job.workplaceType.toLowerCase().includes("remote")
+          ? "remote"
+          : job.workplaceType.toLowerCase().includes("hybrid")
+            ? "hybrid"
+            : "onsite"
+        : undefined,
     }));
 }
 
@@ -626,13 +641,21 @@ export async function fetchSoltechJobs(): Promise<JobPosting[]> {
       const title = extractXmlTag(item, "title") ?? "";
       const link = extractXmlTag(item, "link") ?? "";
       const guid = extractXmlTag(item, "guid") ?? link;
+      const description = extractXmlTag(item, "description");
+      // Real capture only has city/state populated correctly — the feed's
+      // own job:locationCountry tag holds a zip code, not a country, so it's
+      // deliberately not mapped here. See CONTEXT.md.
+      const city = extractXmlTag(item, "job:locationCity");
+      const state = extractXmlTag(item, "job:locationState");
       return {
         key: `soltech:${guid}`,
         title,
         url: link,
         company: "SOLTECH",
+        location: [city, state].filter(Boolean).join(", ") || undefined,
         postedAt: extractXmlTag(item, "pubDate"),
-        description: extractXmlTag(item, "description"),
+        description,
+        workArrangement: extractWorkArrangement(description),
       };
     })
     .filter((job) => job.title && job.url && matchesAnyTitle(job.title));
@@ -696,6 +719,18 @@ export async function fetchQuarterhillJobs(): Promise<JobPosting[]> {
       company: "Quarterhill",
       location: job.location_name,
       postedAt: job.posted_date,
+      description: job.description,
+      yearsRequired: extractYearsRequired(job.description),
+      // location_name's own "remote" text (e.g. "Remote - US") wins over a
+      // description-text scan: a real live capture showed field-role
+      // descriptions can contain "onsite" (checked first by
+      // extractWorkArrangement) alongside unrelated mentions of "remote
+      // locations" meaning travel sites, not work arrangement — scanning
+      // the description alone would misclassify a job Quarterhill's own
+      // location_name explicitly marks remote.
+      workArrangement: job.location_name?.toLowerCase().includes("remote")
+        ? "remote"
+        : extractWorkArrangement(job.description),
       salaryRange: formatSalaryRange(
         job.salary_min_value || undefined,
         job.salary_max_value || undefined,

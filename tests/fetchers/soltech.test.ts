@@ -47,4 +47,25 @@ describe("fetchSoltechJobs", () => {
     const jobs = await fetchSoltechJobs();
     expect(jobs[0].key).toBe("soltech:http://soltech.hire.trakstar.com/jobs/no-guid");
   });
+
+  it("maps job:locationCity/job:locationState into location, using the real feed's namespaced tag shape", async () => {
+    // The real captured feed (tests/fixtures/soltech-feed.xml) carries
+    // job:locationCity/job:locationState/job:locationCountry tags outside
+    // <description>. Deliberately not mapping job:locationCountry — the
+    // real capture shows it holding a zip code ("30326"), not a country,
+    // a data-quality quirk in SOLTECH's own feed rather than a parsing bug.
+    const xml = `<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel xmlns:job="https://recruiterbox.com/rss/job/"><item><title>QA Automation Engineer</title><link>http://soltech.hire.trakstar.com/jobs/loc123</link><description>&lt;p&gt;Requires 4+ years of experience.&lt;/p&gt;</description><pubDate>Mon, 13 Jul 2026 00:00:00 +0000</pubDate><guid>http://soltech.hire.trakstar.com/jobs/loc123</guid><job:locationCity>Atlanta</job:locationCity><job:locationState>GA</job:locationState><job:locationCountry>30326</job:locationCountry></item></channel></rss>`;
+    mockFetchText(xml);
+    const jobs = await fetchSoltechJobs();
+    expect(jobs[0].location).toBe("Atlanta, GA");
+  });
+
+  it("extracts workArrangement from the description via extractWorkArrangement", async () => {
+    const xml = `<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><item><title>QA Engineer</title><link>http://soltech.hire.trakstar.com/jobs/remote1</link><description>&lt;p&gt;This is a fully remote position.&lt;/p&gt;</description><pubDate>Mon, 13 Jul 2026 00:00:00 +0000</pubDate><guid>http://soltech.hire.trakstar.com/jobs/remote1</guid></item></channel></rss>`;
+    mockFetchText(xml);
+    const jobs = await fetchSoltechJobs();
+    expect(jobs[0].workArrangement).toBe("remote");
+  });
 });

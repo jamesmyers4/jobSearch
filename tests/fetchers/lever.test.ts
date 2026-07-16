@@ -35,6 +35,7 @@ describe("fetchLeverJobs", () => {
       company: "example-co",
       location: "Remote - US",
       postedAt: 1783991631000,
+      workArrangement: "remote",
     });
   });
 
@@ -42,6 +43,34 @@ describe("fetchLeverJobs", () => {
     mockFetch({ ok: false, error: "Document not found" });
     const jobs = await fetchLeverJobs("nonexistent-co");
     expect(jobs).toEqual([]);
+  });
+
+  it("maps workplaceType into workArrangement (hybrid/on-site cases), per Lever's documented postings API shape", async () => {
+    // LEVER_COMPANIES is empty today (no live board configured), so this is
+    // built from Lever's documented public postings API field names, same
+    // as the rest of this fixture — not a live capture. Revisit with a real
+    // capture if a company is ever added to LEVER_COMPANIES.
+    mockFetch([
+      {
+        id: "hybrid-job",
+        text: "SDET",
+        categories: { location: "Chicago, IL" },
+        workplaceType: "hybrid",
+        hostedUrl: "https://jobs.lever.co/example-co/hybrid-job",
+        createdAt: 1783991631000,
+      },
+      {
+        id: "onsite-job",
+        text: "SDET",
+        categories: { location: "Chicago, IL" },
+        workplaceType: "on-site",
+        hostedUrl: "https://jobs.lever.co/example-co/onsite-job",
+        createdAt: 1783991631000,
+      },
+    ]);
+    const jobs = await fetchLeverJobs("example-co");
+    expect(jobs[0].workArrangement).toBe("hybrid");
+    expect(jobs[1].workArrangement).toBe("onsite");
   });
 });
 

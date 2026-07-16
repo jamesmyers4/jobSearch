@@ -18,16 +18,28 @@ afterEach(() => {
 });
 
 describe("fetchTherapyNotesJobs", () => {
-  it("filters out every posting on the real board, since none of its current titles match SEARCH_TITLES", async () => {
+  it("matches the real board's Quality Assurance posting and maps telecommuting into workArrangement", async () => {
     // TherapyNotes is an allowlisted company (AI_DRAFT_COMPANY_ALLOWLIST),
     // which controls which board gets queried — it does not exempt results
-    // from matchesAnyTitle. None of the 3 real postings currently on this
-    // board ("Senior Quality Assurance Engineer", "Senior Software
-    // Developer", "Software Developer") are substring matches for any entry
-    // in SEARCH_TITLES, so the filtered result is legitimately empty.
+    // from matchesAnyTitle. Of the 3 real postings currently on this board,
+    // only "Senior Quality Assurance Engineer" (shortcode 5CBA95131B)
+    // matches SEARCH_TITLES ("Senior Software Developer" and "Software
+    // Developer" don't); it has empty city/state and telecommuting: true,
+    // which must map to workArrangement: "remote" or isRemoteJob's
+    // location+title fallback text check would silently reject it.
     mockFetch(realResponse);
     const jobs = await fetchTherapyNotesJobs();
-    expect(jobs).toEqual([]);
+    expect(jobs).toEqual([
+      {
+        key: "tn:5CBA95131B",
+        title: "Senior Quality Assurance Engineer",
+        url: "https://apply.workable.com/j/5CBA95131B",
+        company: "TherapyNotes",
+        location: "United States",
+        workArrangement: "remote",
+        postedAt: "2026-07-13",
+      },
+    ]);
   });
 
   it("filters out a posting whose title doesn't match SEARCH_TITLES", async () => {
