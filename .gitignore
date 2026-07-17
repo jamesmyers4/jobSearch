@@ -1,2 +1,6 @@
 node_modules
 .env
+
+# Personal data — real names, company-specific outcome notes, and
+# application history. See README's "Personal data / privacy" section.
+company-history.json

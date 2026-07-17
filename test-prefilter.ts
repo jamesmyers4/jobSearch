@@ -7,7 +7,7 @@ interface TestJob {
   description?: string;
 }
 
-const CANDIDATE_PROFILE = `James Myers is a QA Automation Engineer / SDET with 22 years of enterprise software experience, including about 5 years focused specifically on test automation. Core stack: Playwright/TypeScript, Selenium, REST API testing, GitHub Actions CI/CD, and a custom-built agentic AI test framework using the Anthropic API. Based in Knoxville, TN, targeting fully remote roles. Interested in hands-on software test automation roles: SDET, QA Automation Engineer, Test Automation Engineer, Automation Architect, and similar. Not a fit for manual-only QA roles, manufacturing/hardware/food-safety quality control roles, or roles with a hard requirement for a formal CS degree (self-taught, no degree).`;
+const CANDIDATE_PROFILE = `The candidate is a QA Automation Engineer / SDET with 22 years of enterprise software experience, including about 5 years focused specifically on test automation. Core stack: Playwright/TypeScript, Selenium, REST API testing, GitHub Actions CI/CD, and a custom-built agentic AI test framework using the Anthropic API. Targeting fully remote roles. Interested in hands-on software test automation roles: SDET, QA Automation Engineer, Test Automation Engineer, Automation Architect, and similar. Not a fit for manual-only QA roles, manufacturing/hardware/food-safety quality control roles, or roles with a hard requirement for a formal CS degree.`;
 
 async function callClaude(
   model: string,

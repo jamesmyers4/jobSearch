@@ -30,6 +30,7 @@ jobs:
           USAJOBS_AUTH_KEY: ${{ secrets.USAJOBS_AUTH_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           RESUME_VAULT_TOKEN: ${{ secrets.RESUME_VAULT_TOKEN }}
+          CANDIDATE_NAME: ${{ secrets.CANDIDATE_NAME }}
           AI_PIPELINE_ENABLED: ${{ vars.AI_PIPELINE_ENABLED }}
           PREFILTER_PROVIDER_FORMAT: openai
           PREFILTER_BASE_URL: https://api.groq.com/openai/v1/chat/completions

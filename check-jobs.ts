@@ -988,7 +988,7 @@ export function buildCoverLetter(
     "I'd welcome the chance to talk through how that background could contribute to your team.",
     "",
     "Best,",
-    "James R. Myers Jr.",
+    process.env.CANDIDATE_NAME || "Your Name",
   ].join("\n");
 }
 

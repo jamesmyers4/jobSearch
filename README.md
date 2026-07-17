@@ -76,6 +76,7 @@ Required:
 | `ADZUNA_APP_ID` / `ADZUNA_APP_KEY` | Adzuna API credentials                                                                                       |
 | `USAJOBS_EMAIL` / `USAJOBS_AUTH_KEY` | USAJOBS API credentials                                                                                   |
 | `RESUME_VAULT_TOKEN` | GitHub token with write access to the `resume-vault` repo — needed for the free template-kit draft, not just the AI one |
+| `CANDIDATE_NAME`  | Your name, used as the cover-letter signature. Falls back to `"Your Name"` if unset |
 
 Optional (AI layer only):
 
@@ -101,6 +102,19 @@ Optional (AI layer only):
 3. `npm run check`
 
 `.env` is git-ignored and never gets committed. The script's `dotenv/config` import only affects local runs — GitHub Actions ignores it and reads secrets directly.
+
+## Personal data / privacy
+
+This repo is designed to be safe to make public. All of the actual job-search data — real application outcomes, interview notes, and running state — lives only in local files that are git-ignored and never committed:
+
+- `company-history.json` — per-company application history, contacts, and outcome notes
+- `application-tracker.json` — every alerted job and its real submission turnaround
+- `seen-jobs.json` — the running dedupe baseline
+- `digest-state.json` — the digest queue/send-time state
+
+Each of those has a checked-in `*.example.*` counterpart (`company-history.example.json`, `application-tracker.example.json`, `seen-jobs.example.json`, `digest-state.example.json`) showing the exact shape with generic placeholder companies and notes — that's what to look at to understand the data format. Every code path that reads one of the real files (`loadCompanyHistory`, `loadSeenJobs`, `loadTracker`, `loadDigestState`) falls back to an empty/default value if the file doesn't exist, so cloning this repo fresh and running it works with no setup beyond the `.env` variables above.
+
+The cover letter signature also comes from the optional `CANDIDATE_NAME` env var (falls back to `"Your Name"` if unset) rather than being hardcoded, for the same reason.
 
 ## Tracking real turnaround time
 

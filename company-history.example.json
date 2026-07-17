@@ -1,0 +1,65 @@
+{
+  "acme-robotics": {
+    "displayName": "Acme Robotics",
+    "aliases": ["Acme Robotics", "Acme", "acmerobotics"],
+    "applications": [
+      {
+        "role": "Senior SDET",
+        "appliedDate": "2026-05-01",
+        "source": "direct",
+        "stageReached": "hiring_manager_interview",
+        "outcome": "rejected",
+        "outcomeDate": "2026-05-20",
+        "contact": "",
+        "signal": "positive_reapply_invited",
+        "notes": "Placeholder example — describe the outcome and any signal about reapplying, without naming interviewers or pasting real interview details."
+      }
+    ],
+    "reapplyInvited": true,
+    "status": "active",
+    "statusReason": "Placeholder example reason for the current status.",
+    "lastUpdated": "2026-05-20"
+  },
+  "widgetco": {
+    "displayName": "WidgetCo",
+    "aliases": ["WidgetCo", "WidgetCo Inc", "widgetco"],
+    "applications": [
+      {
+        "role": "QA Automation Engineer",
+        "appliedDate": "2026-04-10",
+        "source": "direct",
+        "stageReached": "applied",
+        "outcome": "pending",
+        "outcomeDate": null,
+        "contact": "",
+        "signal": "unknown",
+        "notes": "Placeholder example — a pending application with no outcome yet."
+      }
+    ],
+    "reapplyInvited": null,
+    "status": "caution",
+    "statusReason": "Placeholder example — a company deprioritized pending a clearer signal.",
+    "lastUpdated": "2026-04-10"
+  },
+  "blocked-example-corp": {
+    "displayName": "Blocked Example Corp",
+    "aliases": ["Blocked Example Corp"],
+    "applications": [
+      {
+        "role": "Test Automation Engineer",
+        "appliedDate": "2026-01-15",
+        "source": "direct",
+        "stageReached": "final_round",
+        "outcome": "rejected",
+        "outcomeDate": "2026-02-01",
+        "contact": "",
+        "signal": "explicit_decline_future_contact",
+        "notes": "Placeholder example — a company explicitly asked not to be contacted again, so it's fully blocked from the pipeline."
+      }
+    ],
+    "reapplyInvited": false,
+    "status": "blocked",
+    "statusReason": "Placeholder example — explicit decline of future contact removes this company from the pipeline entirely.",
+    "lastUpdated": "2026-02-01"
+  }
+}

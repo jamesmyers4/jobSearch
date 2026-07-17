@@ -57,9 +57,9 @@ export type CompanyHistory = Record<string, CompanyHistoryEntry>
 ## Company History example
 
 {
-"golden-pet-brands": {
-"displayName": "Golden Pet Brands",
-"aliases": ["Golden Pet Brands", "GPB", "goldenpetbrands"],
+"acme-robotics": {
+"displayName": "Acme Robotics",
+"aliases": ["Acme Robotics", "Acme", "acmerobotics"],
 "applications": [
 {
 "role": "Lead SDET",
@@ -68,9 +68,9 @@ export type CompanyHistory = Record<string, CompanyHistoryEntry>
 "stageReached": "hiring_manager_interview",
 "outcome": "rejected",
 "outcomeDate": "",
-"contact": "Trish Huyler",
+"contact": "",
 "signal": "positive_reapply_invited",
-"notes": "Hiring manager interview with Anisha Zacharia went well. Rejected by Trish Huyler afterward, but told to keep an eye out for future openings and seemed open to further contact."
+"notes": "Placeholder example — describe the outcome and any signal about reapplying, without naming interviewers or pasting real interview details."
 }
 ],
 "reapplyInvited": true,
@@ -78,9 +78,9 @@ export type CompanyHistory = Record<string, CompanyHistoryEntry>
 "statusReason": "Explicit invitation to reapply outweighs a single rejection. Would want a second unanswered application before this counts as a real signal either way.",
 "lastUpdated": "2026-07-16"
 },
-"therapynotes": {
-"displayName": "TherapyNotes",
-"aliases": ["TherapyNotes", "TherapyNotes LLC", "therapynotes"],
+"widgetco": {
+"displayName": "WidgetCo",
+"aliases": ["WidgetCo", "WidgetCo Inc", "widgetco"],
 "applications": [
 {
 "role": "QA Engineer",
@@ -91,7 +91,7 @@ export type CompanyHistory = Record<string, CompanyHistoryEntry>
 "outcomeDate": "",
 "contact": "",
 "signal": "possible_overqualified",
-"notes": "Led the entire technical interview, interviewer didn't need to ask a single question and took notes on several things done well. Hiring manager mentioned they screen candidates for certain qualities. Suspect this read as overqualified for the role rather than a poor fit."
+"notes": "Placeholder example — a rejection with a specific speculative signal about why."
 },
 {
 "role": "Senior QA Engineer",
@@ -102,7 +102,7 @@ export type CompanyHistory = Record<string, CompanyHistoryEntry>
 "outcomeDate": null,
 "contact": "",
 "signal": "unknown",
-"notes": "Second application at the same company after the first rejection was ambiguous. This outcome will clarify whether the first rejection was role-specific or a broader pass on the company."
+"notes": "Placeholder example — a second application at the same company after an earlier ambiguous rejection."
 }
 ],
 "reapplyInvited": null,

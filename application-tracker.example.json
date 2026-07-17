@@ -1,0 +1,15 @@
+{
+  "az:1000000001": {
+    "title": "SDET",
+    "company": "Acme Robotics",
+    "postedAt": "2026-01-01T10:00:00Z",
+    "alertedAt": "2026-01-01T10:30:00.000Z",
+    "submittedAt": "2026-01-01T14:00:00.000Z"
+  },
+  "wk:00000000-0000-0000-0000-000000000001": {
+    "title": "QA Automation Engineer",
+    "company": "WidgetCo",
+    "postedAt": "2026-01-02T09:00:00.000Z",
+    "alertedAt": "2026-01-02T09:15:00.000Z"
+  }
+}
