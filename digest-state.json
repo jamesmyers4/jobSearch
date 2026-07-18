@@ -1,17 +1,4 @@
 {
-  "queue": [
-    {
-      "key": "az:5806073851",
-      "title": "PAM Automation Engineer",
-      "url": "https://www.adzuna.com/land/ad/5806073851?se=RHgvQNaC8RGnJPphJlU06w&utm_medium=api&utm_source=ae2feac4&v=E0B1AA98F23F089827EEC26D99D692DCC566F0D6",
-      "company": "Genesis10",
-      "location": "Kansas City, Jackson County",
-      "postedAt": "2026-07-18T06:19:03Z",
-      "description": "Genesis10 is currently seeking a PAM Automation Engineer for a remote position with a Major Financial Institution. This is a 12-month contract-to-hire opportunity. Overview Our client is seeking a PAM Automation Engineer to join the Privileged Access Management Services team. This role focuses on building and supporting automation that enables secure access elevation services across Unix, Linux, and other non-Microsoft systems. Responsibilities Build and maintain automation supporting privilege…",
-      "salaryRange": "$135,388–$135,388 /Year",
-      "workArrangement": "remote",
-      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/genesis10-pam-automation-engineer-2026-07-18.md"
-    }
-  ],
-  "lastSentAt": "2026-07-18T11:06:06.899Z"
+  "queue": [],
+  "lastSentAt": "2026-07-18T23:52:56.577Z"
 }
