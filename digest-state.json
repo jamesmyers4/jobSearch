@@ -1,4 +1,17 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5803607466",
+      "title": "QA Automation Engineer",
+      "url": "https://www.adzuna.com/details/5803607466?utm_medium=api&utm_source=ae2feac4",
+      "company": "Enrollment123",
+      "location": "Laguna Hills, Orange County",
+      "postedAt": "2026-07-16T16:42:48Z",
+      "description": "Location: e123 is a Work From Anywhere company based in southern California with an entirely remote workforce from all over the US. This role can be based anywhere in the US (with the exception of IN, IL, PA, NE). Why join e123? e123 is transforming the distribution of health insurance in the United States while creating a new insurtech category. e123 helps businesses manage the complex world of health insurance distribution. We handle $3B in annual premium billings through a network of nearly …",
+      "salaryRange": "$125,786–$125,786 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/enrollment123-qa-automation-engineer-2026-07-19.md"
+    }
+  ],
   "lastSentAt": "2026-07-18T23:52:56.577Z"
 }
