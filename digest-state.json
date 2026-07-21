@@ -1,4 +1,17 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5808396546",
+      "title": "Payment Device QA Engineer",
+      "url": "https://www.adzuna.com/land/ad/5808396546?se=zsghdc2E8RGqDNv7tPSXLQ&utm_medium=api&utm_source=ae2feac4&v=9F012D6E0CD9701048C4ADC3FD741FE71DEBE394",
+      "company": "Procal Technologies",
+      "location": "US",
+      "postedAt": "2026-07-20T17:03:07Z",
+      "description": "Role: QA/Technical Analyst - Payment Systems (Ingenico/Castles) Location: SFO or Pleasonton, CA [Remote] Duration: 06 Months Need Skills: Ingenico/Castles & Payment Terminal Experience Job Summary: We are seeking a detail-oriented QA / Technical Support Engineer with experience in payment systems and terminal management. The ideal candidate will have hands-on knowledge of payment terminals (preferably Ingenico or Castles Technology), strong troubleshooting skills, and the ability to analyze log…",
+      "salaryRange": "$76,289–$76,289 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/procal-technologies-payment-device-qa-engineer-2026-07-21.md"
+    }
+  ],
   "lastSentAt": "2026-07-21T03:55:58.966Z"
 }
