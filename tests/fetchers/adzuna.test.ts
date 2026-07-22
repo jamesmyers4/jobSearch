@@ -1,6 +1,13 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { readFileSync } from "fs";
-import { fetchAdzunaJobs, fetchAllAdzunaJobs } from "../../check-jobs.ts";
+import {
+  fetchAdzunaJobs,
+  fetchAllAdzunaJobs,
+  MAX_ALERT_AGE_DAYS,
+  MAX_DRAFT_AGE_DAYS,
+  ADZUNA_PAGE_SIZE,
+  ADZUNA_MAX_PAGES,
+} from "../../check-jobs.ts";
 
 const realResponse = JSON.parse(
   readFileSync("tests/fixtures/adzuna-response.json", "utf-8"),
@@ -62,6 +69,69 @@ describe("fetchAdzunaJobs", () => {
     mockFetch({});
     const jobs = await fetchAdzunaJobs("SDET");
     expect(jobs).toEqual([]);
+  });
+
+  it("queries Adzuna's own max_days_old using the same freshness window as every other source (MAX_ALERT_AGE_DAYS), not the unrelated AI-draft-only MAX_DRAFT_AGE_DAYS", async () => {
+    // Adzuna is the only source with a server-side freshness filter baked
+    // into the request itself. It previously reused MAX_DRAFT_AGE_DAYS (4) —
+    // a constant meant for gating AI-draft spend in main() — which silently
+    // narrowed Adzuna's results to a 4-day window while every other source
+    // gets the full MAX_ALERT_AGE_DAYS (7) via the local isFreshJob check.
+    expect(MAX_DRAFT_AGE_DAYS).not.toBe(MAX_ALERT_AGE_DAYS);
+    const fetchMock = vi.fn().mockResolvedValue({ json: () => Promise.resolve({}) });
+    vi.stubGlobal("fetch", fetchMock);
+    await fetchAdzunaJobs("SDET");
+    const requestedUrl = fetchMock.mock.calls[0][0] as string;
+    expect(requestedUrl).toContain(`max_days_old=${MAX_ALERT_AGE_DAYS}`);
+    expect(requestedUrl).not.toContain(`max_days_old=${MAX_DRAFT_AGE_DAYS}`);
+  });
+
+  function makeAdzunaResult(id: number) {
+    return {
+      id: String(id),
+      title: "SDET",
+      redirect_url: `https://example.com/${id}`,
+      company: { display_name: "Some Co" },
+      location: { display_name: "Remote" },
+      created: "2026-07-13T10:00:00Z",
+    };
+  }
+
+  it("fetches a second page when the first page comes back full and count indicates more results remain", async () => {
+    // A single-page call was silently truncating to results_per_page
+    // regardless of how many real results existed (a real capture returned
+    // count: 254 for one title against a 20-per-page cap).
+    const page1 = Array.from({ length: ADZUNA_PAGE_SIZE }, (_, i) => makeAdzunaResult(i));
+    const page2 = [makeAdzunaResult(ADZUNA_PAGE_SIZE)];
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ count: ADZUNA_PAGE_SIZE + 1, results: page1 }) })
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ count: ADZUNA_PAGE_SIZE + 1, results: page2 }) });
+    vi.stubGlobal("fetch", fetchMock);
+    const jobs = await fetchAdzunaJobs("SDET");
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(jobs).toHaveLength(ADZUNA_PAGE_SIZE + 1);
+    expect(fetchMock.mock.calls[0][0]).toContain("/search/1?");
+    expect(fetchMock.mock.calls[1][0]).toContain("/search/2?");
+  });
+
+  it("stops fetching once a page comes back short of the page size, even if count wasn't provided", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue({ json: () => Promise.resolve({ results: [makeAdzunaResult(1)] }) });
+    vi.stubGlobal("fetch", fetchMock);
+    await fetchAdzunaJobs("SDET");
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it(`never exceeds ADZUNA_MAX_PAGES (${ADZUNA_MAX_PAGES}) even when count indicates far more results remain`, async () => {
+    const fullPage = Array.from({ length: ADZUNA_PAGE_SIZE }, (_, i) => makeAdzunaResult(i));
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue({ json: () => Promise.resolve({ count: 10000, results: fullPage }) });
+    vi.stubGlobal("fetch", fetchMock);
+    await fetchAdzunaJobs("SDET");
+    expect(fetchMock).toHaveBeenCalledTimes(ADZUNA_MAX_PAGES);
   });
 });
 

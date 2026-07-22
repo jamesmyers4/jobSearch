@@ -19,7 +19,9 @@
           ],
           "UserArea": {
             "Details": {
-              "JobSummary": "IT Specialist (APPSW) Test Automation Engineer position(s) are being filled through the Office of Personnel Management's delegated Direct Hire Authority, open to all U.S. citizens. Requires 3+ years of experience in test automation."
+              "JobSummary": "IT Specialist (APPSW) Test Automation Engineer position(s) are being filled through the Office of Personnel Management's delegated Direct Hire Authority, open to all U.S. citizens. Requires 3+ years of experience in test automation.",
+              "TeleworkEligible": true,
+              "RemoteIndicator": false
             }
           }
         }

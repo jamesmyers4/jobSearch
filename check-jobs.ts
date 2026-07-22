@@ -157,6 +157,8 @@ const ADZUNA_SEARCH_TITLES = [
   "QA Engineer",
   "Automation Engineer",
 ];
+export const ADZUNA_PAGE_SIZE = 50;
+export const ADZUNA_MAX_PAGES = 3;
 
 const USAJOBS_KEYWORDS = [
   "software tester",
@@ -167,6 +169,8 @@ const USAJOBS_KEYWORDS = [
   "test engineer",
   "software quality",
 ];
+export const USAJOBS_PAGE_SIZE = 500;
+export const USAJOBS_MAX_PAGES = 3;
 
 const SEEN_JOBS_PATH = "seen-jobs.json";
 export const MAX_DRAFT_AGE_DAYS = 4;
@@ -227,7 +231,10 @@ export function loadCompanyHistory(): Map<string, CompanyHistoryEntry> {
       }
     }
     return map;
-  } catch {
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException)?.code !== "ENOENT") {
+      console.error(`loadCompanyHistory: failed to load ${COMPANY_HISTORY_PATH}, treating all companies as having no history:`, err);
+    }
     return new Map();
   }
 }
@@ -573,19 +580,33 @@ export async function fetchRemoteOKJobs(): Promise<JobPosting[]> {
 }
 
 export async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
-  const response = await fetch(
-    `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=20&max_days_old=${MAX_DRAFT_AGE_DAYS}&what=${encodeURIComponent(title)}&content-type=application/json`,
-    {
-      headers: {
-        "User-Agent":
-          "jobSearch-checker/1.0 (github.com/jamesmyers4/jobSearch)",
-        Accept: "application/json",
+  // Adzuna paginates via a page number in the URL path (not a query param) and
+  // reports the total available in `count`. A single page-1 call was silently
+  // truncating to results_per_page regardless of how many real results existed
+  // (a real capture returned count: 254 for one title against a 20-per-page
+  // cap). Bounded to ADZUNA_MAX_PAGES to avoid unbounded API-quota growth —
+  // stops as soon as a page comes back short (no more results) or `count` is
+  // covered, so most title queries still cost a single call.
+  const allResults: any[] = [];
+  for (let page = 1; page <= ADZUNA_MAX_PAGES; page++) {
+    const response = await fetch(
+      `https://api.adzuna.com/v1/api/jobs/us/search/${page}?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=${ADZUNA_PAGE_SIZE}&max_days_old=${MAX_ALERT_AGE_DAYS}&what=${encodeURIComponent(title)}&content-type=application/json`,
+      {
+        headers: {
+          "User-Agent":
+            "jobSearch-checker/1.0 (github.com/jamesmyers4/jobSearch)",
+          Accept: "application/json",
+        },
       },
-    },
-  );
-  const data = await response.json();
-  const jobs = data.results ?? [];
-  return jobs
+    );
+    const data = await response.json();
+    const pageResults = data.results ?? [];
+    allResults.push(...pageResults);
+    if (pageResults.length < ADZUNA_PAGE_SIZE) break;
+    if (typeof data.count === "number" && allResults.length >= data.count)
+      break;
+  }
+  return allResults
     .filter((job: any) => matchesAnyTitle(job.title))
     .map((job: any) => ({
       key: `az:${job.id}`,
@@ -616,18 +637,32 @@ export async function fetchAllAdzunaJobs(): Promise<JobPosting[]> {
 }
 
 export async function fetchUSAJobs(keyword: string): Promise<JobPosting[]> {
-  const response = await fetch(
-    `https://data.usajobs.gov/api/Search?Keyword=${encodeURIComponent(keyword)}&ResultsPerPage=50`,
-    {
-      headers: {
-        Host: "data.usajobs.gov",
-        "User-Agent": process.env.USAJOBS_EMAIL as string,
-        "Authorization-Key": process.env.USAJOBS_AUTH_KEY as string,
+  // A single ResultsPerPage=50 call was silently truncating to 50 regardless
+  // of how many real results existed (a real capture returned
+  // SearchResultCountAll: 880 for one keyword). USAJOBS' documented max
+  // ResultsPerPage is 500 (confirmed working via a live capture), and Page
+  // fetches subsequent pages; bounded to USAJOBS_MAX_PAGES since this is a
+  // free public API without a documented aggressive rate limit, but still
+  // worth capping against an unbounded loop.
+  const items: any[] = [];
+  for (let page = 1; page <= USAJOBS_MAX_PAGES; page++) {
+    const response = await fetch(
+      `https://data.usajobs.gov/api/Search?Keyword=${encodeURIComponent(keyword)}&ResultsPerPage=${USAJOBS_PAGE_SIZE}&Page=${page}`,
+      {
+        headers: {
+          Host: "data.usajobs.gov",
+          "User-Agent": process.env.USAJOBS_EMAIL as string,
+          "Authorization-Key": process.env.USAJOBS_AUTH_KEY as string,
+        },
       },
-    },
-  );
-  const data = await response.json();
-  const items = data.SearchResult?.SearchResultItems ?? [];
+    );
+    const data = await response.json();
+    const pageItems = data.SearchResult?.SearchResultItems ?? [];
+    items.push(...pageItems);
+    if (pageItems.length < USAJOBS_PAGE_SIZE) break;
+    const totalCount = data.SearchResult?.SearchResultCountAll;
+    if (typeof totalCount === "number" && items.length >= totalCount) break;
+  }
   return items
     .map((item: any) => item.MatchedObjectDescriptor)
     .filter((job: any) => matchesAnyTitle(job.PositionTitle))
@@ -648,7 +683,17 @@ export async function fetchUSAJobs(keyword: string): Promise<JobPosting[]> {
           remuneration?.Description,
         ),
         yearsRequired: extractYearsRequired(description),
-        workArrangement: extractWorkArrangement(description),
+        // USAJOBS' own UserArea.Details.RemoteIndicator boolean (confirmed via a
+        // live capture against data.usajobs.gov) is a more reliable remote signal
+        // than scanning JobSummary text: federal postings' JobSummary almost
+        // never contains the literal word "remote" even for genuinely remote
+        // positions, and a separate TeleworkEligible flag exists but means
+        // occasional WFH allowance, not a remote position — RemoteIndicator is
+        // the field that actually means what this project means by "remote".
+        workArrangement:
+          job.UserArea?.Details?.RemoteIndicator === true
+            ? "remote"
+            : extractWorkArrangement(description),
       };
     });
 }
@@ -719,6 +764,7 @@ export async function fetchSoltechJobs(): Promise<JobPosting[]> {
 }
 
 const STATHEROS_BASE_URL = "https://statheros.freshteam.com";
+export const QUARTERHILL_MAX_PAGES = 5;
 
 export async function fetchStatherosJobs(): Promise<JobPosting[]> {
   const response = await fetch(`${STATHEROS_BASE_URL}/jobs`);
@@ -761,11 +807,26 @@ export async function fetchStatherosJobs(): Promise<JobPosting[]> {
 }
 
 export async function fetchQuarterhillJobs(): Promise<JobPosting[]> {
-  const response = await fetch(
-    "https://careers.quarterhill.com/api/jobs?page=1&sortBy=relevance&descending=false&internal=false",
-  );
-  const data = await response.json();
-  const entries = data.jobs ?? [];
+  // A page-1-only call was silently truncating: a real live capture returned
+  // totalCount: 21 against a fixed 10-jobs-per-page response, meaning roughly
+  // half of Quarterhill's own listed openings were never fetched. Quarterhill
+  // doesn't take a page-size query param, so the size of the first page is
+  // used as the expected page size for detecting a short final page.
+  const entries: any[] = [];
+  let pageSize = -1;
+  for (let page = 1; page <= QUARTERHILL_MAX_PAGES; page++) {
+    const response = await fetch(
+      `https://careers.quarterhill.com/api/jobs?page=${page}&sortBy=relevance&descending=false&internal=false`,
+    );
+    const data = await response.json();
+    const pageEntries = data.jobs ?? [];
+    entries.push(...pageEntries);
+    if (pageEntries.length === 0) break;
+    if (pageSize === -1) pageSize = pageEntries.length;
+    if (pageEntries.length < pageSize) break;
+    if (typeof data.totalCount === "number" && entries.length >= data.totalCount)
+      break;
+  }
   return entries
     .map((entry: any) => entry.data)
     .filter((job: any) => job && matchesAnyTitle(job.title ?? ""))

@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { readFileSync } from "fs";
-import { fetchQuarterhillJobs } from "../../check-jobs.ts";
+import {
+  fetchQuarterhillJobs,
+  QUARTERHILL_MAX_PAGES,
+} from "../../check-jobs.ts";
 
 const realResponse = JSON.parse(
   readFileSync("tests/fixtures/quarterhill-response.json", "utf-8"),
@@ -29,6 +32,7 @@ describe("fetchQuarterhillJobs", () => {
 
   it("maps a matching posting's fields, including a formatted salary range with no interval suffix", async () => {
     mockFetch({
+      totalCount: 1,
       jobs: [
         {
           data: {
@@ -59,6 +63,7 @@ describe("fetchQuarterhillJobs", () => {
 
   it("falls back to apply_url and leaves salaryRange undefined when values are zero", async () => {
     mockFetch({
+      totalCount: 1,
       jobs: [
         {
           data: {
@@ -96,6 +101,7 @@ describe("fetchQuarterhillJobs", () => {
     // Quarterhill's own location_name explicitly marks remote as "onsite" —
     // and isRemoteJob would then silently drop it. location_name must win.
     mockFetch({
+      totalCount: 1,
       jobs: [
         {
           data: {
@@ -116,6 +122,7 @@ describe("fetchQuarterhillJobs", () => {
 
   it("falls back to extractWorkArrangement(description) when location_name has no remote signal", async () => {
     mockFetch({
+      totalCount: 1,
       jobs: [
         {
           data: {
@@ -139,6 +146,7 @@ describe("fetchQuarterhillJobs", () => {
     // on the real "Lead, PMO Quality" posting); description was previously
     // never captured at all, so yearsRequired always came back undefined.
     mockFetch({
+      totalCount: 1,
       jobs: [
         {
           data: {
@@ -155,5 +163,57 @@ describe("fetchQuarterhillJobs", () => {
     });
     const jobs = await fetchQuarterhillJobs();
     expect(jobs[0].yearsRequired).toBe("5 years of experience");
+  });
+
+  function makeQhEntry(id: number) {
+    return {
+      data: {
+        slug: String(id),
+        title: "QA Automation Engineer",
+        location_name: "Remote - US",
+        posted_date: "2026-07-10T12:00:00+0000",
+        canonical_url: `https://careers.quarterhill.com/jobs/${id}?lang=en-us`,
+      },
+    };
+  }
+
+  it("fetches a second page when the first page comes back full-size and totalCount indicates more results remain", async () => {
+    // A page=1-only call was silently truncating: a real live capture
+    // returned totalCount: 21 against a fixed 10-jobs-per-page response, so
+    // roughly half of Quarterhill's own listed openings were never fetched.
+    const page1 = [makeQhEntry(1), makeQhEntry(2), makeQhEntry(3)];
+    const page2 = [makeQhEntry(4)];
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ totalCount: 4, jobs: page1 }) })
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ totalCount: 4, jobs: page2 }) });
+    vi.stubGlobal("fetch", fetchMock);
+    const jobs = await fetchQuarterhillJobs();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(jobs).toHaveLength(4);
+    expect(fetchMock.mock.calls[0][0]).toContain("page=1");
+    expect(fetchMock.mock.calls[1][0]).toContain("page=2");
+  });
+
+  it("stops fetching once a page comes back shorter than the first page's size, even without totalCount", async () => {
+    const page1 = [makeQhEntry(1), makeQhEntry(2), makeQhEntry(3)];
+    const page2 = [makeQhEntry(4)];
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ jobs: page1 }) })
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ jobs: page2 }) });
+    vi.stubGlobal("fetch", fetchMock);
+    await fetchQuarterhillJobs();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it(`never exceeds QUARTERHILL_MAX_PAGES (${QUARTERHILL_MAX_PAGES}) even when every page comes back full and totalCount indicates far more remain`, async () => {
+    const fullPage = [makeQhEntry(1), makeQhEntry(2), makeQhEntry(3)];
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue({ json: () => Promise.resolve({ totalCount: 10000, jobs: fullPage }) });
+    vi.stubGlobal("fetch", fetchMock);
+    await fetchQuarterhillJobs();
+    expect(fetchMock).toHaveBeenCalledTimes(QUARTERHILL_MAX_PAGES);
   });
 });
