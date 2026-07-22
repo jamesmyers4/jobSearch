@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isRemoteJob, isFreshJob, dedupeBySignature, scoreJob, type JobPosting } from "../../check-jobs.ts";
+import { isRemoteJob, isDomesticJob, isFreshJob, dedupeBySignature, scoreJob, type JobPosting } from "../../check-jobs.ts";
 
 // NOTE — scope of this file: this composes the real filter/dedupe/score pipeline
 // end to end, which is exactly where the two real bugs earlier in this project's
@@ -29,9 +29,15 @@ describe("filter -> dedupe -> score pipeline", () => {
       { key: "az:3", title: "QA Automation Engineer", url: "https://x/3", company: "Stale Co", location: "Remote", postedAt: daysAgo(30) },
       // Remote, fresh, low-credibility source, generic title -> should survive but score low
       { key: "az:4", title: "Quality Engineer", url: "https://x/4", company: "Low Signal Co", location: "Remote", postedAt: daysAgo(5) },
+      // Remote and fresh, but based in another country -> should be filtered
+      // out by isDomesticJob even though isRemoteJob/isFreshJob both pass it.
+      // This is the real bug shape: Workable's global cross-search returned
+      // a "remote" job with country: "Peru" and nothing upstream of
+      // isDomesticJob had any geographic signal at all.
+      { key: "wk:5", title: "QA Automation Engineer", url: "https://x/5", company: "Foreign Co", location: "Peru", country: "Peru", workArrangement: "remote", postedAt: daysAgo(0) },
     ];
 
-    const result = jobs.filter(isRemoteJob).filter(isFreshJob);
+    const result = jobs.filter(isRemoteJob).filter(isDomesticJob).filter(isFreshJob);
     const deduped = dedupeBySignature(result);
     const sorted = [...deduped].sort((a, b) => scoreJob(b) - scoreJob(a));
 

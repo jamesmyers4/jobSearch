@@ -36,6 +36,7 @@ describe("fetchTherapyNotesJobs", () => {
         url: "https://apply.workable.com/j/5CBA95131B",
         company: "TherapyNotes",
         location: "United States",
+        country: "United States",
         workArrangement: "remote",
         postedAt: "2026-07-13",
       },
@@ -126,5 +127,24 @@ describe("fetchTherapyNotesJobs", () => {
     mockFetch({});
     const jobs = await fetchTherapyNotesJobs();
     expect(jobs).toEqual([]);
+  });
+
+  it("maps the real top-level country field into JobPosting.country, independent of the location string", async () => {
+    mockFetch({
+      jobs: [
+        {
+          title: "QA Engineer",
+          shortcode: "COUNTRY1",
+          url: "https://apply.workable.com/j/COUNTRY1",
+          published_on: "2026-07-13",
+          country: "Canada",
+          city: "Toronto",
+          state: "Ontario",
+        },
+      ],
+    });
+    const jobs = await fetchTherapyNotesJobs();
+    expect(jobs[0].country).toBe("Canada");
+    expect(jobs[0].location).toBe("Toronto, Ontario");
   });
 });

@@ -38,6 +38,7 @@ describe("fetchAdzunaJobs", () => {
       url: "https://www.adzuna.com/land/ad/5799030504",
       company: "Acme Health",
       location: "Remote - US",
+      country: "United States",
       postedAt: "2026-07-13T10:00:00Z",
       salaryRange: "$90,000–$120,000 /Year",
       workArrangement: "hybrid",
@@ -69,6 +70,23 @@ describe("fetchAdzunaJobs", () => {
     mockFetch({});
     const jobs = await fetchAdzunaJobs("SDET");
     expect(jobs).toEqual([]);
+  });
+
+  it("always tags jobs with country: United States, since the query itself is scoped to the /us/ endpoint", async () => {
+    mockFetch({
+      results: [
+        {
+          id: "1",
+          title: "SDET",
+          redirect_url: "https://example.com/1",
+          company: { display_name: "Some Co" },
+          location: { display_name: "Remote" },
+          created: "2026-07-13T10:00:00Z",
+        },
+      ],
+    });
+    const jobs = await fetchAdzunaJobs("SDET");
+    expect(jobs[0].country).toBe("United States");
   });
 
   it("queries Adzuna's own max_days_old using the same freshness window as every other source (MAX_ALERT_AGE_DAYS), not the unrelated AI-draft-only MAX_DRAFT_AGE_DAYS", async () => {

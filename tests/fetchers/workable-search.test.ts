@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { readFileSync } from "fs";
-import { fetchTitleSearchJobs, fetchAllTitleSearchJobs } from "../../check-jobs.ts";
+import { fetchTitleSearchJobs, fetchAllTitleSearchJobs, isDomesticJob } from "../../check-jobs.ts";
 
 const realResponse = JSON.parse(
   readFileSync("tests/fixtures/workable-search-response.json", "utf-8"),
@@ -49,6 +49,21 @@ describe("fetchTitleSearchJobs", () => {
       location: "Peru",
       postedAt: "2026-07-07T00:17:31.657Z",
     });
+  });
+
+  it("maps job.location.countryName into JobPosting.country for both real fixture jobs (root cause of the foreign-posting bug)", async () => {
+    // This is the real captured payload that exposed the bug: an on-site
+    // job in Hyderabad, India and a fully-remote job based in Peru, both
+    // returned by Workable's global cross-search with no geographic
+    // scoping in the query. Before isDomesticJob existed, the Peru job's
+    // workArrangement of "remote" was enough on its own to sail through
+    // isRemoteJob and reach an alert email — this asserts the country is
+    // now captured so isDomesticJob (see isDomesticJob.test.ts) can catch it.
+    mockFetch(realResponse);
+    const jobs = await fetchTitleSearchJobs("SDET");
+    expect(jobs[0].country).toBe("India");
+    expect(jobs[1].country).toBe("Peru");
+    expect(isDomesticJob(jobs[1])).toBe(false);
   });
 
   it("maps the real workplace field into workArrangement (remote/hybrid/on_site -> onsite)", async () => {

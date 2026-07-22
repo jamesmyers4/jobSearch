@@ -9,6 +9,7 @@ export interface JobPosting {
   url: string;
   company?: string;
   location?: string;
+  country?: string;
   postedAt?: string | number;
   description?: string;
   salaryRange?: string;
@@ -137,6 +138,27 @@ const REMOTE_KEYWORDS = [
   "distributed",
 ];
 
+const US_COUNTRY_NAMES = ["united states", "usa", "u.s.", "u.s.a.", "us"];
+
+// Keyword fallback for sources that don't expose a structured country field
+// (e.g. RemoteOK, USAJOBS, SOLTECH, Quarterhill) — a curated denylist of
+// common non-US country/region names that show up in free-text location
+// strings. Deliberately excludes ambiguous entries that collide with US
+// place names (e.g. "Georgia" the country vs. the US state).
+const NON_US_LOCATION_KEYWORDS = [
+  "india", "pakistan", "bangladesh", "sri lanka", "nepal",
+  "philippines", "indonesia", "vietnam", "malaysia", "singapore", "thailand",
+  "china", "japan", "south korea", "taiwan", "hong kong",
+  "united kingdom", "england", "scotland", "wales",
+  "germany", "france", "spain", "italy", "portugal", "netherlands",
+  "poland", "romania", "ukraine", "hungary", "czech", "greece", "sweden",
+  "norway", "denmark", "finland", "switzerland", "austria", "belgium",
+  "canada", "mexico", "brazil", "argentina", "colombia", "chile", "peru",
+  "nigeria", "kenya", "south africa", "egypt",
+  "australia", "new zealand",
+  "eu only", "emea", "apac", "latam",
+];
+
 const EXCLUDE_KEYWORDS = [
   "manufacturing",
   "factory",
@@ -263,6 +285,12 @@ export function isRemoteJob(job: JobPosting): boolean {
   const text = `${job.location ?? ""} ${job.title}`.toLowerCase();
   if (text.includes("hybrid")) return false;
   return REMOTE_KEYWORDS.some((term) => text.includes(term));
+}
+
+export function isDomesticJob(job: JobPosting): boolean {
+  if (job.country) return US_COUNTRY_NAMES.includes(job.country.toLowerCase());
+  const text = `${job.location ?? ""}`.toLowerCase();
+  return !NON_US_LOCATION_KEYWORDS.some((term) => text.includes(term));
 }
 
 export function isFreshJob(job: JobPosting): boolean {
@@ -407,6 +435,7 @@ export async function fetchTherapyNotesJobs(): Promise<JobPosting[]> {
         [job.city, job.state].filter(Boolean).join(", ") ||
         job.country ||
         undefined,
+      country: job.country,
       workArrangement: job.telecommuting ? "remote" : undefined,
       postedAt: job.published_on ?? job.created_at,
     }));
@@ -432,6 +461,7 @@ export async function fetchTitleSearchJobs(
             .filter(Boolean)
             .join(", ") || undefined
         : undefined,
+      country: job.location?.countryName,
       postedAt: job.updated ?? job.updatedAt,
       workArrangement:
         job.workplace === "on_site" ? "onsite" : job.workplace,
@@ -614,6 +644,9 @@ export async function fetchAdzunaJobs(title: string): Promise<JobPosting[]> {
       url: job.redirect_url,
       company: job.company?.display_name,
       location: job.location?.display_name,
+      // Adzuna is queried against the /us/ country-scoped endpoint above, so
+      // every result it returns is a genuine US listing by construction.
+      country: "United States",
       postedAt: job.created,
       description: job.description,
       salaryRange: formatSalaryRange(
@@ -1479,6 +1512,7 @@ export async function main() {
       ...quarterhillJobs,
     ]
       .filter(isRemoteJob)
+      .filter(isDomesticJob)
       .filter(isFreshJob)
       .filter((job) => !isBlockedCompany(job)),
   );
