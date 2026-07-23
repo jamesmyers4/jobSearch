@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5812338206",
+      "title": "SDET",
+      "url": "https://www.adzuna.com/land/ad/5812338206?se=WopOhqSG8RGOTokAaHxoXQ&utm_medium=api&utm_source=ae2feac4&v=820ABAE0551750021A8ED6D0855C3804FDD08622",
+      "company": "Apex Systems",
+      "location": "Blue Hills, Hartford County",
+      "country": "United States",
+      "postedAt": "2026-07-23T09:11:09Z",
+      "description": "Job: 3042379 Job Description: SDET Location: Hartford, CT, or Wellesley, MA (Partial Remote) Role Overview We are seeking two mid to senior-level Software Development Engineers in Test (SDET) to join our engineering team. These contract-to-hire roles are focused on transitioning from traditional QA to an engineering-centric approach by architecting and implementing testing frameworks and tools, particularly for AI agents and conversational AI systems. The ideal candidates will have five or more…",
+      "salaryRange": "$89,678–$89,678 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/apex-systems-sdet-2026-07-23.md"
+    }
+  ],
   "lastSentAt": "2026-07-23T07:32:31.957Z"
 }
