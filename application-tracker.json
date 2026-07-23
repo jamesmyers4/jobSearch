@@ -520,5 +520,29 @@
     "company": "TubeScience",
     "postedAt": "2026-07-23T00:52:54Z",
     "alertedAt": "2026-07-23T07:32:31.957Z"
+  },
+  "az:5812338206": {
+    "title": "SDET",
+    "company": "Apex Systems",
+    "postedAt": "2026-07-23T09:11:09Z",
+    "alertedAt": "2026-07-23T20:35:51.657Z"
+  },
+  "az:5812553433": {
+    "title": "Software Developer in Test (SDET)",
+    "company": "Syms Strategic Group, LLC ",
+    "postedAt": "2026-07-23T13:12:02Z",
+    "alertedAt": "2026-07-23T20:35:51.657Z"
+  },
+  "az:5812098619": {
+    "title": "PAM Automation Engineer",
+    "company": "Genesis10",
+    "postedAt": "2026-07-23T05:10:18Z",
+    "alertedAt": "2026-07-23T20:35:51.657Z"
+  },
+  "az:5812602094": {
+    "title": "Quality Engineer w/Playwright and claims experience",
+    "company": "IBOTIX US Inc.",
+    "postedAt": "2026-07-23T15:05:01Z",
+    "alertedAt": "2026-07-23T20:35:51.657Z"
   }
 }
