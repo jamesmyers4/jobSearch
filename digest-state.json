@@ -1,4 +1,31 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5812686681",
+      "title": "Software/Automation Engineer (Fullstack)",
+      "url": "https://www.adzuna.com/land/ad/5812686681?se=GHYFW-KG8RGlu8FcJJTwKw&utm_medium=api&utm_source=ae2feac4&v=0E0AE8117F0AA6E559289813F62CB53CA2ACBD09",
+      "company": "Jobot",
+      "location": "Rollingwood, Travis County",
+      "country": "United States",
+      "postedAt": "2026-07-23T17:29:03Z",
+      "description": "REMOTE - Partner with Anthropic, NVIDIA, AWS, and more This Jobot Job is hosted by: Albert Simons Are you a fit? Easy Apply now by clicking the \"Quick Apply\" button and sending us your resume. Salary: $58 - $68 per hour A bit about us: Help shape how the world finds businesses in an AI-first future. We work alongside major players in AI and cloud computing, including NVIDIA, Anthropic, AWS, and Google, and our partner roster keeps growing. Search behavior is changing fast. People are turning to…",
+      "salaryRange": "$104,292–$104,292 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/jobot-software-automation-engineer-fullstack-2026-07-23.md"
+    },
+    {
+      "key": "az:5812087287",
+      "title": "Automation Engineer III (Finance/AI)",
+      "url": "https://www.adzuna.com/land/ad/5812087287?se=XOm2W-KG8RG4J83nekfXWA&utm_medium=api&utm_source=ae2feac4&v=432D86B2D1123E47CAF5A6462F0478F0FE01916D",
+      "company": "BC Forward",
+      "location": "Indianapolis, Marion County",
+      "country": "United States",
+      "postedAt": "2026-07-23T05:07:54Z",
+      "description": "Job Title: Automation Engineer III (Finance/AI) Location: Remote; CST or EST only Duration: Contract - 12 months Pay Range: $51/hr - $54/hr (W2) Job ID: 406827 About BCforward BCforward is a leading global IT consulting and workforce solutions firm providing services and support to Fortune 500 and government clients. Founded in 1998, BCforward has grown with our customers needs into a full-service business solutions provider. With delivery centers and offices across North America and India, we …",
+      "salaryRange": "$96,912–$96,912 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bc-forward-automation-engineer-iii-finance-ai-2026-07-23.md"
+    }
+  ],
   "lastSentAt": "2026-07-23T20:35:51.657Z"
 }
