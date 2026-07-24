@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5813873771",
+      "title": "Core Engineering - Automation Engineer IV",
+      "url": "https://www.adzuna.com/land/ad/5813873771?se=bG4gtmWH8RGlu8FcJJTwKw&utm_medium=api&utm_source=ae2feac4&v=493991D0118B9C1FF159FD67A1BD386791F64B19",
+      "company": "Apex Systems",
+      "location": "Texas, US",
+      "country": "United States",
+      "postedAt": "2026-07-24T09:15:01Z",
+      "description": "Job: 3043574 Job Description: Core Engineering - Automation Engineer IV Location: Texas, United States (Remote) COMPENSATION: $77-$87 HOURLY Role Overview We are seeking Forward Deployed Automation Developers to join a Finance Innovation Hub, operating at the intersection of AI engineering and Finance transformation. This role involves working directly with Finance teams to take full ownership of automation projects, from initial scoping through to production deployment. The focus is on creatin…",
+      "salaryRange": "$121,530–$121,530 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/apex-systems-core-engineering-automation-engineer-iv-2026-07-24.md"
+    }
+  ],
   "lastSentAt": "2026-07-24T09:54:29.988Z"
 }
