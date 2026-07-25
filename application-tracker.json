@@ -652,5 +652,65 @@
     "company": "Excella",
     "postedAt": "2026-07-24T18:30:50Z",
     "alertedAt": "2026-07-24T23:02:44.907Z"
+  },
+  "az:5814589228": {
+    "title": "ServiceNow IRM Automation Engineer",
+    "company": "Altitude Technology Solutions Inc",
+    "postedAt": "2026-07-24T19:16:10Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
+  },
+  "az:5814230678": {
+    "title": "Test Automation Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-24T13:43:35Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
+  },
+  "az:5813863607": {
+    "title": "Automated Test Engineer - TS/SCI",
+    "company": "Sunayu",
+    "postedAt": "2026-07-24T09:11:43Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
+  },
+  "az:5814565159": {
+    "title": "QA Engineer (DevOps) (Contract)",
+    "company": "TalentBurst, Inc.",
+    "postedAt": "2026-07-24T19:04:46Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
+  },
+  "az:5811823190": {
+    "title": "Software Development Engineer in Test",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-23T00:03:58Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
+  },
+  "az:5815283986": {
+    "title": "Senior SDET - Playwright & API Automation",
+    "company": "Sky System Inc",
+    "postedAt": "2026-07-25T06:37:26Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
+  },
+  "az:5815297560": {
+    "title": "Sr Software Development Engineer in Test (SDET)",
+    "company": "Sky System Inc",
+    "postedAt": "2026-07-25T06:39:39Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
+  },
+  "az:5815299857": {
+    "title": "Mobile App Test Automation Engineer",
+    "company": "Sky System Inc",
+    "postedAt": "2026-07-25T06:40:00Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
+  },
+  "az:5815310078": {
+    "title": "Mobile App Test Automation Engineer (Hybris)",
+    "company": "Sky System Inc",
+    "postedAt": "2026-07-25T06:41:18Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
+  },
+  "az:5815305548": {
+    "title": "QA Engineer (SAP Hybris/Commerce Cloud)",
+    "company": "Sky System Inc",
+    "postedAt": "2026-07-25T06:40:40Z",
+    "alertedAt": "2026-07-25T12:02:35.677Z"
   }
 }
