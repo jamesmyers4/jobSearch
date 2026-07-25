@@ -1,4 +1,44 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5814589228",
+      "title": "ServiceNow IRM Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5814589228?se=xLRfdMSH8RGrg5YQe_eAEA&utm_medium=api&utm_source=ae2feac4&v=E8C9FFC8F16D9A47F800C56B430FDF91999C56E4",
+      "company": "Altitude Technology Solutions Inc",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-07-24T19:16:10Z",
+      "description": "Position: ServiceNow IRM Automation Engineer Location: USA (Remote) Duration: 6 Months Skill Requirements: ServiceNow IRM, Playwright, and ATF (Mandatory) Job Summary: We are seeking a Contract IRM Automation Engineer to support the DT GRC Continuous Control Monitoring (CCM) program at ServiceNow. This hands-on technical role focuses on automating control testing and evidence collection across GRC frameworks (SOX, NIST, CMMC). You will partner with the IRM engineering team to build and configur…",
+      "salaryRange": "$113,824–$113,824 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/altitude-technology-solutions-inc-servicenow-irm-automation-engineer-2026-07-25.md"
+    },
+    {
+      "key": "az:5814230678",
+      "title": "Test Automation Engineer",
+      "url": "https://www.adzuna.com/details/5814230678?utm_medium=api&utm_source=ae2feac4",
+      "company": "Bright Vision Technologies",
+      "location": "Tempe, Maricopa County",
+      "country": "United States",
+      "postedAt": "2026-07-24T13:43:35Z",
+      "description": "Test Automation Engineer - Remote Bright Vision Technologies is a technology consulting and software development company delivering cloud, AI, data, and enterprise solutions across the United States. This is a fantastic opportunity to join an established and well-respected organization offering tremendous career growth potential. Job Title: Test Automation Engineer Location : 100% Remote (U.S.) Position Type: Full-time, Direct W2 Salary Range: $100,000–$150,000 Annually Experience Required : 6 …",
+      "salaryRange": "$127,649–$127,649 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bright-vision-technologies-test-automation-engineer-2026-07-25.md"
+    },
+    {
+      "key": "az:5813863607",
+      "title": "Automated Test Engineer - TS/SCI",
+      "url": "https://www.adzuna.com/details/5813863607?utm_medium=api&utm_source=ae2feac4",
+      "company": "Sunayu",
+      "location": "Somerset, Montgomery County",
+      "country": "United States",
+      "postedAt": "2026-07-24T09:11:43Z",
+      "description": "Location: Bethesda, MD Category: Quality Assurance Travel Required: No Remote Type: No Clearance: TS/SCI Sunayu, LLC is looking for a Test Engineer to work with User Services, Software Engineers, Systems Engineers, and Architects to support key tasks such as: Design test strategies, test plans, and test cases from requirements, design documents and specifications for testing across different platforms and with an emphasis on manual testing. Automate test cases using Selenium WebDriver Estimate …",
+      "salaryRange": "$92,300–$166,850 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/sunayu-automated-test-engineer-ts-sci-2026-07-25.md"
+    }
+  ],
   "lastSentAt": "2026-07-24T23:02:44.907Z"
 }
