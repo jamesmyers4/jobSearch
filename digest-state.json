@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5816163199",
+      "title": "SAP Ariba Quality Engineer (Remote)",
+      "url": "https://www.adzuna.com/land/ad/5816163199?se=LtglYhOJ8RGrg5YQe_eAEA&utm_medium=api&utm_source=ae2feac4&v=C61B602B9D57BD7F2E3CA1BE7FFA7485CDA859D2",
+      "company": "Information Consulting Services",
+      "location": "Newtown Square, Delaware County",
+      "country": "United States",
+      "postedAt": "2026-07-26T01:05:49Z",
+      "description": "Job Description Job Description Contract Details Work Mode: 100% Remote (US-based) Location: Newtown Square, PA Schedule: 40 hours/week Duration: 12 months (anticipated 07/06/2026 07/05/2027) Potential to convert to full-time About the Opportunity Join a team focused on ensuring end-to-end quality for SAP Ariba and SAP S/4HANA procurement solutions. This role suits a hands-on Quality Engineer who can quickly understand complex procurement workflows, define test coverage with limited documentati…",
+      "salaryRange": "$99,657–$99,657 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/information-consulting-services-sap-ariba-quality-engineer-remote-2026-07-26.md"
+    }
+  ],
   "lastSentAt": "2026-07-26T15:38:25.374Z"
 }
