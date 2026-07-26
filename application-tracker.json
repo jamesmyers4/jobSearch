@@ -730,5 +730,23 @@
     "company": "BC Forward",
     "postedAt": "2026-07-25T05:13:44Z",
     "alertedAt": "2026-07-26T02:42:51.915Z"
+  },
+  "az:5816235565": {
+    "title": "Test Automation Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-26T01:26:35Z",
+    "alertedAt": "2026-07-26T15:38:25.374Z"
+  },
+  "az:5815305612": {
+    "title": "Automation QA Engineer",
+    "company": "Sky System Inc",
+    "postedAt": "2026-07-25T06:40:40Z",
+    "alertedAt": "2026-07-26T15:38:25.374Z"
+  },
+  "az:5816324220": {
+    "title": "Staff Software Development Engineer in Test, Cloud Applications (Remote)",
+    "company": "Brain Corp",
+    "postedAt": "2026-07-26T04:33:19Z",
+    "alertedAt": "2026-07-26T15:38:25.374Z"
   }
 }
