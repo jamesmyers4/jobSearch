@@ -1,44 +1,4 @@
 {
-  "queue": [
-    {
-      "key": "az:5815580376",
-      "title": "QA Automation Engineer",
-      "url": "https://www.adzuna.com/land/ad/5815580376?se=zAiki1KI8RGrg5YQe_eAEA&utm_medium=api&utm_source=ae2feac4&v=552C73BA17DAD498CC05C84AA60EC48A764648BF",
-      "company": "Numentica LLC",
-      "location": "Los Angeles, Los Angeles County",
-      "country": "United States",
-      "postedAt": "2026-07-25T13:10:05Z",
-      "description": "Job Description Job Description This is a remote position. We are looking for a QA Automation Engineer with strong experience in Playwright automation, API testing, integration testing, and excellent communication skills. The candidate should be able to build and maintain automation frameworks, validate end-to-end business workflows, and collaborate effectively with technical and business teams. Key Responsibilities Design, develop, and maintain automated test scripts using Playwright . Build s…",
-      "salaryRange": "$85,685–$85,685 /Year",
-      "workArrangement": "remote",
-      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/numentica-llc-qa-automation-engineer-2026-07-25.md"
-    },
-    {
-      "key": "az:5815161896",
-      "title": "PAM Automation Engineer",
-      "url": "https://www.adzuna.com/land/ad/5815161896?se=zAiki1KI8RGrg5YQe_eAEA&utm_medium=api&utm_source=ae2feac4&v=92A4E857856E3ECBF504D44F1B6568999963E168",
-      "company": "Genesis10",
-      "location": "Kansas City, Jackson County",
-      "country": "United States",
-      "postedAt": "2026-07-25T05:14:21Z",
-      "description": "Genesis10 is currently seeking a PAM Automation Engineer for a remote position with a Major Financial Institution. This is a 12-month contract-to-hire opportunity. Overview Our client is seeking a PAM Automation Engineer to join the Privileged Access Management Services team. This role focuses on building and supporting automation that enables secure access elevation services across Unix, Linux, and other non-Microsoft systems. Responsibilities Build and maintain automation supporting privilege…",
-      "salaryRange": "$135,388–$135,388 /Year",
-      "workArrangement": "remote",
-      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/genesis10-pam-automation-engineer-2026-07-25.md"
-    },
-    {
-      "key": "az:5815155941",
-      "title": "Automation Engineer III (Finance/AI)",
-      "url": "https://www.adzuna.com/land/ad/5815155941?se=NnH-i1KI8RGEopbyd0f8Hw&utm_medium=api&utm_source=ae2feac4&v=CFB27768565A97DF3DD8187650CE19EA28B44ED9",
-      "company": "BC Forward",
-      "location": "Indianapolis, Marion County",
-      "country": "United States",
-      "postedAt": "2026-07-25T05:13:44Z",
-      "description": "Job Title: Automation Engineer III (Finance/AI) Location: Remote; CST or EST only Duration: Contract - 12 months Pay Range: $51/hr - $54/hr (W2) Job ID: 406827 About BCforward BCforward is a leading global IT consulting and workforce solutions firm providing services and support to Fortune 500 and government clients. Founded in 1998, BCforward has grown with our customers needs into a full-service business solutions provider. With delivery centers and offices across North America and India, we …",
-      "salaryRange": "$96,912–$96,912 /Year",
-      "workArrangement": "remote",
-      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bc-forward-automation-engineer-iii-finance-ai-2026-07-25.md"
-    }
-  ],
-  "lastSentAt": "2026-07-25T12:02:35.677Z"
+  "queue": [],
+  "lastSentAt": "2026-07-26T02:42:51.916Z"
 }
