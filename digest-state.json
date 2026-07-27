@@ -1,4 +1,44 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5817310072",
+      "title": "PAM Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5817310072?se=-vFp1uyJ8RG1d7LYFOmBDw&utm_medium=api&utm_source=ae2feac4&v=49ABCEDCBDC1C02B3222BA6CDB840CBD61272905",
+      "company": "Genesis10",
+      "location": "Kansas City, Jackson County",
+      "country": "United States",
+      "postedAt": "2026-07-27T05:22:05Z",
+      "description": "Genesis10 is currently seeking a PAM Automation Engineer for a remote position with a Major Financial Institution. This is a 12-month contract-to-hire opportunity. Overview Our client is seeking a PAM Automation Engineer to join the Privileged Access Management Services team. This role focuses on building and supporting automation that enables secure access elevation services across Unix, Linux, and other non-Microsoft systems. Responsibilities Build and maintain automation supporting privilege…",
+      "salaryRange": "$135,388–$135,388 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/genesis10-pam-automation-engineer-2026-07-27.md"
+    },
+    {
+      "key": "az:5817302097",
+      "title": "Automation Engineer III (Finance/AI)",
+      "url": "https://www.adzuna.com/land/ad/5817302097?se=Gq0B1-yJ8RG976Z7Kh6xVw&utm_medium=api&utm_source=ae2feac4&v=C6ABCAB67ABAE4F7F49E8625ACF49F43534844FB",
+      "company": "BC Forward",
+      "location": "Indianapolis, Marion County",
+      "country": "United States",
+      "postedAt": "2026-07-27T05:21:15Z",
+      "description": "Job Title: Automation Engineer III (Finance/AI) Location: Remote; CST or EST only Duration: Contract - 12 months Pay Range: $51/hr - $54/hr (W2) Job ID: 406827 About BCforward BCforward is a leading global IT consulting and workforce solutions firm providing services and support to Fortune 500 and government clients. Founded in 1998, BCforward has grown with our customers needs into a full-service business solutions provider. With delivery centers and offices across North America and India, we …",
+      "salaryRange": "$96,912–$96,912 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bc-forward-automation-engineer-iii-finance-ai-2026-07-27.md"
+    },
+    {
+      "key": "az:5817548108",
+      "title": "Healthcare QA engineer",
+      "url": "https://www.adzuna.com/land/ad/5817548108?se=UNXI1OyJ8RGXg4cXG4EfVw&utm_medium=api&utm_source=ae2feac4&v=9ABA66EA1CFF26557700EC354A616B617B61BFB1",
+      "company": "Headway Tek Inc",
+      "location": "Newark, Essex County",
+      "country": "United States",
+      "postedAt": "2026-07-27T13:15:36Z",
+      "description": "Title: HealthCare QA Engineer Location: Broadway,NY(Remote) C2C or W2 Note: Inperson Client interview at New York,NY on 07 th Aug 2026 Mandatory Skills: QA Automation engineer,Java,Selenium Secondary Skills: Contact Center,Cyara,IVR,Spanish,nodejs We are seeking an experienced Healthcare QA Automation Engineer with expertise in Selenium Automation to join our QA team. The ideal candidate should have strong experience in automation testing, healthcare applications, EHR/EMR systems, and Agile met…",
+      "salaryRange": "$162,167–$162,167 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/headway-tek-inc-healthcare-qa-engineer-2026-07-27.md"
+    }
+  ],
   "lastSentAt": "2026-07-27T17:17:51.567Z"
 }
