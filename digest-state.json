@@ -1,4 +1,32 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5817415141",
+      "title": "(Lead QA/SDET Engineer)",
+      "url": "https://www.adzuna.com/land/ad/5817415141?se=CL4QN8-J8RGII6NqtLT8YQ&utm_medium=api&utm_source=ae2feac4&v=3EB70566D0B010FCD9E16EB0E32391F3613ABB0D",
+      "company": "Arcadia Talent Advisory LLC",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-07-27T09:13:17Z",
+      "description": "PLEASE DO NOT REPLY TO THIS UNLESS YOU ARE AN INDEPENDENT CONTRACTOR WHO IS EITHER A OR A - NO 3RD PARTIES AT ALL! POSITION IS 100% USA REMOTE WORKING NORTHEAST HOURS-PLEASE RESPECT MY REQUEST- FOR THOSE WHO DON'T, YOU WILL BE BLOCKED FROM EVER DOING BUSINESS WITH MY TEAM/NETWORK- PLEASE READ THE ENTIRE JS- ANY RESUMES THAT DO NOT MATCH THIS WILL BE AUTOMATICALLY DELETED- I HAVE 3 SENIOR QA ENGINEER 100% USA REMOTE OPPORTUNITIES. ONLY APPLY IF YOU HAVE 8 YEARS OF EXPERIENCE WITH THE FOLLOWING S…",
+      "salaryRange": "$138,680–$138,680 /Year",
+      "yearsRequired": "8 YEARS OF EXPERIENCE",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/arcadia-talent-advisory-llc-lead-qa-sdet-engineer-2026-07-27.md"
+    },
+    {
+      "key": "az:5811975046",
+      "title": "Automated Test Engineer (ATE)",
+      "url": "https://www.adzuna.com/details/5811975046?utm_medium=api&utm_source=ae2feac4",
+      "company": "SSG",
+      "location": "University, Charlottesville City",
+      "country": "United States",
+      "postedAt": "2026-07-23T02:22:39Z",
+      "description": "Syms Strategic Group (SSG) is seeking a talented Automated Test Engineer Location: Remote Department: Veterans Affairs (VA) Type: Full Time Min. Experience: Experienced Security Clearance Level: Public Trust (MBI) Salary Range: $85,389 - $116,975 Military Veterans are highly encouraged to apply! Essential Duties and Responsibilities NOTE: This is NOT an SQA tester position. Candidates MUST have strong programming skills, often in languages such as C#, .Net, Java, or Python. Develop and execute …",
+      "salaryRange": "$85,389–$116,975 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/ssg-automated-test-engineer-ate-2026-07-27.md"
+    }
+  ],
   "lastSentAt": "2026-07-27T05:10:53.528Z"
 }
