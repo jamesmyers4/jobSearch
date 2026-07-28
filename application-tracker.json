@@ -850,5 +850,47 @@
     "company": "GovCIO",
     "postedAt": "2026-07-21T22:38:28Z",
     "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5818696878": {
+    "title": "QA Automation Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-28T13:55:30Z",
+    "alertedAt": "2026-07-28T20:01:49.796Z"
+  },
+  "az:5818696909": {
+    "title": "Test Automation Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-28T13:55:31Z",
+    "alertedAt": "2026-07-28T20:01:49.796Z"
+  },
+  "az:5818696905": {
+    "title": "Software Development Engineer in Test",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-28T13:55:31Z",
+    "alertedAt": "2026-07-28T20:01:49.796Z"
+  },
+  "az:5818199348": {
+    "title": "PAM Automation Engineer",
+    "company": "Genesis10",
+    "postedAt": "2026-07-28T05:19:00Z",
+    "alertedAt": "2026-07-28T20:01:49.796Z"
+  },
+  "az:5818696894": {
+    "title": "SDET Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-28T13:55:31Z",
+    "alertedAt": "2026-07-28T20:01:49.796Z"
+  },
+  "az:5818731074": {
+    "title": "QA Engineer, Remote - 69488",
+    "company": "PRIMUS Global Services Inc.",
+    "postedAt": "2026-07-28T15:21:11Z",
+    "alertedAt": "2026-07-28T20:01:49.796Z"
+  },
+  "az:5818726924": {
+    "title": "Remote - Senior QA Engineer with AI & Playwright",
+    "company": "Resource Informatics Group",
+    "postedAt": "2026-07-28T15:12:31Z",
+    "alertedAt": "2026-07-28T20:01:49.796Z"
   }
 }
