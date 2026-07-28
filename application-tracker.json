@@ -784,5 +784,71 @@
     "company": "Tuesday Health",
     "postedAt": "2026-07-27T13:07:49Z",
     "alertedAt": "2026-07-27T17:17:51.567Z"
+  },
+  "az:5817310072": {
+    "title": "PAM Automation Engineer",
+    "company": "Genesis10",
+    "postedAt": "2026-07-27T05:22:05Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5817302097": {
+    "title": "Automation Engineer III (Finance/AI)",
+    "company": "BC Forward",
+    "postedAt": "2026-07-27T05:21:15Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5817548108": {
+    "title": "Healthcare QA engineer",
+    "company": "Headway Tek Inc",
+    "postedAt": "2026-07-27T13:15:36Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5817617787": {
+    "title": "QA Automation Engineer - Remote",
+    "company": "MSYS Inc.",
+    "postedAt": "2026-07-27T17:19:23Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5817617066": {
+    "title": "QA Engineer – Automation",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-27T17:16:49Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5816139215": {
+    "title": "SDET Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-25T23:49:46Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5810683980": {
+    "title": "QA Automation Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-22T05:40:10Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5810292364": {
+    "title": "Test Automation Engineer (Remote)",
+    "company": "GovCIO",
+    "postedAt": "2026-07-21T22:40:48Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5817555618": {
+    "title": "SDET Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-27T13:51:05Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5817555590": {
+    "title": "QA Automation Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-27T13:51:04Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
+  },
+  "az:5810285142": {
+    "title": "Test Automation Engineer (Remote)",
+    "company": "GovCIO",
+    "postedAt": "2026-07-21T22:38:28Z",
+    "alertedAt": "2026-07-28T07:12:59.454Z"
   }
 }
