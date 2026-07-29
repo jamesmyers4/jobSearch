@@ -1,4 +1,19 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5820413405",
+      "title": "Windows QA Engineer (IT Systems & Endpoint Management)",
+      "url": "https://www.adzuna.com/land/ad/5820413405?se=PHFgdKmL8RGzQa4pljvFHQ&utm_medium=api&utm_source=ae2feac4&v=1D97F73AA31CFEFCE936225922601CB9879C3264",
+      "company": "Simple Solutions",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-07-29T19:24:55Z",
+      "description": "Windows QA Engineer (Endpoint Management) - Remote Overview We are seeking a detail-oriented and technically strong Windows QA Engineer with 5-8 years experience and hands-on experience in IT systems, endpoint management, and Windows environments. This role blends quality assurance with IT support expertise, ensuring reliability, performance, and usability across Windows-based systems and infrastructure. About the Role Client is seeking a dedicated and detail-oriented Windows QA Engineer with a…",
+      "salaryRange": "$105,880–$105,880 /Year",
+      "yearsRequired": "5-8 years experience",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/simple-solutions-windows-qa-engineer-it-systems-endpoint-management-2026-07-29.md"
+    }
+  ],
   "lastSentAt": "2026-07-29T21:29:49.544Z"
 }
