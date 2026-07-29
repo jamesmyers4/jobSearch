@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5819589556",
+      "title": "Automation Engineer IV",
+      "url": "https://www.adzuna.com/land/ad/5819589556?se=rOoyIEKL8RGW1Ji16AgArw&utm_medium=api&utm_source=ae2feac4&v=E0E44ACF92AD87E654531865B97E45B558860C4E",
+      "company": "BCforward",
+      "location": "Menlo Park, San Mateo County",
+      "country": "United States",
+      "postedAt": "2026-07-29T05:29:17Z",
+      "description": "Job Title: Core Engineering - Automation Engineer IV Location: Remote, USA Duration: Contract - 5 months Pay Range: $58/hr $61/hr (W2) Job ID: 407539 About BCforward BCforward is a leading global IT consulting and workforce solutions firm providing services and support to Fortune 500 and government clients. Founded in 1998, BCforward has grown with our customers needs into a full-service business solutions provider. With delivery centers and offices across North America and India, we take pride…",
+      "salaryRange": "$185,391–$185,391 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bcforward-automation-engineer-iv-2026-07-29.md"
+    }
+  ],
   "lastSentAt": "2026-07-29T09:24:04.295Z"
 }
