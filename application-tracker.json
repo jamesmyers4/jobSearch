@@ -922,5 +922,29 @@
     "company": "Cross Resource Group",
     "postedAt": "2026-07-29T01:12:25Z",
     "alertedAt": "2026-07-29T09:24:04.294Z"
+  },
+  "az:5819589556": {
+    "title": "Automation Engineer IV",
+    "company": "BCforward",
+    "postedAt": "2026-07-29T05:29:17Z",
+    "alertedAt": "2026-07-29T21:29:49.544Z"
+  },
+  "az:5819589271": {
+    "title": "PAM Automation Engineer",
+    "company": "Genesis10",
+    "postedAt": "2026-07-29T05:29:15Z",
+    "alertedAt": "2026-07-29T21:29:49.544Z"
+  },
+  "az:5820119928": {
+    "title": "SDET With Python",
+    "company": "Voto Consulting LLC",
+    "postedAt": "2026-07-29T13:42:53Z",
+    "alertedAt": "2026-07-29T21:29:49.544Z"
+  },
+  "az:5820140416": {
+    "title": "QA Engineer",
+    "company": "HAN IT Staffing Inc.",
+    "postedAt": "2026-07-29T15:17:26Z",
+    "alertedAt": "2026-07-29T21:29:49.544Z"
   }
 }
