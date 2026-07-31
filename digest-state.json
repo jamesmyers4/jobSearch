@@ -1,4 +1,44 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5821832058",
+      "title": "QA Automation Engineer - Selenium, Cucumber, CoPilot, RDS, EC2, EMR",
+      "url": "https://www.adzuna.com/land/ad/5821832058?se=7CbXe5yM8RG8JMyxbRrc7Q&utm_medium=api&utm_source=ae2feac4&v=F91B49F4D10D1054F5DE77FEA2531D97C75C55E4",
+      "company": "SES",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-07-30T21:27:31Z",
+      "description": "QA Automation Engineer - Selenium, Cucumber, CoPilot, RDS, EC2, EMR No Corp to Corp Remote - Supporting MST or CST Time Zones Technical Skills: Top Technical Skills: QA Automation, Selenium, Cucumber, Feature Files, Jenkins, Maven, CI/CD API Testing, Java, Springboot, AWS Services RDS, EC2, EMR, S3, Lambda, basic services such as SNS, SES, Redshift, Snowflake CoPilot Top 3 Soft Skills: Communications MUST be STRONG Job Description: AWS - API Gateway nothing on prem 100% cloud. QA Automation eng…",
+      "salaryRange": "$78,079–$78,079 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/ses-qa-automation-engineer-selenium-cucumber-copilot-rds-ec2-emr-2026-07-31.md"
+    },
+    {
+      "key": "az:5821431176",
+      "title": "Network Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5821431176?se=-Ju0gZyM8RG8JMyxbRrc7Q&utm_medium=api&utm_source=ae2feac4&v=F60F01E6D2B8AAD74D1A09B37C80AA2D4E55E83D",
+      "company": "Pyramid Consulting, Inc.",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-07-30T15:14:05Z",
+      "description": "Immediate need for a talented Network Automation Enginee r . This is a 06 Months Contract opportunity with long-term potential and is located in E.S.T(Remote) . Please review the job description below and contact me ASAP if you are interested. Job ID:25-60181 Pay Range: $100 - $110/hour. Employee benefits include, but are not limited to, health insurance (medical, dental, vision), 401(k) plan, and paid sick leave (depending on work location). Key Responsibilities: Integrating network management…",
+      "salaryRange": "$132,049–$132,049 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/pyramid-consulting-inc-network-automation-engineer-2026-07-31.md"
+    },
+    {
+      "key": "az:5821468104",
+      "title": "OPS/MVS System Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5821468104?se=OhUNgpyM8RGGgO_n0rmdiQ&utm_medium=api&utm_source=ae2feac4&v=95FD3830A6C213CE9353399C611005B22C0A666C",
+      "company": "NTT DATA Americas, Inc",
+      "location": "Cheektowaga, Erie County",
+      "country": "United States",
+      "postedAt": "2026-07-30T17:15:00Z",
+      "description": "W2 hourly Remote We are currently seeking a OPS/MVS System Automation Engineer to join our team in Buffalo, New York (US-NY), United States (US). Job Description: OPS/MVS System Automation Engineer We are looking for a skilled Mainframe System Automation specialist to join our global team focused on the design and implementation of monitoring and automation solutions. Our team is responsible for defining and implementing the strategy for a number of critical products across the organization, en…",
+      "salaryRange": "$100,016–$100,016 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/ntt-data-americas-inc-ops-mvs-system-automation-engineer-2026-07-31.md"
+    }
+  ],
   "lastSentAt": "2026-07-31T01:04:50.863Z"
 }
