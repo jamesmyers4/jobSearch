@@ -1108,5 +1108,35 @@
     "company": "Insight Global",
     "postedAt": "2026-07-31T22:40:48Z",
     "alertedAt": "2026-08-01T16:58:48.542Z"
+  },
+  "az:5818996868": {
+    "title": "Test automation architect",
+    "company": "Spar Information Systems",
+    "postedAt": "2026-07-28T19:13:16Z",
+    "alertedAt": "2026-08-02T06:17:36.128Z"
+  },
+  "az:5817733603": {
+    "title": "Test Automation Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-27T19:54:08Z",
+    "alertedAt": "2026-08-02T06:17:36.128Z"
+  },
+  "az:5823251785": {
+    "title": "Software Test Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-31T23:04:21Z",
+    "alertedAt": "2026-08-02T06:17:36.128Z"
+  },
+  "az:5823251771": {
+    "title": "QA Engineer – Automation",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-31T23:04:17Z",
+    "alertedAt": "2026-08-02T06:17:36.128Z"
+  },
+  "az:5823788031": {
+    "title": "ServiceNow Automated Test Framework QA Engineer/Tester (Remote-DC/MD/VA)",
+    "company": "Govcio LLC",
+    "postedAt": "2026-08-01T06:17:15Z",
+    "alertedAt": "2026-08-02T06:17:36.128Z"
   }
 }
