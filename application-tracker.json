@@ -1150,5 +1150,17 @@
     "company": "Post Holdings Inc.",
     "postedAt": "2026-08-02T23:01:53Z",
     "alertedAt": "2026-08-03T03:45:36.658Z"
+  },
+  "az:5825432382": {
+    "title": "Software Test Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-08-02T04:05:32Z",
+    "alertedAt": "2026-08-03T16:24:36.113Z"
+  },
+  "az:5819739609": {
+    "title": "QA Engineer – Automation",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-07-29T07:41:38Z",
+    "alertedAt": "2026-08-03T16:24:36.113Z"
   }
 }
