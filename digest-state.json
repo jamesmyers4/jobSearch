@@ -1,4 +1,46 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5826789022",
+      "title": "QA Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5826789022?se=RPFDfmeP8RGAo4Svc7e-eg&utm_medium=api&utm_source=ae2feac4&v=174C0F6B3C18F3B22DB88C1CD1CC63A33F1B3D57",
+      "company": "Rivago infotech inc",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-03T13:31:34Z",
+      "description": "Role: QA Automation Engineer Location: Remote Type: Full time Location/Work Model: Remote (US-Based only, Central/Eastern time zone alignment required). Security Clearance: High Security / Enhanced Background Clearance required. Strong communication skills Knowledge of Banking and financial clients is a plus. Overview: Focuses on verifying application functionality, network connectivity, and end-to-end integration as systems move to the co-located environment using Automation scripts Key Respon…",
+      "salaryRange": "$84,195–$84,195 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/rivago-infotech-inc-qa-automation-engineer-2026-08-03.md"
+    },
+    {
+      "key": "az:5826793869",
+      "title": "ServiceNow QA Engineer",
+      "url": "https://www.adzuna.com/land/ad/5826793869?se=AIhXfGeP8RG026BdxT_AqA&utm_medium=api&utm_source=ae2feac4&v=34077294DBE2D5BCB41AD48BF4897FF15E23DEBC",
+      "company": "Saksoft",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-03T13:42:21Z",
+      "description": "Hi, Position: ServiceNow QA Engineer Location: Santa Clara, CA – Remote Duration: Long Term Client: LTM Job description: Must possess at least 5 years of proven experience in testing ServiceNow version upgrades Must possess at least 5 years of proven experience in ITSM ITOM ITAM Experience in testing custom apps on NOW platform Nice to have Automation testing using ATF Selenium and Java Skills Mandatory Skills : ServiceNow(ITOM ITSM and other) Functional Testing",
+      "salaryRange": "$101,676–$101,676 /Year",
+      "yearsRequired": "5 years of proven experience",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/saksoft-servicenow-qa-engineer-2026-08-03.md"
+    },
+    {
+      "key": "az:5826789657",
+      "title": "Automation Test Engineer with Python and Facets (W2 Contract)",
+      "url": "https://www.adzuna.com/land/ad/5826789657?se=6HBDeWeP8RGlv7FEy8tZRg&utm_medium=api&utm_source=ae2feac4&v=5154C88A0ACA77AA7A29FD341A57B111E7AA7CAC",
+      "company": "Resource Innovative Technologies LLC",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-03T13:34:22Z",
+      "description": "Title : Automation Test Engineer / Quality Engineer (Facets) Location: Remote(WI) Duration: Long Term Type: W2 Contract Only Experience: 10Years Must have Python and facets experience. About the Role We are looking for a hands‑on Automation Test Engineer / Quality Engineer with strong expertise in Python and Robot Framework to design, build, and maintain reliable automation for desktop and legacy systems. The ideal candidate will take ownership of automation quality, eliminate test flakiness, a…",
+      "salaryRange": "$106,314–$106,314 /Year",
+      "yearsRequired": "10Years Must have Python and facets experience",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/resource-innovative-technologies-llc-automation-test-engineer-with-python-and-facets-w2-contract-2026-08-03.md"
+    }
+  ],
   "lastSentAt": "2026-08-03T16:24:36.114Z"
 }
