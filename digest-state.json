@@ -1,4 +1,44 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5826888474",
+      "title": "SDET Engineer",
+      "url": "https://www.adzuna.com/details/5826888474?utm_medium=api&utm_source=ae2feac4",
+      "company": "Bright Vision Technologies",
+      "location": "Troy, Oakland County",
+      "country": "United States",
+      "postedAt": "2026-08-03T17:26:09Z",
+      "description": "SDET Engineer – Remote Bright Vision Technologies is a technology consulting and software development company delivering cloud, AI, data, and enterprise solutions across the United States. This is a fantastic opportunity to join an established and well-respected organization offering tremendous career growth potential. Job Title: SDET Engineer Location: 100% Remote (U.S.) Position Type: Full-time, Direct W2 Salary Range: $90,000–$115,000 Annually Experience Required: 6 years Sponsorship: U.S. C…",
+      "salaryRange": "$81,465–$81,465 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bright-vision-technologies-sdet-engineer-2026-08-04.md"
+    },
+    {
+      "key": "az:5826888454",
+      "title": "QA Automation Engineer",
+      "url": "https://www.adzuna.com/details/5826888454?utm_medium=api&utm_source=ae2feac4",
+      "company": "Bright Vision Technologies",
+      "location": "Troy, Oakland County",
+      "country": "United States",
+      "postedAt": "2026-08-03T17:26:08Z",
+      "description": "QA Automation Engineer – Remote Bright Vision Technologies is a technology consulting and software development company delivering cloud, AI, data, and enterprise solutions across the United States. This is a fantastic opportunity to join an established and well-respected organization offering tremendous career growth potential. Job Title: QA Automation Engineer Location: 100% Remote (U.S.) Position Type: Full-time, Direct W2 Salary Range: $75,000–$98,000 Annually Experience Required: 6 years Sp…",
+      "salaryRange": "$71,782–$71,782 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bright-vision-technologies-qa-automation-engineer-2026-08-04.md"
+    },
+    {
+      "key": "az:5827477284",
+      "title": "Test Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5827477284?se=AFE05OWP8RGfvetzWPf7VQ&utm_medium=api&utm_source=ae2feac4&v=3210359C6B0BD411CE0EB0A90D8C005472E1AB01",
+      "company": "SAIC",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-04T03:51:14Z",
+      "description": "Job ID: 2615153 Location: Remote Work, VA, US Date Posted: 2026-08-03 Category: Engineering and Sciences Subcategory: Test Engineer Schedule: Full-Time Shift: Day Job Travel: Yes - 10% of the time Minimum Clearance Required: Secret Clearance Level Must Be Able to Obtain: None Potential for Remote Work: ORA_REMOTE Description Make a difference for national security by joining a team of dedicated IT professionals who will sustain, modernize and transform the enterprise IT capabilities for the Def…",
+      "salaryRange": "$152,796–$152,796 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/saic-test-automation-engineer-2026-08-04.md"
+    }
+  ],
   "lastSentAt": "2026-08-04T06:27:28.818Z"
 }
