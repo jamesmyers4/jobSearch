@@ -92,6 +92,34 @@ test("a job at a company flagged caution shows the status tag inline", async ({ 
   }
 });
 
+test("digest email renders a fire tag for a job that clears the fire-score threshold", async ({ page }) => {
+  const jobs: JobPosting[] = [
+    {
+      key: "tn:1",
+      title: "QA Engineer",
+      url: "https://example.com/jobs/fire",
+      company: "TherapyNotes",
+      location: "Remote",
+      postedAt: new Date().toISOString(),
+    },
+    {
+      key: "az:1",
+      title: "QA Engineer",
+      url: "https://example.com/jobs/nofire",
+      company: "Cold Signal Co",
+      location: "Remote",
+      postedAt: new Date(Date.now() - 8 * 86400000).toISOString(),
+    },
+  ];
+
+  const { html } = buildDigestEmailHtml(jobs);
+  await page.setContent(html);
+
+  const items = page.locator("li");
+  await expect(items.first()).toContainText("🔥");
+  await expect(items.last()).not.toContainText("🔥");
+});
+
 test("subject uses singular 'job posting' for a single-job digest", async ({ page }) => {
   const jobs: JobPosting[] = [
     {

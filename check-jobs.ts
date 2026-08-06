@@ -1337,10 +1337,11 @@ export function buildDigestEmailHtml(jobs: JobPosting[]): {
     .map((job) => {
       const status = historyStatus(job.company);
       const statusTag = status && status !== "active" ? ` [${status}]` : "";
+      const fireTag = scoreJob(job) >= FIRE_SCORE_THRESHOLD ? "🔥 " : "";
       const draftTag = job.templateDraftUrl
         ? ` — <a href="${job.templateDraftUrl}">template draft</a>`
         : "";
-      return `<li>[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${draftTag}</li>`;
+      return `<li>${fireTag}[${sourceLabel(job.key)}] <a href="${job.url}">${job.title}</a> — ${job.company ?? "unknown company"}${statusTag} — ${job.location ?? "location unknown"} — ${daysAgoLabel(job.postedAt)}${draftTag}</li>`;
     })
     .join("");
   const jobWord = jobs.length === 1 ? "job posting" : "job postings";
