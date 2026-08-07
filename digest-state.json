@@ -38,6 +38,71 @@
       "salaryRange": "$135,857–$135,857 /Year",
       "workArrangement": "remote",
       "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/capgemini-senior-quality-engineer-sap-test-automation-2026-08-07.md"
+    },
+    {
+      "key": "az:5830840362",
+      "title": "QA Automation Engineer - Selenium, Cucumber, CoPilot, RDS, EC2, EMR, MST Or CST Time Zones",
+      "url": "https://www.adzuna.com/land/ad/5830840362?se=roboFR-S8RGCBfheOeDrGw&utm_medium=api&utm_source=ae2feac4&v=D83322952BA9D3DF6501968243141F564DEF86C9",
+      "company": "SES",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-06T13:53:50Z",
+      "description": "QA Automation Engineer - Selenium, Cucumber, CoPilot, RDS, EC2, EMR No Corp to Corp Remote - Supporting MST or CST Time Zones Technical Skills: Top Technical Skills: QA Automation, Selenium, Cucumber, Feature Files, Jenkins, Maven, CI/CD API Testing, Java, Springboot, AWS Services RDS, EC2, EMR, S3, Lambda, basic services such as SNS, SES, Redshift, Snowflake CoPilot Top 3 Soft Skills: Communications MUST be STRONG Job Description: AWS - API Gateway nothing on prem 100% cloud. QA Automation eng…",
+      "salaryRange": "$73,499–$73,499 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/ses-qa-automation-engineer-selenium-cucumber-copilot-rds-ec2-emr-mst-or-cst-time-zones-2026-08-07.md"
+    },
+    {
+      "key": "az:5831231481",
+      "title": "Test Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5831231481?se=9FeOHB-S8RGCBfheOeDrGw&utm_medium=api&utm_source=ae2feac4&v=6D6DB01AAF1C14F6DFF324622B5FCBBC4C2D083F",
+      "company": "isolve technology inc",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-06T19:44:50Z",
+      "description": "Role: Test Automation Engineer Location: Remote Duration: 12 months Note: candidates must meet the residency requirements (Last 5 years in the US with no more than 6 months out of the country). JOB SUMMARY · Experience Required: 10-12 years · The Test Automation Engineer designs develops, and maintains automated testing solutions to ensure the quality, reliability, and performance of complex applications and services. · This role partners closely with software engineering, product, and other en…",
+      "salaryRange": "$137,633–$137,633 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/isolve-technology-inc-test-automation-engineer-2026-08-07.md"
+    },
+    {
+      "key": "az:5831241537",
+      "title": "Test Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5831241537?se=9FeOHB-S8RGCBfheOeDrGw&utm_medium=api&utm_source=ae2feac4&v=53B7E04D76F517D82753059043419C017F253BF8",
+      "company": "Lucid Technologies",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-06T19:55:15Z",
+      "description": "Job Title: Test Automation Engineer Location: REMOTE JOB SUMMARY: The Test Automation Engineer designs, develops, and maintains automated testing solutions to ensure the quality, reliability, and performance of complex applications and services. This role partners closely with software engineering, product, and other engineering groups to define test strategies, create and analyze advanced test cases, and drive continuous improvements across the testing lifecycle. The position participates in s…",
+      "salaryRange": "$144,578–$144,578 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/lucid-technologies-test-automation-engineer-2026-08-07.md"
+    },
+    {
+      "key": "az:5831241881",
+      "title": "Test Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5831241881?se=9FeOHB-S8RGCBfheOeDrGw&utm_medium=api&utm_source=ae2feac4&v=89B8DB2F67BFEF1E815BCBB4E8069E6F911A3F9C",
+      "company": "Idexcel Inc.",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-06T19:55:19Z",
+      "description": "Job Title: Test Automation Engineer Location: Remote Duration: 12 Months Job Summary: The Test Automation Engineer designs, develops, and maintains automated testing solutions to ensure the quality, reliability, and performance of complex applications and services. This role partners closely with software engineering, product, and other engineering groups to define test strategies, create and analyze advanced test cases, and drive continuous improvements across the testing lifecycle. The positi…",
+      "salaryRange": "$123,006–$123,006 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/idexcel-inc-test-automation-engineer-2026-08-07.md"
+    },
+    {
+      "key": "az:5831242482",
+      "title": "AI Automation engineer",
+      "url": "https://www.adzuna.com/land/ad/5831242482?se=9FeOHB-S8RGCBfheOeDrGw&utm_medium=api&utm_source=ae2feac4&v=3120393D5E3DCE76A608F8CC370F3FE6A2375304",
+      "company": "QUANTUM TECHNOLOGIES LLC",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-06T19:55:25Z",
+      "description": "Job Title: AI Automation engineer Location: Remote Duration: 12 Months  Extension Bill Rate: $83/hour Job Type: C2C/1099 Contract Client: To Be Discussed Later Work Authorization: USC GC H-1B OPT-EAD GC-EAD Must have skills ETL Pipeline ML /AI AI Ops (ML Ops, Agent Ops & LLM Ops) Workflow Python , SQL System Design, MCP Client server design Job description: Design and build end-to-end AI testing frameworks covering unit, functional, integration, and regression testing including automated test c…",
+      "salaryRange": "$107,643–$107,643 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/quantum-technologies-llc-ai-automation-engineer-2026-08-07.md"
     }
   ],
   "lastSentAt": "2026-08-07T00:24:05.675Z"
