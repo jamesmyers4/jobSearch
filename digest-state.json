@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5833696456",
+      "title": "Healthcare QA engineer",
+      "url": "https://www.adzuna.com/land/ad/5833696456?se=dtjkuK-T8RG9ks23jnlnsA&utm_medium=api&utm_source=ae2feac4&v=B357A8115CDE08FEF825E4AC4190F70F77F36463",
+      "company": "Headway Tek Inc",
+      "location": "Newark, Essex County",
+      "country": "United States",
+      "postedAt": "2026-08-08T11:50:49Z",
+      "description": "Title: HealthCare QA Engineer Location: Broadway,NY(Remote) C2C or W2 Note: Inperson Client interview at New York,NY on 13 th Aug 2026 Mandatory Skills: QA Automation engineer,Java,Selenium Secondary Skills: Contact Center,Cyara,IVR,Spanish,nodejs We are seeking an experienced Healthcare QA Automation Engineer with expertise in Selenium Automation to join our QA team. The ideal candidate should have strong experience in automation testing, healthcare applications, EHR/EMR systems, and Agile met…",
+      "salaryRange": "$162,983–$162,983 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/headway-tek-inc-healthcare-qa-engineer-2026-08-09.md"
+    }
+  ],
   "lastSentAt": "2026-08-09T01:50:24.643Z"
 }
