@@ -64,6 +64,32 @@
       "salaryRange": "$135,388–$135,388 /Year",
       "workArrangement": "remote",
       "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/genesis10-pam-automation-engineer-2026-08-12.md"
+    },
+    {
+      "key": "az:5838728565",
+      "title": "SDET - Healthcare Application Testing | REMOTE",
+      "url": "https://www.adzuna.com/land/ad/5838728565?se=ChXHOI6W8RGWnIX1oHsR5g&utm_medium=api&utm_source=ae2feac4&v=1DFFC2491D2790C2EACCFBF8E774DD3583C991DC",
+      "company": "Tror",
+      "location": "Wallingford, New Haven County",
+      "country": "United States",
+      "postedAt": "2026-08-12T16:10:18Z",
+      "description": "Role: SDET – Healthcare Application Testing Location: Wallingford, CT 06492 (Remote, but travel needed) Experience: 12 Years We are looking for a strong SDET with hands-on experience in test automation, API testing, SQL, performance testing, and healthcare applications . The candidate should be able to work across UI, API, and database layers and understand payer-provider care management and authorization workflows . Primary Focus: SDET Automation | API Testing | SQL | Performance Testing | Hea…",
+      "salaryRange": "$80,078–$80,078 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/tror-sdet-healthcare-application-testing-remote-2026-08-12.md"
+    },
+    {
+      "key": "az:5838728547",
+      "title": "ETL SDET – Python & PySpark (with recent Healthcare experience)",
+      "url": "https://www.adzuna.com/land/ad/5838728547?se=qCxcOY6W8RGZjegz1di2Mg&utm_medium=api&utm_source=ae2feac4&v=7FB6CBA6C71DF8C3DD68A53F3790F23A78DFBED7",
+      "company": "Cyma Systems Inc",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-12T16:10:17Z",
+      "description": "Role : ETL SDET – Python & PySpark Location- Remote Overview : Healthfirst is seeking a highly skilled ETL SDET with strong expertise in Python, PySpark and data validation frameworks to support complex healthcare data pipelines. The ideal candidate will be responsible for designing, developing, and executing automated test frameworks for large‑scale ETL workflows, ensuring data accuracy, quality, and compliance across clinical, claims, and member‑related datasets. This role requires deep techn…",
+      "salaryRange": "$157,295–$157,295 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/cyma-systems-inc-etl-sdet-python-pyspark-with-recent-healthcare-experience-2026-08-12.md"
     }
   ],
   "lastSentAt": "2026-08-12T17:28:23.383Z"
