@@ -1,4 +1,45 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5840716399",
+      "title": "Software Development Engineer in Test",
+      "url": "https://www.adzuna.com/details/5840716399?utm_medium=api&utm_source=ae2feac4",
+      "company": "Bright Vision Technologies",
+      "location": "Milpitas, Santa Clara County",
+      "country": "United States",
+      "postedAt": "2026-08-13T17:46:54Z",
+      "description": "Software Development Engineer in Test – Remote Bright Vision Technologies is a technology consulting and software development company delivering cloud, AI, data, and enterprise solutions across the United States. This is a fantastic opportunity to join an established and well-respected organization offering tremendous career growth potential. Job Title: Software Development Engineer in Test Location: 1 00% Remote (U.S.) Position Type: Full-time, Direct W2 Salary Range: $85,000–$100,000 Annually…",
+      "salaryRange": "$113,442–$113,442 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bright-vision-technologies-software-development-engineer-in-test-2026-08-13.md"
+    },
+    {
+      "key": "az:5840911692",
+      "title": "Automation Engineer III",
+      "url": "https://www.adzuna.com/land/ad/5840911692?se=ToXV9WeX8RGKPN7TmB_3Cw&utm_medium=api&utm_source=ae2feac4&v=8FBB18A4DEA91AF5751125C8377EE645CCA1ECB9",
+      "company": "Salas O'Brien Engineers Incorporated",
+      "location": "Clarkson Valley, Saint Louis County",
+      "country": "United States",
+      "postedAt": "2026-08-13T18:24:23Z",
+      "description": "Due to continued growth, Salas O'Brien, a leader in industrial automation engineering and equipment, located in Chesterfield, Missouri has an immediate opening for a remote, experienced, creative and dynamic individual for the position of Automation Engineer. This is a full-time, permanent, direct-hire position. The Desired Candidate will have the following Knowledge/Experience: Minimum 6 years of machine controls or packaging experience in heavy industrial/manufacturing industries preferred. P…",
+      "salaryRange": "$94,823–$94,823 /Year",
+      "yearsRequired": "6 years of machine controls or packaging experience",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/salas-o-brien-engineers-incorporated-automation-engineer-iii-2026-08-13.md"
+    },
+    {
+      "key": "az:5840912812",
+      "title": "Automation Engineer II",
+      "url": "https://www.adzuna.com/land/ad/5840912812?se=ToXV9WeX8RGKPN7TmB_3Cw&utm_medium=api&utm_source=ae2feac4&v=8C447A9A9AF220E1F84494FF0C838495776E0B55",
+      "company": "Salas O'Brien Engineers Incorporated",
+      "location": "Clarkson Valley, Saint Louis County",
+      "country": "United States",
+      "postedAt": "2026-08-13T18:32:35Z",
+      "description": "Due to continued growth, Salas O'Brien, a leader in industrial automation engineering and equipment, located in Chesterfield, Missouri has an immediate opening for a remote, experienced, creative and dynamic individual for the position of Automation Engineer. This is a full-time, permanent, direct-hire position. The Desired Candidate will have the following Knowledge/Experience: Minimum three years of machine controls or packaging experience in heavy industrial/manufacturing industries. Profici…",
+      "salaryRange": "$92,135–$92,135 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/salas-o-brien-engineers-incorporated-automation-engineer-ii-2026-08-13.md"
+    }
+  ],
   "lastSentAt": "2026-08-13T18:26:34.402Z"
 }
