@@ -25,6 +25,45 @@
       "salaryRange": "$87,093–$87,093 /Year",
       "workArrangement": "remote",
       "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/mercor-software-tester-fully-remote-2026-08-13.md"
+    },
+    {
+      "key": "az:5840268395",
+      "title": "Data Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5840268395?se=WPTr9xeX8RGVveLFlyiKaA&utm_medium=api&utm_source=ae2feac4&v=DF0251AD9F9FD04F38479331A7F6CC992A782516",
+      "company": "Apex Systems",
+      "location": "Montgomery Village, Montgomery County",
+      "country": "United States",
+      "postedAt": "2026-08-13T08:07:34Z",
+      "description": "Job: 3046043 Job Description: Data Automation Engineer Location: Fully remote with potential for quarterly travel to Gaithersburg, MD Role Overview We are seeking a Data Automation Engineer to design and implement data automation solutions primarily on AWS, with integration to selected Azure services and Generative AI capabilities. You will be responsible for building scalable data pipelines and automation solutions that integrate cloud services, enterprise tools, and Generative AI to support m…",
+      "salaryRange": "$127,637–$127,637 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/apex-systems-data-automation-engineer-2026-08-13.md"
+    },
+    {
+      "key": "az:5840272607",
+      "title": "AI Automation Engineer [Remote]",
+      "url": "https://www.adzuna.com/land/ad/5840272607?se=DPh5-BeX8RGwFJ2Cqi56CA&utm_medium=api&utm_source=ae2feac4&v=CAD5F7AF1E402ABF2A0FF3D4F04853B7024A3239",
+      "company": "General Dynamics",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-13T08:17:13Z",
+      "description": "Basic Qualifications Requires a Bachelor's degree in Software Engineering, or a related Science, Engineering, Technology or Mathematics field. Also requires 5 years of job-related experience, or a Master's degree plus 3 years of job-related experience. Agile experience preferred. Due to the nature of work performed within our facilities, U.S. citizenship is required. Responsibilities for this Position ROLE AND POSITION OBJECTIVES: As an AI Automation Engineer for our AIOps team, you'll be a cor…",
+      "salaryRange": "$110,101–$110,101 /Year",
+      "yearsRequired": "5 years of job-related experience",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/general-dynamics-ai-automation-engineer-remote-2026-08-13.md"
+    },
+    {
+      "key": "az:5834603264",
+      "title": "AI QA Engineer - Test Specialist",
+      "url": "https://www.adzuna.com/details/5834603264?utm_medium=api&utm_source=ae2feac4",
+      "company": "Mercor",
+      "location": "New York City, New York",
+      "country": "United States",
+      "postedAt": "2026-08-09T07:16:37Z",
+      "description": "About the job Mercor connects elite creative and technical talent with leading AI research labs. Headquartered in San Francisco, our investors include Benchmark , General Catalyst , Peter Thiel , Adam D'Angelo , Larry Summers , and Jack Dorsey . Position: QA/Test Engineer Type: Contract Compensation: $60–$90/hour Location: Remote Commitment: 35 hours/week Role Responsibilities Design test cases to confirm each task works as intended, including tricky edge cases. Review tasks and reference solut…",
+      "salaryRange": "$75,755–$75,755 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/mercor-ai-qa-engineer-test-specialist-2026-08-13.md"
     }
   ],
   "lastSentAt": "2026-08-13T05:56:53.236Z"
