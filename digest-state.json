@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5841807960",
+      "title": "Software QA Automation Engineer / Full Stack Application Tester",
+      "url": "https://www.adzuna.com/land/ad/5841807960?se=tkCPcOeX8RGqM9tlrK2FfQ&utm_medium=api&utm_source=ae2feac4&v=AFAA11F69340D7A2672CD36D283F3F31551F01D3",
+      "company": "ELYON International, Inc.",
+      "location": "Times Square, King County",
+      "country": "United States",
+      "postedAt": "2026-08-14T08:12:20Z",
+      "description": "Software QA Automation Engineer / Full Stack Application Tester (BEARCATT Project) REMOTE About the Role This role will support the modernization and cloud migration of enterprise applications. This role will focus on creating comprehensive automated test suites, validating application enhancements and bug fixes, and ensuring the quality of systems as they transition from legacy technologies to modern cloud-based architectures. The ideal candidate will have strong experience in test automation,…",
+      "salaryRange": "$148,299–$148,299 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/elyon-international-inc-software-qa-automation-engineer-full-stack-application-tester-2026-08-14.md"
+    }
+  ],
   "lastSentAt": "2026-08-14T07:22:52.288Z"
 }
