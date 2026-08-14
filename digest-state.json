@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5842141974",
+      "title": "Automation QA Engineer Adyen Payments",
+      "url": "https://www.adzuna.com/land/ad/5842141974?se=3FQE3x6Y8RGqM9tlrK2FfQ&utm_medium=api&utm_source=ae2feac4&v=1C1EBC114F99C4D8BE838F16ED1C386532DEEF99",
+      "company": "Acunor Infotech",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-14T16:16:38Z",
+      "description": "Automation QA Engineer Adyen Payments Location: Remote Canada Work Hours: Must be able to support PST hours Duration: Long-Term Contract Position Overview We are looking for an experienced Automation QA Engineer to support enterprise eCommerce and payment initiatives. This role requires strong experience in automation testing, API/backend validation, payment processing workflows, and end-to-end order lifecycle testing. The ideal candidate will work across frontend and backend systems and collab…",
+      "salaryRange": "$81,640–$81,640 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/acunor-infotech-automation-qa-engineer-adyen-payments-2026-08-14.md"
+    }
+  ],
   "lastSentAt": "2026-08-14T19:47:38.003Z"
 }
