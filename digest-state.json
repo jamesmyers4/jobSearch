@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5843803941",
+      "title": "PEGA QA / PEGA Automation Engineer - Remote",
+      "url": "https://www.adzuna.com/details/5843803941?utm_medium=api&utm_source=ae2feac4",
+      "company": "Gandiva Insights",
+      "location": "Wescosville, Lehigh County",
+      "country": "United States",
+      "postedAt": "2026-08-15T22:05:58Z",
+      "description": "Title: PEGA QA / PEGA Automation Engineer Location: Remote, USA Duration: 12 Months Contract Experience: 10 12 Years Mandatory Skills: Pega Testing | Pega Automation Testing | API Testing | SQL | Azure DevOps/Jira | Agile Scrum. Key Responsibilities: Perform functional, integration, regression, and UAT testing for Pega applications. Validate Pega workflows, business rules, SLAs, integrations, and UI functionality. Develop and maintain automation scripts using Selenium/Playwright with Java or C#…",
+      "salaryRange": "$154,138–$154,138 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/gandiva-insights-pega-qa-pega-automation-engineer-remote-2026-08-16.md"
+    }
+  ],
   "lastSentAt": "2026-08-15T23:18:56.082Z"
 }
