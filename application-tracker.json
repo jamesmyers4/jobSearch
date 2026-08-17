@@ -2302,5 +2302,59 @@
     "company": "VDart Inc",
     "postedAt": "2026-08-14T21:47:13Z",
     "alertedAt": "2026-08-17T11:24:20.689Z"
+  },
+  "az:5845323053": {
+    "title": "SDET",
+    "company": "Lumen Solutions Group Inc.",
+    "postedAt": "2026-08-17T12:34:10Z",
+    "alertedAt": "2026-08-17T23:46:52.313Z"
+  },
+  "az:5845327085": {
+    "title": "Playwright QA Engineer",
+    "company": "NasTech Global, Inc.",
+    "postedAt": "2026-08-17T12:46:24Z",
+    "alertedAt": "2026-08-17T23:46:52.313Z"
+  },
+  "az:5845389947": {
+    "title": "Cypress Automation QA Engineer",
+    "company": "Talent Vista Partners Inc",
+    "postedAt": "2026-08-17T14:26:55Z",
+    "alertedAt": "2026-08-17T23:46:52.313Z"
+  },
+  "az:5845425704": {
+    "title": "Automation Test Engineer",
+    "company": "Intone Networks Inc.",
+    "postedAt": "2026-08-17T16:37:42Z",
+    "alertedAt": "2026-08-17T23:46:52.313Z"
+  },
+  "az:5845425751": {
+    "title": "NetSuite-centric Integration QA Engineer",
+    "company": "Showman Staffing",
+    "postedAt": "2026-08-17T16:38:04Z",
+    "alertedAt": "2026-08-17T23:46:52.313Z"
+  },
+  "az:5845399250": {
+    "title": "Quality Engineer – AI & Test Automation",
+    "company": "ITBMS Inc.",
+    "postedAt": "2026-08-17T14:47:06Z",
+    "alertedAt": "2026-08-17T23:46:52.313Z"
+  },
+  "az:5845532733": {
+    "title": "SDET Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-08-17T18:03:14Z",
+    "alertedAt": "2026-08-17T23:46:52.313Z"
+  },
+  "az:5842116658": {
+    "title": "QA Automation Engineer",
+    "company": "Bright Vision Technologies",
+    "postedAt": "2026-08-14T14:37:43Z",
+    "alertedAt": "2026-08-17T23:46:52.313Z"
+  },
+  "az:5845632388": {
+    "title": "LEAD SDET - W2 only",
+    "company": "VKore Solutions LLC",
+    "postedAt": "2026-08-17T18:35:31Z",
+    "alertedAt": "2026-08-17T23:46:52.313Z"
   }
 }
