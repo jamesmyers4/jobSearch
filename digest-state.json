@@ -1,4 +1,31 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5845323053",
+      "title": "SDET",
+      "url": "https://www.adzuna.com/land/ad/5845323053?se=MHtQalya8RGjvpVu23kfrA&utm_medium=api&utm_source=ae2feac4&v=1362D1B712D3542FE9DFEF643AA605144A2940DC",
+      "company": "Lumen Solutions Group Inc.",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-17T12:34:10Z",
+      "description": "Company Description Lumen Solutions Group Inc. is a technology consulting Services company based in Florida. We provide a wide array of experienced business and IT professionals supporting clients from solution design to implementation and support. We specialize in professional IT consulting services, IT Staffing, Business/IT Strategy, Business Process Blueprints, Enterprise Architecture, and Enterprise Transformation. Role: SDET Location: Washington – DC (Remote) Job Type: Contract The SDET is…",
+      "salaryRange": "$118,828–$118,828 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/lumen-solutions-group-inc-sdet-2026-08-17.md"
+    },
+    {
+      "key": "az:5845327085",
+      "title": "Playwright QA Engineer",
+      "url": "https://www.adzuna.com/land/ad/5845327085?se=qCFAcFya8RGdOub8wB50Ow&utm_medium=api&utm_source=ae2feac4&v=FFC10CB0383B210D85FEC2C9D22EBE17645B2377",
+      "company": "NasTech Global, Inc.",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-17T12:46:24Z",
+      "description": "Job Title: Senior Playwright QA Engineer Location: Remote Job Type: Contract W2 Requirements: Strong product judgment with the ability to identify gaps between technically passing implementations and intended outcomes. Strong Playwright skills including running, debugging, repairing end-to-end tests, and diagnosing flaky behavior. Working knowledge of Next.js, React, TypeScript, browser developer tools, and application logs. Proficiency with AI-assisted QA or development tools such as Claude, C…",
+      "salaryRange": "$69,100–$69,100 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/nastech-global-inc-playwright-qa-engineer-2026-08-17.md"
+    }
+  ],
   "lastSentAt": "2026-08-17T11:24:20.689Z"
 }
