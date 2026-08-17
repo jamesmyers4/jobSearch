@@ -25,6 +25,19 @@
       "salaryRange": "$69,100–$69,100 /Year",
       "workArrangement": "remote",
       "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/nastech-global-inc-playwright-qa-engineer-2026-08-17.md"
+    },
+    {
+      "key": "az:5845389947",
+      "title": "Cypress Automation QA Engineer",
+      "url": "https://www.adzuna.com/land/ad/5845389947?se=QM9KPmua8RGoq93y-acWwA&utm_medium=api&utm_source=ae2feac4&v=0B232B6F825506F22E3113F12EB5A9743012F736",
+      "company": "Talent Vista Partners Inc",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-17T14:26:55Z",
+      "description": "Job Title: Cypress Automation QA Engineer (BDD/Gherkin) Location- Remote Full-time Role Summary- Mission: To build, scale, and maintain front-end test automation for React-based applications using Cypress with a BDD/Gherkin workflow. Integrate tests into CI/CD, reduce flakiness, and provide high-signal quality feedback for releases. Primary focus: React UI automation (E2E and component testing) with Cypress. API testing: Yes. Validate REST APIs consumed by the frontend using Cypress (cy.request…",
+      "salaryRange": "$78,647–$78,647 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/talent-vista-partners-inc-cypress-automation-qa-engineer-2026-08-17.md"
     }
   ],
   "lastSentAt": "2026-08-17T11:24:20.689Z"
