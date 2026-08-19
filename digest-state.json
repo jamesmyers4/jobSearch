@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5847748472",
+      "title": "REMOTE Web SDET (Playwright)",
+      "url": "https://www.adzuna.com/land/ad/5847748472?se=AtsoVICb8RGofthPKnR1kQ&utm_medium=api&utm_source=ae2feac4&v=79DCAE9D4E5A4FD087394C77F98FA7C7DE67E02B",
+      "company": "Insight Global",
+      "location": "Montgomery, Hamilton County",
+      "country": "United States",
+      "postedAt": "2026-08-18T22:54:34Z",
+      "description": "Job Description An employer is looking for an SDET for a remote, contract opportunity. The client is a Fortune 50 retailer and the SDET will be supporting the client's Monetization space, supporting and testing components of customer-facing web applications. The SDET will work in an Agile environment and will be joining a fairly mature, collaborative team. The SDET will work closely with the development and testing teams, identify and report defects and contribute to the overall improvement of …",
+      "salaryRange": "$68,648–$68,648 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/insight-global-remote-web-sdet-playwright-2026-08-19.md"
+    }
+  ],
   "lastSentAt": "2026-08-19T01:10:41.862Z"
 }
