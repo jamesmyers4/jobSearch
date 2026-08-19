@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5848204652",
+      "title": "Senior Software Engineer, SDET",
+      "url": "https://www.adzuna.com/land/ad/5848204652?se=TDvYvdqb8RG_DMOFQOGUaQ&utm_medium=api&utm_source=ae2feac4&v=3564248BD544EBF01A3DE910DC01C331A73A9FB9",
+      "company": "Hexagon AB",
+      "location": "Trammells, Harris County",
+      "country": "United States",
+      "postedAt": "2026-08-19T10:11:21Z",
+      "description": "Senior Software Engineer, SDET Job Location (Short): Houston, Texas-USA | Madison, Alabama-USA Workplace Type: Remote Req Id: 3006 Responsibilities We are hiring a Senior Software Engineer, SDET for Octave. Design, implement, and execute automated tests including regression, performance, load, and scenarios derived from manual test plans. Analyze automated test results and communicate actionable insights and quality metrics to stakeholders across multiple organizational levels. Collaborate clos…",
+      "salaryRange": "$109,908–$109,908 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/hexagon-ab-senior-software-engineer-sdet-2026-08-19.md"
+    }
+  ],
   "lastSentAt": "2026-08-19T13:43:06.730Z"
 }
