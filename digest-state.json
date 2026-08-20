@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5849359076",
+      "title": "Automation Test Engineer",
+      "url": "https://www.adzuna.com/land/ad/5849359076?se=Mjw7jWuc8RGvGrvTGRxIcA&utm_medium=api&utm_source=ae2feac4&v=70579FE9EE2CC2547D0C0629CD4239AC371ACD31",
+      "company": "SAIC",
+      "location": "Ashburn, Loudoun County",
+      "country": "United States",
+      "postedAt": "2026-08-20T03:43:05Z",
+      "description": "Job ID: 2615856 Location: Ashburn, VA, US Date Posted: 2026-08-19 Category: Software Subcategory: SW Testing Schedule: Full-Time Shift: Day Job Travel: No Minimum Clearance Required: None Clearance Level Must Be Able to Obtain: Public Trust Potential for Remote Work: ORA_HYBRID Description SAIC is seeking a motivated and energetic senior level QA Automation Engineer to join our team to begin an exciting and challenging career in Ashburn, VA. The Automation Engineer will participate in software …",
+      "salaryRange": "$81,780–$81,780 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/saic-automation-test-engineer-2026-08-20.md"
+    }
+  ],
   "lastSentAt": "2026-08-20T02:37:24.884Z"
 }
