@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5850800989",
+      "title": "QA Engineer (only locals By NY/NJ/PA/MD)",
+      "url": "https://www.adzuna.com/land/ad/5850800989?se=-PeAzomd8RGfQpohglHoaw&utm_medium=api&utm_source=ae2feac4&v=3F10467A7CA580E96DCE9623BAC8B9A4E757BFA3",
+      "company": "HAN IT STAFFING INC",
+      "location": "Brooklyn Heights, Brooklyn",
+      "country": "United States",
+      "postedAt": "2026-08-21T05:39:51Z",
+      "description": "Role: QA Engineer (only US Citizen) Location: Remote (Require only locals by NY,NJ,MD,PA) Job Type: C2C/W2/1099 Note: please dont share non-local Please share only US Citizen Must have skills: Require Java automation testing Need very good experience with AWS Require healthcare domain experience",
+      "salaryRange": "$79,793–$79,793 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/han-it-staffing-inc-qa-engineer-only-locals-by-ny-nj-pa-md-2026-08-21.md"
+    }
+  ],
   "lastSentAt": "2026-08-21T16:33:00.389Z"
 }
