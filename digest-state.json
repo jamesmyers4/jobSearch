@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5850639127",
+      "title": "Senior QA Engineer and Tester with Security Clearance",
+      "url": "https://www.adzuna.com/land/ad/5850639127?se=hH1Gpiud8RGVwpWvD-HIQQ&utm_medium=api&utm_source=ae2feac4&v=2A6D4B06EACBB53CEC9CF5FBECEB142EF0FAF689",
+      "company": "Blu Omega LLC",
+      "location": "Ashburn, Loudoun County",
+      "country": "United States",
+      "postedAt": "2026-08-21T01:51:20Z",
+      "description": "Senior QA Engineer and Tester Remote Blu Omega is seeking a Senior QA Engineer and Tester to support a federal program focused on health data modernization and analytics. This role operates within a remote environment and is responsible for designing, implementing, and maintaining automated testing frameworks, supporting scalable cloud-based test environments, and driving continuous quality improvement. The position requires experience supporting complex data solutions within a mission-driven f…",
+      "salaryRange": "$122,767–$122,767 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/blu-omega-llc-senior-qa-engineer-and-tester-with-security-clearance-2026-08-21.md"
+    }
+  ],
   "lastSentAt": "2026-08-21T03:49:53.327Z"
 }
