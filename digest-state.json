@@ -116,6 +116,19 @@
       "salaryRange": "$101,456–$101,456 /Year",
       "workArrangement": "remote",
       "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/mindlance-network-automation-engineer-2026-08-21.md"
+    },
+    {
+      "key": "az:5851814219",
+      "title": "senior AI QA Engineer",
+      "url": "https://www.adzuna.com/details/5851814219?utm_medium=api&utm_source=ae2feac4",
+      "company": "Conch Technologies Inc",
+      "location": "Minnesota, US",
+      "country": "United States",
+      "postedAt": "2026-08-21T21:04:55Z",
+      "description": "Job Title : senior AI QA Engineer Location: Fully Remote Interview: Video Start: 2 Weeks Job Description We are seeking a Senior AI QA Platform Engineer with strong experience in AI/Agentic systems, test automation, AWS, and CI/CD . The ideal candidate will build enterprise-grade automation frameworks and validate AI/LLM workflows using modern cloud and automation technologies. Required Skills Amazon Bedrock / AgentCore, Strands Agents Agentic AI, Prompt Engineering, Claude, Multi-Agent Archite…",
+      "salaryRange": "$102,082–$102,082 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/conch-technologies-inc-senior-ai-qa-engineer-2026-08-22.md"
     }
   ],
   "lastSentAt": "2026-08-21T16:33:00.389Z"
