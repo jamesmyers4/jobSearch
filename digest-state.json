@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5852236905",
+      "title": "Senior QA Engineer, Agent Security",
+      "url": "https://www.adzuna.com/details/5852236905?utm_medium=api&utm_source=ae2feac4",
+      "company": "Runlayer",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-22T04:22:42Z",
+      "description": "About Runlayer AI is transforming how every company operates, but most enterprises are stuck. They want to move fast with AI Agents, tools, and workflows, but they can't do it safely. We're fixing that. Our team built AI Actions for OpenAI, shipped Zapier Agents to millions of users, and launched the first remote MCP server with Anthropic. We helped establish the protocol, and now we're building the platform enterprises need to actually put AI to work. Runlayer is one platform for MCPs, Skills,…",
+      "salaryRange": "$115,899–$115,899 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/runlayer-senior-qa-engineer-agent-security-2026-08-22.md"
+    }
+  ],
   "lastSentAt": "2026-08-22T05:25:53.397Z"
 }
