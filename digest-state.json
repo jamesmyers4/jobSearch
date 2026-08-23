@@ -25,6 +25,18 @@
       "salaryRange": "$63,718–$63,718 /Year",
       "workArrangement": "remote",
       "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/san-r-d-business-solutions-llc-software-development-engineer-in-test-sdet-2026-08-22.md"
+    },
+    {
+      "key": "az:5853153773",
+      "title": "Remote Sr. SDET (Front End, Java/Playwright)",
+      "url": "https://www.adzuna.com/details/5853153773?utm_medium=api&utm_source=ae2feac4",
+      "company": "Insight Global",
+      "location": "Illinois Medical District, Chicago",
+      "country": "United States",
+      "postedAt": "2026-08-22T21:35:09Z",
+      "description": "Job Description This SDET will be working for a global hotel chain, testing a front end application for the content team. This project is focused on automating content publishing workflows for hotel websites. Hotels frequently need to update information such as operating hours, amenity availability, or temporary closures (e.g., pool closures), which must be published accurately through a tool integrated with Adobe Experience Manager (AEM). The team recently implemented a Playwright Java automat…",
+      "salaryRange": "$67,371–$67,371 /Year",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/insight-global-remote-sr-sdet-front-end-java-playwright-2026-08-23.md"
     }
   ],
   "lastSentAt": "2026-08-22T17:45:51.134Z"
