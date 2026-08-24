@@ -1,4 +1,45 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5854476723",
+      "title": "Remote QA Automation Engineer - Playwright & TypeScript (Scottsdale)",
+      "url": "https://www.adzuna.com/land/ad/5854476723?se=_Hu-1Nmf8RGR-JwdZFjHvQ&utm_medium=api&utm_source=ae2feac4&v=DC2E9D3A2D2295329A3276EC88F5A09A57EAEB43",
+      "company": "Sonatafy Technology, Inc.",
+      "location": "Carefree, Maricopa County",
+      "country": "United States",
+      "postedAt": "2026-08-24T12:00:29Z",
+      "description": "Sonatafy Technology, Inc. seeks a QA Automation Engineer with strong Playwright and TypeScript expertise to strengthen our nearshore QA efforts for Latin America. You’ll focus on building scalable automated tests that integrate with CI/CD and interact with BrowserStack for cross-browser validation. The role emphasizes remote-first collaboration across LATAM, contributing to automation strategy, reporting, and quality improvements for our U.S.-based clients and diverse tech stacks. J-18808-Ljbffr",
+      "salaryRange": "$1,021–$1,702 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/sonatafy-technology-inc-remote-qa-automation-engineer-playwright-typescript-scottsdale-2026-08-24.md"
+    },
+    {
+      "key": "az:5854472536",
+      "title": "Senior Linux/SDET engineerRemote|Fulltime",
+      "url": "https://www.adzuna.com/land/ad/5854472536?se=prw-09mf8RGR-JwdZFjHvQ&utm_medium=api&utm_source=ae2feac4&v=71BB40FE272DF241E883B779D910DC9B971955CA",
+      "company": "Symantrix Inc",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-24T11:52:07Z",
+      "description": "Title: Senior Linux/SDET engineer Location: Cambridge, MA 02142 Remote | Full-Time Skills: Linux kernel-level infrastructure using C, including any work with KVM/virtualization, Virtio, kernel debugging, performance testing, or system-level automation Summary: Our client is seeking an experienced Principal Software Development Engineer in Test (SDET) to lead test strategy and automation for a highly distributed Linux-based AI and Compute platform. This is a remote opportunity for a senior techn…",
+      "salaryRange": "$177,445–$177,445 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/symantrix-inc-senior-linux-sdet-engineerremote-fulltime-2026-08-24.md"
+    },
+    {
+      "key": "az:5854470980",
+      "title": "QA Engineer Salesforce",
+      "url": "https://www.adzuna.com/land/ad/5854470980?se=-B7f2Nmf8RGLZZiuaUCfOw&utm_medium=api&utm_source=ae2feac4&v=F2092EE00CE8658C48F4B10DE8EE51E307CAEB4B",
+      "company": "UNICOM TECHNOLOGIES INC",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-24T11:44:37Z",
+      "description": "Job Title: QA Engineer - Salesforce Location: Remote Experience: 6-8 Years Job Description: Strong experience in Salesforce QA/testing . Perform functional, regression, integration, and UAT testing. Experience with Salesforce Sales Cloud/Service Cloud . Hands-on experience with API testing, SOQL/SQL, and Jira . Experience in test case creation, defect tracking, and test execution. Knowledge of Agile/Scrum methodology. Salesforce automation experience is a plus. Primary Skills: Salesforce QA, Fu…",
+      "salaryRange": "$112,973–$112,973 /Year",
+      "yearsRequired": "6-8 Years Job Description: Strong experience",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/unicom-technologies-inc-qa-engineer-salesforce-2026-08-24.md"
+    }
+  ],
   "lastSentAt": "2026-08-24T06:56:08.486Z"
 }
