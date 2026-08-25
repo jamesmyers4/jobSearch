@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5855837706",
+      "title": "Playwright Automation Engineer (Remote)",
+      "url": "https://www.adzuna.com/land/ad/5855837706?se=-MuP7tOg8RGmeZvtomjJHw&utm_medium=api&utm_source=ae2feac4&v=E31B71701713C6DCDC7547E4316F9EA4E27805AA",
+      "company": "DMS Vision Inc.",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-25T18:05:27Z",
+      "description": "Hi, Hope you are doing well, Please find the job description given below and let me know your interest. Position: Playwright Automation Engineer (Remote) Location: 100% Remote Duration : 6 months Job Description: We are looking pure Playwright Automation Engineer, Don’t send SDET or selenium The candidate should have: Strong hands-on Playwright experience — this is the 1 requirement. Experience building and maintaining UI automation frameworks using Playwright . Strong programming skills in Typ…",
+      "salaryRange": "$84,034–$84,034 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/dms-vision-inc-playwright-automation-engineer-remote-2026-08-25.md"
+    }
+  ],
   "lastSentAt": "2026-08-25T20:27:25.966Z"
 }
