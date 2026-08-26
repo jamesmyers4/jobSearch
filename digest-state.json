@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5856649978",
+      "title": "QA Automation Engineer - Remote",
+      "url": "https://www.adzuna.com/land/ad/5856649978?se=iL2GsDmh8RGfOKiU692Z2g&utm_medium=api&utm_source=ae2feac4&v=6C76B5442979E476006B404D13C6FD42C7ADF5F5",
+      "company": "Genesis10",
+      "location": "Sunfish Lake, Dakota County",
+      "country": "United States",
+      "postedAt": "2026-08-26T06:05:59Z",
+      "description": "Genesis10 is currently seeking a QA Automation Engineerfor a Remote position with an Agricultural Cooperative located in Inver Grove Heights, MN. This is a 6 month contract opportunity. This position is 100% remote. Compensation: $55.00 - $60.00 per hour, W2, based on experience and qualifications Position Overview: This role operates as a senior Quality Assurance Engineer supporting delivery through functional and automation testing. The ideal candidate will quickly assess existing systems and…",
+      "salaryRange": "$104,648–$104,648 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/genesis10-qa-automation-engineer-remote-2026-08-26.md"
+    }
+  ],
   "lastSentAt": "2026-08-26T08:41:59.231Z"
 }
