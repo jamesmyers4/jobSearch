@@ -1,4 +1,58 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5859931076",
+      "title": "QA Automation Engineer",
+      "url": "https://www.adzuna.com/details/5859931076?utm_medium=api&utm_source=ae2feac4",
+      "company": "Bright Vision Technologies",
+      "location": "Framingham, Middlesex County",
+      "country": "United States",
+      "postedAt": "2026-08-28T12:49:47Z",
+      "description": "QA Automation Engineer - Remote Bright Vision Technologies is a technology consulting and software development company delivering cloud, AI, data, and enterprise solutions across the United States. This is a fantastic opportunity to join an established and well-respected organization offering tremendous career growth potential. Job Title: QA Automation Engineer Location: 100% Remote (U.S.) Position Type: Full-time, Direct W2 Salary Range: $100,000–$150,000 Annually Experience Required: 6 years …",
+      "salaryRange": "$79,662–$79,662 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bright-vision-technologies-qa-automation-engineer-2026-08-28.md"
+    },
+    {
+      "key": "az:5859882437",
+      "title": "QA Mobile Automation Engineer (Java/Appium)",
+      "url": "https://www.adzuna.com/land/ad/5859882437?se=tsZVWSSj8RG-MbcvCVrxzQ&utm_medium=api&utm_source=ae2feac4&v=FAFFCB0F54AE82BBA06F49E5EDC571D20FC4AE5D",
+      "company": "Krest Global Solutions",
+      "location": "Dallas, Texas",
+      "country": "United States",
+      "postedAt": "2026-08-28T12:06:15Z",
+      "description": "Job Description Job Description Job Description: QA Mobile Automation Engineer (Java/Appium) Client: Southwest Airlines Location: Remote (Must be local to Dallas, TX) Rate: $50/Hr. Position Summary: Seeking a highly skilled QA Mobile Automation Engineer with 10 years of experience in test automation and strong hands-on expertise in Java and Appium. The engineer will be responsible for building and maintaining automation frameworks for mobile and web applications used by Southwest Airlines. Key …",
+      "salaryRange": "$83,011–$83,011 /Year",
+      "yearsRequired": "10 years of experience",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/krest-global-solutions-qa-mobile-automation-engineer-java-appium-2026-08-28.md"
+    },
+    {
+      "key": "az:5859876557",
+      "title": "QA Engineer - Browser Test Specialist",
+      "url": "https://www.adzuna.com/land/ad/5859876557?se=gIacViSj8RGcfKYe_cIpvA&utm_medium=api&utm_source=ae2feac4&v=B19EC8D81B1F57F3B69E08838728A94017737521",
+      "company": "Mercor",
+      "location": "New York City, New York",
+      "country": "United States",
+      "postedAt": "2026-08-28T12:04:55Z",
+      "description": "Job Description Job Description About the job Mercor connects elite creative and technical talent with leading AI research labs. Headquartered in San Francisco, our investors include Benchmark , General Catalyst , Peter Thiel , Adam D'Angelo , Larry Summers , and Jack Dorsey . Position: QA / Software Engineering Reviewer – Browser Test Validation Type: Contract Compensation: $30–$60/hour Location: Remote Role Responsibilities Review browser-based testing workflows for AI-generated web applicati…",
+      "salaryRange": "$89,927–$89,927 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/mercor-qa-engineer-browser-test-specialist-2026-08-28.md"
+    },
+    {
+      "key": "az:5859617554",
+      "title": "QA Automation Test Engineer/IVR",
+      "url": "https://www.adzuna.com/details/5859617554?utm_medium=api&utm_source=ae2feac4",
+      "company": "Pyramid, Inc",
+      "location": "Monroe City, Monroe County",
+      "country": "United States",
+      "postedAt": "2026-08-28T06:47:16Z",
+      "description": "Immediate need for a talented QA Automation Test Engineer/IVR . This is a 06 months contract opportunity with long-term potential and is located in US ( Remote ). Please review the job description below and contact me ASAP if you are interested. Job ID: 26-26350 Pay Range: $55 - $60/hour. Employee benefits include, but are not limited to, health insurance (medical, dental, vision), 401(k) plan, and paid sick leave (depending on work location). Key Responsibilities: Writing test cases / automati…",
+      "salaryRange": "$114,400–$124,800 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/pyramid-inc-qa-automation-test-engineer-ivr-2026-08-28.md"
+    }
+  ],
   "lastSentAt": "2026-08-28T09:43:58.810Z"
 }
