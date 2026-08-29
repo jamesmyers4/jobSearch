@@ -1,44 +1,4 @@
 {
-  "queue": [
-    {
-      "key": "az:5860753403",
-      "title": "Test Automation Engineer",
-      "url": "https://www.adzuna.com/details/5860753403?utm_medium=api&utm_source=ae2feac4",
-      "company": "Bright Vision Technologies",
-      "location": "East Palo Alto, Santa Clara County",
-      "country": "United States",
-      "postedAt": "2026-08-29T01:03:45Z",
-      "description": "Test Automation Engineer – Remote Bright Vision Technologies is a technology consulting and software development company delivering cloud, AI, data, and enterprise solutions across the United States. This is a fantastic opportunity to join an established and well-respected organization offering tremendous career growth potential. Job Title: Test Automation Engineer Location: 100% Remote (U.S.) Position Type: Full-time, Direct W2 Salary Range: $70,000–$90,000 Annually Experience Required: 6 year…",
-      "salaryRange": "$70,000–$90,000 /Year",
-      "workArrangement": "remote",
-      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bright-vision-technologies-test-automation-engineer-2026-08-29.md"
-    },
-    {
-      "key": "az:5860212450",
-      "title": "Java API & UI Automation Test Engineer",
-      "url": "https://www.adzuna.com/land/ad/5860212450?se=VlLoCJOj8RGcfKYe_cIpvA&utm_medium=api&utm_source=ae2feac4&v=034482AAAE79E7C6F55EABC7562444AF1D4E9D49",
-      "company": "Innoworx Technology Services LLC",
-      "location": "US",
-      "country": "United States",
-      "postedAt": "2026-08-28T18:09:00Z",
-      "description": "Role: Java API & UI Automation Test Engineer(Banking & Financial Services) Location: Remote Job Type: Fulltime Role We are looking for an experienced Java Automation Test Engineer with strong hands-on expertise in API and UI automation to support a leading banking and financial services client. Key Responsibilities • Develop and execute automated API functional tests using Java & REST Assured • Design and implement automated UI functional tests using Playwright • Build and maintain reusable aut…",
-      "salaryRange": "$125,656–$125,656 /Year",
-      "workArrangement": "remote",
-      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/innoworx-technology-services-llc-java-api-ui-automation-test-engineer-2026-08-29.md"
-    },
-    {
-      "key": "az:5860731024",
-      "title": "AI QA Engineer - Test Specialist",
-      "url": "https://www.adzuna.com/land/ad/5860731024?se=Qo_pC5Oj8RGEeLI7Dotn4Q&utm_medium=api&utm_source=ae2feac4&v=96C5ACDB390A387AC5363DCFEE06160227630866",
-      "company": "Mercor",
-      "location": "New York City, New York",
-      "country": "United States",
-      "postedAt": "2026-08-29T00:36:48Z",
-      "description": "Job Description Job Description About the job Mercor connects elite creative and technical talent with leading AI research labs. Headquartered in San Francisco, our investors include Benchmark , General Catalyst , Peter Thiel , Adam D'Angelo , Larry Summers , and Jack Dorsey . Position: QA/Test Engineer Type: Contract Compensation: $60–$90/hour Location: Remote Commitment: 35 hours/week Role Responsibilities Design test cases to confirm each task works as intended, including tricky edge cases. …",
-      "salaryRange": "$77,596–$77,596 /Year",
-      "workArrangement": "remote",
-      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/mercor-ai-qa-engineer-test-specialist-2026-08-29.md"
-    }
-  ],
-  "lastSentAt": "2026-08-29T03:15:07.928Z"
+  "queue": [],
+  "lastSentAt": "2026-08-29T18:45:25.880Z"
 }
