@@ -1,4 +1,45 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5863124337",
+      "title": "Security Developer / Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5863124337?se=qHu4lYul8RGXbviF-D4GPQ&utm_medium=api&utm_source=ae2feac4&v=C7BED57B41429140BF024057CFBE5DF8EE3C66EE",
+      "company": "Cloud Destinations LLC",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-31T16:07:41Z",
+      "description": "Position Title: Security Developer / Automation Engineer Duration: 6 Months Contract Client Location: Remote Job Details: Searching for a Security Developer / Automation Engineer to support its Information Security team. This role focuses on building, optimizing, and automating security operations within a modern security platform. The position combines cybersecurity expertise and software development skills to automate manual processes, improve threat detection, and accelerate incident respons…",
+      "salaryRange": "$111,070–$111,070 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/cloud-destinations-llc-security-developer-automation-engineer-2026-08-31.md"
+    },
+    {
+      "key": "az:5863122581",
+      "title": "Salesforce QA Engineer",
+      "url": "https://www.adzuna.com/land/ad/5863122581?se=TM5uk4ul8RG_G-5uxWAtpg&utm_medium=api&utm_source=ae2feac4&v=149ED412F156457CE0DAF195B4B7553F9A129F43",
+      "company": "INSPYR Solutions",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-31T16:03:47Z",
+      "description": "Title: Salesforce QA Engineer Location: Remote LATAM Duration: 12 month contract Compensation: $4800 USD Monthly Salesforce QA Engineer Description : We're looking for a Salesforce QA Engineer (5 years' experience) who ensures our Salesforce ecosystem is stable, compliant, and production-ready—using Copado AI to accelerate test creation, failure analysis, and regression automation. You will test complex Salesforce features (Apex, LWC, Flows, APIs, Experience Cloud, integrations) across multiple…",
+      "salaryRange": "$120,847–$120,847 /Year",
+      "yearsRequired": "5 years' experience",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/inspyr-solutions-salesforce-qa-engineer-2026-08-31.md"
+    },
+    {
+      "key": "az:5856840684",
+      "title": "QA Engineer – Automation",
+      "url": "https://www.adzuna.com/details/5856840684?utm_medium=api&utm_source=ae2feac4",
+      "company": "Bright Vision Technologies",
+      "location": "Round Rock, Williamson County",
+      "country": "United States",
+      "postedAt": "2026-08-26T09:13:10Z",
+      "description": "Bright Vision Technologies is a technology consulting and software development company delivering cloud, AI, data, and enterprise solutions across the United States. This is a fantastic opportunity to join an established and well-respected organization offering tremendous career growth potential. Job Title: QA Engineer – Automation Location: 100% Remote (U.S.) Position Type: Full-time, Direct W2 Salary Range: $115,000–$130,000 Annually Experience Required: 6 years Sponsorship: U.S. Citizens, Gr…",
+      "salaryRange": "$115,000–$130,000 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/bright-vision-technologies-qa-engineer-automation-2026-08-31.md"
+    }
+  ],
   "lastSentAt": "2026-08-31T17:54:06.894Z"
 }
