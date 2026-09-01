@@ -3412,5 +3412,58 @@
     "company": "Integrity Management Services, Inc.",
     "postedAt": "2026-09-01T16:04:23.337Z",
     "alertedAt": "2026-09-01T16:49:47.520Z"
+  },
+  "az:5865051595": {
+    "title": "SDET (Remote)(only w2)",
+    "company": "Prohires",
+    "postedAt": "2026-09-01T12:26:02Z",
+    "alertedAt": "2026-09-01T19:45:13.126Z"
+  },
+  "az:5865061099": {
+    "title": "Software Developer in Test (SDET)",
+    "company": "Syms Strategic Group, LLC ",
+    "postedAt": "2026-09-01T12:43:26Z",
+    "alertedAt": "2026-09-01T19:45:13.126Z"
+  },
+  "az:5865051545": {
+    "title": "Tricentis Tosca SAP Test Automation Engineer",
+    "company": "Tetra Computing",
+    "postedAt": "2026-09-01T12:25:58Z",
+    "alertedAt": "2026-09-01T19:45:13.126Z"
+  },
+  "az:5865061022": {
+    "title": "Automated Test Engineer (ATE)",
+    "company": "Syms Strategic Group, LLC ",
+    "postedAt": "2026-09-01T12:43:25Z",
+    "alertedAt": "2026-09-01T19:45:13.126Z"
+  },
+  "az:5864622405": {
+    "title": "QA Engineer",
+    "postedAt": "2026-09-01T09:58:51Z",
+    "alertedAt": "2026-09-01T19:45:13.126Z"
+  },
+  "az:5865183686": {
+    "title": "Quality Assurance Automation Engineer",
+    "company": "Smart Caliber Technology",
+    "postedAt": "2026-09-01T14:24:57Z",
+    "alertedAt": "2026-09-01T19:45:13.126Z"
+  },
+  "az:5865061079": {
+    "title": "Software Developer in Test (SDET)",
+    "company": "Syms Strategic Group, LLC ",
+    "postedAt": "2026-09-01T12:43:26Z",
+    "alertedAt": "2026-09-01T19:45:13.126Z"
+  },
+  "az:5865178502": {
+    "title": "Security Engineer / Automation Engineer",
+    "company": "iCUBE Solutions",
+    "postedAt": "2026-09-01T14:20:48Z",
+    "alertedAt": "2026-09-01T19:45:13.126Z"
+  },
+  "az:5865061055": {
+    "title": "Automated Test Engineer (ATE)",
+    "company": "Syms Strategic Group, LLC ",
+    "postedAt": "2026-09-01T12:43:25Z",
+    "alertedAt": "2026-09-01T19:45:13.126Z"
   }
 }
