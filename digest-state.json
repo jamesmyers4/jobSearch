@@ -1,4 +1,31 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5865557864",
+      "title": "QA Automation Engineer (Exp-10 Years) with AI, Cypress, BDD/Gherkin)- Full time-Remote",
+      "url": "https://www.adzuna.com/land/ad/5865557864?se=XjcFqGSm8RGs-Y02KTQxmA&utm_medium=api&utm_source=ae2feac4&v=D5F3E81F9B547F541E253D8B6BA18464E5C5A038",
+      "company": "Visionary Innovative Technology Solutions",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-09-01T18:27:34Z",
+      "description": "We are looking for a highly experienced Senior QA Automation Engineer with 10 years of experience in software quality assurance, test automation, and framework development. The ideal candidate will have strong hands-on expertise with Cypress, JavaScript/TypeScript, BDD, Gherkin, API automation, CI/CD , and modern AI/GenAI testing technologies . The candidate will be responsible for designing and implementing scalable automation frameworks, developing end-to-end test strategies, integrating auto…",
+      "salaryRange": "$104,037–$104,037 /Year",
+      "yearsRequired": "10 years of experience",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/visionary-innovative-technology-solutions-qa-automation-engineer-exp-10-years-with-ai-cypress-bdd-gherkin-full-time-remote-2026-09-02.md"
+    },
+    {
+      "key": "az:5861419538",
+      "title": "SOAR Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5861419538?se=-keErmSm8RGNCNjaw2kBww&utm_medium=api&utm_source=ae2feac4&v=857C7DEE667B58810AAC8DD82C0A93F3C7EB9253",
+      "company": "Randstad Digital",
+      "location": "Washington, Washington, D.C.",
+      "country": "United States",
+      "postedAt": "2026-08-29T16:09:53Z",
+      "description": "job summary: Randstad is seeking a Senior SOAR Automation Engineer for a 12-month, 100% remote contract engagement with a premier enterprise transportation client. Reporting within the Cyber Advisory Governance and Enablement (CAGE) group, this role focuses heavily on workflow execution, low-code/no-code automation, and API development rather than traditional incident response. Working alongside a Lead SOAR Architect, you will optimize governance, risk, and compliance (GRC) capabilities within …",
+      "salaryRange": "$78,075–$78,075 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/randstad-digital-soar-automation-engineer-2026-09-02.md"
+    }
+  ],
   "lastSentAt": "2026-09-01T19:45:13.127Z"
 }
