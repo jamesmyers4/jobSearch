@@ -1,4 +1,57 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5867741836",
+      "title": "QA Automation Engineer (Exp-10 Years)- Full time-Remote",
+      "url": "https://www.adzuna.com/land/ad/5867741836?se=eOnVTzOn8RG2HomFYOMXfQ&utm_medium=api&utm_source=ae2feac4&v=ED27389B458CE46DD7F68DF8A63DE009B0D8C5BE",
+      "company": "Visionary Innovative Technology Solutions",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-09-02T19:22:04Z",
+      "description": "We are seeking an experienced QA Automation Engineer with 10 years of experience in software testing and test automation. The ideal candidate should have strong hands-on experience in UI automation, API testing, automation framework development, Java/Python/JavaScript, Selenium/Playwright/Cypress, CI/CD, and SQL . Mandatory Skills 10 years of experience in QA and Test Automation Selenium with Java API Testing Automation Framework Development SQL REST APIs CI/CD Git Jenkins or similar CI/CD tool…",
+      "salaryRange": "$81,766–$81,766 /Year",
+      "yearsRequired": "10 years of experience",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/visionary-innovative-technology-solutions-qa-automation-engineer-exp-10-years-full-time-remote-2026-09-03.md"
+    },
+    {
+      "key": "az:5867876673",
+      "title": "QA Automation Engineer (AI First Approach)",
+      "url": "https://www.adzuna.com/land/ad/5867876673?se=QrNfVTOn8RG3Cdr2HU7o0Q&utm_medium=api&utm_source=ae2feac4&v=E6E4BE759659E9512D20D48C1741419BA7FCB1A1",
+      "company": "CSS Tec",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-09-02T20:08:48Z",
+      "description": "100% REMOTE OPPORTUNITY! Job Title: Senior QA Automation Engineer (AI FIRST APPROACH) Job Overview: Contemporary Staffing Solutions is seeking a Senior QA Automation Engineer with an AI FIRST APPROACH to join our client in a role that supports key business operations and contributes to important organizational initiatives. This Remote, Contract to Hire opportunity offers the chance to shape quality assurance practices across complex software environments while driving the development of scalabl…",
+      "salaryRange": "$142,516–$142,516 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/css-tec-qa-automation-engineer-ai-first-approach-2026-09-03.md"
+    },
+    {
+      "key": "az:5867346250",
+      "title": "SCCM / SCORCH Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5867346250?se=1vjFVjOn8RG1TLE4tw1AEA&utm_medium=api&utm_source=ae2feac4&v=310034601E803897C801BE1AECFDA8D76EAD0642",
+      "company": "Cognowiz",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-09-02T12:35:58Z",
+      "description": "SCCM / SCORCH Automation Engineer Remote - USA Contract – 5-6 months Need Really strong communications FST Tool enhancement in SCORCH and SCCM related areas: Client Update: We don’t need automation WITH SCORCH we need the automation INTO SCORCH so we are really looking for someone who can do C# and handle the conversion from the XML API to the JSON API. Consultant will provide support enhancements and modernization of the client FST Frontend Tool leveraging SCORCH and SCCM. This work will inclu…",
+      "salaryRange": "$60,355–$60,355 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/cognowiz-sccm-scorch-automation-engineer-2026-09-03.md"
+    },
+    {
+      "key": "az:5860039636",
+      "title": "Network Vulnerability & Automation Engineer",
+      "url": "https://www.adzuna.com/land/ad/5860039636?se=1vjFVjOn8RG1TLE4tw1AEA&utm_medium=api&utm_source=ae2feac4&v=583578CA2E36ABA8D7A31C5769E4FB76E6A0404A",
+      "company": "Spruce Technology Inc.",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-08-28T16:05:42Z",
+      "description": "Client: Humana Job Title: Network Vulnerability & Automation Engineer Duration: 12 Months Location: Remote Required Skills Strong experience in Network Vulnerability Management , including vulnerability investigation, reporting, remediation, and risk assessment. Hands-on experience with enterprise networking , including access switching and routing . Strong experience with Data Center fabric switching and routing . Hands-on experience with SD-WAN environments. Strong network automation experien…",
+      "salaryRange": "$151,103–$151,103 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/spruce-technology-inc-network-vulnerability-automation-engineer-2026-09-03.md"
+    }
+  ],
   "lastSentAt": "2026-09-02T22:59:37.139Z"
 }
