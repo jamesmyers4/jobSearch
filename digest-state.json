@@ -1,4 +1,70 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5869789168",
+      "title": "Senior SDET / Test Automation Engineer",
+      "url": "https://www.adzuna.com/details/5869789168?utm_medium=api&utm_source=ae2feac4",
+      "company": "Conch Technologies Inc",
+      "location": "Astoria, Queens",
+      "country": "United States",
+      "postedAt": "2026-09-03T21:10:45Z",
+      "description": "W2 Role only Senior SDET / Test Automation Engineer Long Island city, NY 11101 Remote but must be in New York, New Jersey or Connecticut Build and maintain reusable test automation frameworks and assets Establish automation best practices and quality engineering standards Support AI-driven testing initiatives, agents, and MCP server technologies Develop API, integration, end-to-end, and mobile test automation solutions Integrate automated testing into CI/CD pipelines Troubleshoot complex automa…",
+      "salaryRange": "$92,389–$92,389 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/conch-technologies-inc-senior-sdet-test-automation-engineer-2026-09-04.md"
+    },
+    {
+      "key": "az:5869657206",
+      "title": "Test Automation Engineer / SDET - Remote",
+      "url": "https://www.adzuna.com/land/ad/5869657206?se=-I6Xfg2o8RGAquma5vUeHg&utm_medium=api&utm_source=ae2feac4&v=204371DA4104DFD5B7F5FE6ED6150CE4D2C72D86",
+      "company": "Genesis10",
+      "location": "Rochester, Olmsted County",
+      "country": "United States",
+      "postedAt": "2026-09-03T19:43:36Z",
+      "description": "Genesis10 is currently seeking a Test Automation Engineer / SDET position with a Renowned Healthcare Organization located in Rochester, MN. This is a 3 month contract opportunity. This position is 100% remote. Compensation: $60.00 - $63.00 per hour, W2, based on qualifications Position Overview: This position provides software quality assurance services for key projects and systems. The test automation engineer will partner with an engineering team to build an application for the Research Data …",
+      "salaryRange": "$158,394–$158,394 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/genesis10-test-automation-engineer-sdet-remote-2026-09-04.md"
+    },
+    {
+      "key": "az:5869791657",
+      "title": "Placement Role - SDET Consultant (Remote & C2H)",
+      "url": "https://www.adzuna.com/land/ad/5869791657?se=2ndviw2o8RGAquma5vUeHg&utm_medium=api&utm_source=ae2feac4&v=1AFBE406D1674172EA9893365697EBB39EE6182E",
+      "company": "Infinity Tech Group Inc",
+      "location": "US",
+      "country": "United States",
+      "postedAt": "2026-09-03T21:12:01Z",
+      "description": "Our Client is looking for an SDET Consultant (Remote & C2H) in New York . Please review the JD, and if you are available, you can reach me at Role : SDET Consultant (Remote & C2H) (Direct Client) Duration: 9-12 Months (C2H) JOB DESCRIPTION : Seeking a Software Development Engineer in Test (SDET) for a remote contract-to-hire opportunity with a Major Financial Institution. In this role, you will lead test automation efforts while partnering with manual QA teams to accelerate their transition to …",
+      "salaryRange": "$58,676–$58,676 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/infinity-tech-group-inc-placement-role-sdet-consultant-remote-c2h-2026-09-04.md"
+    },
+    {
+      "key": "az:5868313874",
+      "title": "Software Developer in Test (SDET)",
+      "url": "https://www.adzuna.com/details/5868313874?utm_medium=api&utm_source=ae2feac4",
+      "company": "SSG",
+      "location": "Broadlands, Loudoun County",
+      "country": "United States",
+      "postedAt": "2026-09-03T01:02:44Z",
+      "description": "Syms Strategic Group (SSG) is seeking a talented Software Developer in Test (SDET) Location: Remote Department: Veterans Affairs (VA) Type: Full Time Min. Experience: Experienced Security Clearance Level: Public Trust (MBI) Salary Range: $85,389 - $116,975 Military Veterans are highly encouraged to apply! Essential Duties and Responsibilities NOTE: This is NOT an SQA tester position. Candidates MUST have strong programming skills, often in languages such as C#, .Net, Java, or Python. Develop an…",
+      "salaryRange": "$85,389–$116,975 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/ssg-software-developer-in-test-sdet-2026-09-04.md"
+    },
+    {
+      "key": "az:5868383890",
+      "title": "QA Test Engineer with Security Clearance",
+      "url": "https://www.adzuna.com/land/ad/5868383890?se=fBT-lQ2o8RGFQ8r7cmJIsQ&utm_medium=api&utm_source=ae2feac4&v=487223532A03C21D342DFFF06BB90BF100DF690D",
+      "company": "Blu Omega LLC",
+      "location": "Ashburn, Loudoun County",
+      "country": "United States",
+      "postedAt": "2026-09-03T01:19:41Z",
+      "description": "QA Test Engineer Remote Current FDA badge required Blu Omega is seeking a QA Test Engineer to support an FDA program focused on regulated product submissions. This role operates within a remote environment and is responsible for executing manual and automated testing, with a strong emphasis on data validation and workflow-focused quality assurance. The position requires experience supporting functional, integration, and data verification testing within a mission-driven environment. Program Over…",
+      "salaryRange": "$123,188–$123,188 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/blu-omega-llc-qa-test-engineer-with-security-clearance-2026-09-04.md"
+    }
+  ],
   "lastSentAt": "2026-09-03T23:50:04.743Z"
 }
