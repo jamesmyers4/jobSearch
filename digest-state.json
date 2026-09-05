@@ -1,4 +1,18 @@
 {
-  "queue": [],
+  "queue": [
+    {
+      "key": "az:5870420909",
+      "title": "Quality Assurance Automation Engineer",
+      "url": "https://www.adzuna.com/details/5870420909?utm_medium=api&utm_source=ae2feac4",
+      "company": "iClassPro",
+      "location": "Longview, Gregg County",
+      "country": "United States",
+      "postedAt": "2026-09-04T06:17:24Z",
+      "description": "Note: Remote eligible only within contiguous U.S. states except CA and NY. E-verify is used. Join the Team Behind the World’s Leading Class Management Software! iClassPro is looking for a QA Automation Engineer to take help shape our existing automation framework and elevate quality across our SaaS platform. The right person is highly experienced and is someone who looks at a modern, well-architected test suite and thinks, \"I can push this further to be faster, smarter, more reliable, more scal…",
+      "salaryRange": "$79,120–$79,120 /Year",
+      "workArrangement": "remote",
+      "templateDraftUrl": "https://github.com/jamesmyers4/resume-vault/blob/main/template-drafts/iclasspro-quality-assurance-automation-engineer-2026-09-05.md"
+    }
+  ],
   "lastSentAt": "2026-09-05T17:09:59.159Z"
 }
